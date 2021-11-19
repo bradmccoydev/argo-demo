@@ -1,0 +1,38 @@
+helmCharts:
+- name: keptn
+  namespace: ci-cd
+  version: 0.10.0
+  repo: https://storage.googleapis.com/keptn-installer
+  releaseName: keptn
+  includeCRDs: true
+  valuesInline: 
+    control-plane:
+      enabled: true
+      apiGatewayNginx:
+        type: ClusterIP
+        port: 80
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          nginx.ingress.kubernetes.io/backend-protocol: "false"
+        host: "keptn.bradmccoy.io"
+        path: /
+        pathType: Prefix
+        
+    continuous-delivery:
+      enabled: true 
+
+- name: helm-service
+  namespace: ci-cd
+  version: 0.10.0
+  repo: https://storage.googleapis.com/keptn-installer
+  releaseName: helm-service
+  includeCRDs: true
+
+- name: jmeter-service
+  namespace: ci-cd
+  version: 0.10.0
+  repo: https://storage.googleapis.com/keptn-installer
+  releaseName: jmeter-service
+  includeCRDs: true

@@ -54,4 +54,5 @@ releases:
     chart: bitnami/external-dns
     version: 5.5.0
     values:
-      - ../kube-infra/helm/dns-infra/external-dns-aws/{{ requiredEnv "CLIENT_ENVIRONMENT" }}-external-dns-aws-values.yaml
+      - ../kube-infra/helm/dns-infra/external-dns-aws/common-external-dns-values.yaml
+      - ../kube-infra/helm/dns-infra/external-dns-aws/{{ requiredEnv "CLIENT_ENVIRONMENT" }}-external-dns-values.yaml

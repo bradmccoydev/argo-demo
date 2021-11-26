@@ -9,8 +9,8 @@ server:
   ingress: 
     enabled: true
     https: false
-    annotations: 
-      external-dns.alpha.kubernetes.io/hostname: argocd.bradmccoy.io
+    annotations:
+      kubernetes.io/ingress.class: nginx
       cert-manager.io/cluster-issuer: letsencrypt-demo-aws
     hosts:
       - argocd.bradmccoy.io

@@ -1,0 +1,53 @@
+server:
+
+  service:
+    type: NodePort
+
+  extraArgs:
+  - --insecure
+
+  ingress: 
+    enabled: true
+    https: false
+    annotations: 
+      external-dns.alpha.kubernetes.io/hostname: argocd.$CLIENT_DOMAIN_URL
+      cert-manager.io/cluster-issuer: letsencrypt-$CLIENT_ENVIRONMENT-aws
+    hosts:
+      - argocd.bradmccoy.io
+    tls:
+      - hosts:
+          - argocd.bradmccoy.io
+        secretName: letsencrypt-prod-argo-cd
+
+  additionalProjects:
+  - name: KCD Guatemala
+    namespace: ci-cd
+    description: KCD Guatemala Project
+    sourceRepos:
+    - '*'
+    destinations:
+    - namespace: '*'
+      server: $ARGO_DESTINATION_CLUSTER_SERVER
+    clusterResourceWhitelist: 
+    - group: '*'
+      kind: '*'
+    namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+
+  rbacConfig:
+    policy.default: role:readonly
+    policy.csv: |
+      p, role:org-admin, applications, *, */*, allow
+      p, role:org-admin, clusters, get, *, allow
+      p, role:org-admin, repositories, get, *, allow
+      p, role:org-admin, repositories, create, *, allow
+      p, role:org-admin, repositories, update, *, allow
+      p, role:org-admin, repositories, delete, *, allow
+    scopes: '[roles, email]'
+
+  config:
+    url: https://argocd.bradmccoy.io
+    kustomize.buildOptions: --enable-helm
+    repositories: |
+      - url: git@github.com:bradmccoydev/argo-demo.git

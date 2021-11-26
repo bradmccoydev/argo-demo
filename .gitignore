@@ -1,1 +1,3 @@
 aws-dns-creds-secret-argo-cd.yaml
+certificate-cluster-issuer.yaml
+argo-cd.yaml

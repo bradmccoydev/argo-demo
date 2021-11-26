@@ -1,36 +1,86 @@
-# This is a basic workflow to help you get started with Actions
+name: Build and Deploy to AKS
 
-name: CI
+on: push
 
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
+    environment: $CLIENT_ENVIRONMENT
+    env:
+      AWS_ACCESS_KEY: AKIASCEPZTFMGUH2KCZD
+      CLIENT_ACCOUNT_ID: moulacloud-ause-prod
+      K8S_CLUSTER: moulacloud-ause-prod
+      CLOUD_LOCATION_1: Australia Southeast
+      DEPLOYMENT_NAME: moulacloud
+      HELM_VERSION: 3.6.0
+      HELM_SECRETS_VERSION: 3.7.0
+      HELMFILE_VERSION: 0.139.9
+      KUBECTL_VERSION: 1.19.11
+      CLIENT_ENVIRONMENT: production
+      CLIENT_DOMAIN_URL: bradmccoy.io
+      CLIENT_CODE: mc
+      CLOUD_PROVIDER: azure
+      ARGOCD_CLI_VERSION: v2.0.4
+      ARGO_DESTINATION_CLUSTER_SERVER: https://aks-672707da.hcp.australiasoutheast.azmk8s.io:443
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+    # - name: Azure Login
+    #   uses: azure/login@v1
+    #   with:
+    #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    # # - name: Azure CLI script
+    # #   uses: azure/CLI@v1
+    # #   with:
+    # #     azcliversion: 2.0.72
+    # #     inlineScript: |
+    # #       az aks get-credentials --resource-group ${K8S_CLUSTER} --name ${K8S_CLUSTER}
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+    # # Set the target Azure Kubernetes Service (AKS) cluster. 
+    # - uses: azure/aks-set-context@v1
+    #   with:
+    #     creds: '${{ secrets.AZURE_CREDENTIALS }}'
+    #     cluster-name: ${{ env.K8S_CLUSTER }}
+    #     resource-group: ${{ env.K8S_CLUSTER }}
+
+    # # Install Helm3
+    # - name: Install Helm3
+    #   uses: azure/setup-helm@v1
+    #   with:
+    #     version: v3.6.1
+
+    # # Set up Helm3
+    # - name: Set up Helm3
+    #   run: |-
+    #     helm repo add incubator https://charts.helm.sh/incubator
+    #     helm repo add stable https://charts.helm.sh/stable
+    #     helm plugin install https://github.com/jkroepke/helm-secrets --version ${HELM_SECRETS_VERSION}        
+
+    # # Set up Helmfile
+    # - name: Set up Helmfile
+    #   run: |-
+    #     curl -sfLo helmfile https://github.com/roboll/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_linux_amd64
+    #     chmod a+x ./helmfile
+        
+    # # Set up Kubectl
+    # - name: Set up Kubectl
+    #   run: |-
+    #     curl -sfLo kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
+    #     chmod a+x ./kubectl               
+
+    # - name: Deploy
+    #   run: |-
+    #     find "resources/" -name "*.tmpl" -exec bash -c 'envsubst < $1 > ${1%.tmpl}' _ {} \;
+    #     kubectl apply -f resources/before
+    #     find "helmfile.d/" -name "*.tmpl" -exec bash -c 'envsubst < $1 > ${1%.tmpl}' _ {} \;
+    #     ls -lrt
+    #     ./helmfile --environment $CLIENT_ENVIRONMENT sync 
+    #     ls resources/after/sealed-secrets/production
+    #     kubectl apply -f resources/after/sealed-secrets/production
+    #     kubectl apply -f resources/after/argocd/production
+    #     kubectl apply -f resources/after/keptn/production
+    #     kubectl apply -f resources/after

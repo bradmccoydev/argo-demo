@@ -1,0 +1,39 @@
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-$CLIENT_ENVIRONMENT-aws
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: bradmccoydev@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-$CLIENT_ENVIRONMENT-aws
+    solvers:
+    - dns01:
+        route53:
+          region: us-west-2
+          accessKeyID: $AWS_ACCESS_KEY
+          secretAccessKeySecretRef: 
+            name: aws-dns-creds
+            key: AWS_SECRET_ACCESS_KEY
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging-certs-aws
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: bradmccoydev@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-$CLIENT_ENVIRONMENT-aws
+    solvers:
+    - dns01:
+        route53:
+          region: us-west-2
+          accessKeyID: $AWS_ACCESS_KEY
+          secretAccessKeySecretRef: 
+            name: aws-dns-creds
+            key: AWS_SECRET_ACCESS_KEY
+---        

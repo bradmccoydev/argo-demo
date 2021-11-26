@@ -13,15 +13,15 @@ jobs:
       K8S_CLUSTER: moulacloud-ause-prod
       CLOUD_LOCATION_1: Australia Southeast
       DEPLOYMENT_NAME: moulacloud
-      HELM_VERSION: 3.6.0
-      HELM_SECRETS_VERSION: 3.7.0
-      HELMFILE_VERSION: 0.139.9
-      KUBECTL_VERSION: 1.19.11
+      HELM_VERSION: 3.7.1
+      HELM_SECRETS_VERSION: 3.11.0
+      HELMFILE_VERSION: 0.142.0
+      KUBECTL_VERSION: 1.22.4
       CLIENT_ENVIRONMENT: production
       CLIENT_DOMAIN_URL: bradmccoy.io
       CLIENT_CODE: mc
       CLOUD_PROVIDER: azure
-      ARGOCD_CLI_VERSION: v2.0.4
+      ARGOCD_CLI_VERSION: v2.1.7
       ARGO_DESTINATION_CLUSTER_SERVER: https://aks-672707da.hcp.australiasoutheast.azmk8s.io:443
 
     steps:

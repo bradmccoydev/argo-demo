@@ -10,8 +10,8 @@ server:
     enabled: true
     https: false
     annotations: 
-      external-dns.alpha.kubernetes.io/hostname: argocd.$CLIENT_DOMAIN_URL
-      cert-manager.io/cluster-issuer: letsencrypt-$CLIENT_ENVIRONMENT-aws
+      external-dns.alpha.kubernetes.io/hostname: argocd.
+      cert-manager.io/cluster-issuer: letsencrypt-demo-aws
     hosts:
       - argocd.bradmccoy.io
     tls:
@@ -27,7 +27,7 @@ server:
     - '*'
     destinations:
     - namespace: '*'
-      server: $ARGO_DESTINATION_CLUSTER_SERVER
+      server: 
     clusterResourceWhitelist: 
     - group: '*'
       kind: '*'

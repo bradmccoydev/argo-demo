@@ -13,7 +13,7 @@ values:
       enabled: true 
       
 environments:
-  production:
+  demo:
     values:
       - argo-cd:
           enabled: true

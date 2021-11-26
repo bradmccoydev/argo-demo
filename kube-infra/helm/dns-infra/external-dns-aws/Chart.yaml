@@ -12,4 +12,4 @@ dependencies:
   version: 5.5.0
   repository: https://charts.bitnami.com/bitnami
   values:
-    - ../common-external-dns-values.yaml
+    - ../demo-external-dns-values.yaml

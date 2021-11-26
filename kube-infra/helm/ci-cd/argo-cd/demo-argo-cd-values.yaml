@@ -10,17 +10,17 @@ server:
     enabled: true
     https: false
     annotations: 
-      external-dns.alpha.kubernetes.io/hostname: argocd.
+      external-dns.alpha.kubernetes.io/hostname: argocd.bradmccoy.io
       cert-manager.io/cluster-issuer: letsencrypt-demo-aws
     hosts:
       - argocd.bradmccoy.io
     tls:
       - hosts:
           - argocd.bradmccoy.io
-        secretName: letsencrypt-prod-argo-cd
+        secretName: letsencrypt-demo-aws
 
   additionalProjects:
-  - name: KCD Guatemala
+  - name: kcd-guatemala
     namespace: ci-cd
     description: KCD Guatemala Project
     sourceRepos:

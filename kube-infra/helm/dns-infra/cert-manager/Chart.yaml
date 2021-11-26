@@ -12,4 +12,4 @@ dependencies:
   version: 1.6.1
   repository: https://charts.jetstack.io
   values:
-    - common-cert-manager-values.yaml
+    - demo-cert-manager-values.yaml

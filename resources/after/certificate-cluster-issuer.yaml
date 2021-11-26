@@ -14,7 +14,7 @@ spec:
     - dns01:
         route53:
           region: us-west-2
-          accessKeyID: 
+          accessKeyID: AKIASCEPZTFMB74IWNH4
           secretAccessKeySecretRef: 
             name: aws-dns-creds
             key: AWS_SECRET_ACCESS_KEY
@@ -34,7 +34,7 @@ spec:
     - dns01:
         route53:
           region: us-west-2
-          accessKeyID: 
+          accessKeyID: AKIASCEPZTFMB74IWNH4
           secretAccessKeySecretRef: 
             name: aws-dns-creds
             key: AWS_SECRET_ACCESS_KEY

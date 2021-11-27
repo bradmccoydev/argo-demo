@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-server
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-demo-aws
+spec:
+  tls:
+  - hosts:
+    - argocd.bradmccoy.io
+    secretName: letsencrypt-demo-aws
+  rules:
+  - http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+           name: argocd-server
+           port:
+             number: 80
+    host: argocd.bradmccoy.io
+    

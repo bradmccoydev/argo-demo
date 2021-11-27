@@ -1,19 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: mono-repo
-  namespace: ci-cd
+  name: kube-infra-helm-setup
 spec:
   generators:
   - matrix:
       generators:
       - git:
-          repoURL: https://github.com/bradmccoy/bradmccoy.git
-          revision: svc_cat
+          repoURL: https://github.com/bradmccoydev/argo-demo.git
+          revision: HEAD
           directories:
-          - path: chart/*
-          - path: chart/bradmccoy-console
-            exclude: true
+          - path: kube-infra/helm/ci-cd/*
+          - path: kube-infra/helm/security/*          
+          - path: kube-infra/helm/dns-infra/*
+          - path: kube-infra/helm/dns-infra/*/*
+          - path: kube-infra/helm/observability/*/*
+          - path: kube-infra/helm/observability/*  
       - list:
           elements:
           - cluster: production
@@ -24,21 +26,21 @@ spec:
     metadata:
       name: '{{ path.basename }}'
     spec:
-      project: bradmccoy
+      project: bradmccoydev
       source:
-        repoURL: https://github.com/bradmccoy/bradmccoy.git
-        targetRevision: svc_cat
+        repoURL: https://github.com/bradmccoydev/kubernetes.git
+        targetRevision: HEAD
         path: '{{path}}'
         helm:
           valueFiles:
             # - 'common-{{path.basename}}-values.yaml'
-            - 'values.yaml'
+            - '{{cluster}}-{{path.basename}}-values.yaml'
       destination:
-        server: https://20.40.125.65
-        namespace: '{{path.basename}}'
+        server: '{{ url }}'
+        # namespace: '{{ path.basename }}'
       syncPolicy:
         automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
             prune: true 
             selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
         syncOptions:     # Sync options which modifies sync behavior
-        - CreateNamespace=true     
+        - CreateNamespace=true         

@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+  name: argocd-cm
+data: 
+  kustomize.buildOptions: --enable-helm
+  url: https://argocd.bradmccoy.io
+  dex.config: | 
+    connectors:
+      - type: saml
+        id: saml
+        name: saml
+        config:
+          ssoURL: https://accounts.google.com/o/saml2/idp?idpid=C02ihwbf4
+          entityIssuer: https://argocd.bradmccoy.io/api/dex/callback
+          caData: |
+            TUlJRGREQ0NBbHlnQXdJQkFnSUdBWGZ0dEpFRE1BMEdDU3FHU0liM0RRRUJDd1VBTUhzeEZEQVNCZ05WQkFvVEMwZHZiMmRzWlNCSmJtTXVNUll3RkFZRFZRUUhFdzFOYjNWdWRHRnBiaUJXYVdWM01ROHdEUVlEVlFRREV3WkhiMjluYkdVeEdEQVdCZ05WQkFzVEQwZHZiMmRzWlNCR2IzSWdWMjl5YXpFTE1Ba0dBMVVFQmhNQ1ZWTXhFekFSQmdOVkJBZ1RDa05oYkdsbWIzSnVhV0V3SGhjTk1qRXdNekF4TVRJeE1qUTNXaGNOTWpZd01qSTRNVEl4TWpRM1dqQjdNUlF3RWdZRFZRUUtFd3RIYjI5bmJHVWdTVzVqTGpFV01CUUdBMVVFQnhNTlRXOTFiblJoYVc0Z1ZtbGxkekVQTUEwR0ExVUVBeE1HUjI5dloyeGxNUmd3RmdZRFZRUUxFdzlIYjI5bmJHVWdSbTl5SUZkdmNtc3hDekFKQmdOVkJBWVRBbFZUTVJNd0VRWURWUVFJRXdwRFlXeHBabTl5Ym1saE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBNit6NkxvUVc3RW5abzF2N2NLODBEelNmK0Yzc1FjcXJwTmlyMGNINU5yS2RmelJTNEV4UzBQa1QxbWlia3d0MmdGSVI4QXltSGNsNWFNL2pDNjJPdDBXbmNXRTJKcGF1a2dtVERZOEsvK0NCQXNzZnYwVmdkRzNoblhyemU2OU5jYWJVS2RJMGhNSnp4NVhQblJhV0RsNUxHUUJUaU5JeEJIMnV5QnhQTm40OFdYRzd5Vno4NVlxZ2xlN3d3ZnBaZFdNNVgvV2p4N05TYVh4K0V1b2toeXkyN3pEdlprcFZrc2pMZkIxY2J5VFBKUUdkci9hRzkxbGErTXVMZFJHcnZlL0JWRjNKVmtwOGVhYWxqSUJOUWwyYm5VK2UwV0ZhM3hVYTVwK2s2a3lGdmNMbCtMdzlETE9MU0VVbVNUVW84TGR4aFc1bVlhV3k3RmVvWDA0RHN3SURBUUFCTUEwR0NTcUdTSWIzRFFFQkN3VUFBNElCQVFCOVVqb2hmNnNIU2U3VG9kTDYrLzlZeEhNYm9hL0loNnVKSnZEWmRkdDZaNE5jbTBqKzZWcHdiOS9SWisxcE9ZdHkyQzk0SlMrcnZwTFYxVXRZdWR0VVE1YW5XUkhqamFsTXNkb3RsTWxQeVJpSVFhWXUyV2RNZ3Z0Q1AzcHNWbjEveVIyTkw5MnJFUzJ3OENuSXYvS1hyajNlMmtIb3N5Z2RQS0V1OTNKeG5kQVVZUlQ1UlA4V1ZsVDgvUkxtL3VnVDZRa21QNzZ6UjJBQ1FFS1lkWThpa082aTdERCthcVkwWnQ3ajZDTVprR0ZaWlF5QWF4MDdzTzd0ajhWQXU4cGJ6MEYxUFNXS25pZmdSRkVtV1dhS3ZhdDRQTnRYbGoxM3RpT0xTaG1qekMxVjE5YVc0WU5oVE90d1BmbHFQYW9RYUdaNTY5THVidFJZeVIzOU9NVDI=
+          redirectURI: https://argocd.bradmccoy.io/api/dex/callback
+          usernameAttr: name
+          emailAttr: email
+          # optional
+          ssoIssuer: https://accounts.google.com/o/saml2?idpid=C02ihwbf4
+         

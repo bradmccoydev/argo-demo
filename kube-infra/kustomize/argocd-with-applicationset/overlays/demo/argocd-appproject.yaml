@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: kcd-guatemala
+  namespace: ci-cd
+  # Finalizer that ensures that project is not deleted until it is not referenced by any application
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # Project description
+  description: KCD Guatemala Project
+
+  # Allow manifests to deploy from any Git repos
+  sourceRepos:
+  - '*'
+  destinations:
+  - namespace: '*'
+    server: https://20.40.125.65
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'    
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'    

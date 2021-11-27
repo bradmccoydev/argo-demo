@@ -1,8 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: bradmccoy-apps
-  namespace: ci-cd
+  name: app-infra-setup
 spec:
   generators:
   - matrix:
@@ -10,15 +9,16 @@ spec:
       - scmProvider: 
           github:
             # The GitHub organization to scan.
-            organization: bradmccoy
+            organization: bradmccoydev
             # If true, scan every branch of every repository. If false, scan only the default branch. Defaults to false.
             allBranches: false
-            # Reference to a Secret containing an access token. (optional)         
+            # Reference to a Secret containing an access token. (optional)
+            tokenRef:
+              secretName: oc-github-private-repo-token
+              key: password            
           cloneProtocol: https
           filters: 
-          - pathsExist: [chart/ms-dep-pkg-cud]
-            #repositoryMatch: ^bradmccoy-ms- 
-            branchMatch: deploy  
+          - pathsExist: [chart]   
       - list:
           elements:
           - cluster: production
@@ -29,21 +29,22 @@ spec:
     metadata:
       name: '{{ repository }}'
     spec:
-      project: bradmccoy
+      project: bradmccoydev
       source:
         repoURL: '{{ url }}'
-        targetRevision: deploy
-        path: chart/ms-dep-pkg-cud
+        targetRevision: HEAD
+        path: chart
         helm:
           valueFiles:
             # - 'common-{{path.basename}}-values.yaml'
-            - 'values.yaml'
+            - '{{cluster}}-values.yaml'
       destination:
         server: '{{clusterUrl}}'
         namespace: '{{ repository }}'
       syncPolicy:
-        automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
-            prune: true 
-            selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+        automated:
+          prune: true
+          selfHeal: true
         syncOptions:     # Sync options which modifies sync behavior
-        - CreateNamespace=true   
+        - CreateNamespace=true
+        - PruneLast=true   

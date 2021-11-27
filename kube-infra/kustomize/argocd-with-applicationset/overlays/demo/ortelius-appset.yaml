@@ -1,44 +1,48 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: mono-repo
+  name: ortelius-apps
   namespace: ci-cd
 spec:
   generators:
   - matrix:
       generators:
-      - git:
-          repoURL: https://github.com/bradmccoy/bradmccoy.git
-          revision: svc_cat
-          directories:
-          - path: chart/*
-          - path: chart/bradmccoy-console
-            exclude: true
+      - scmProvider: 
+          github:
+            # The GitHub organization to scan.
+            organization: ortelius
+            # If true, scan every branch of every repository. If false, scan only the default branch. Defaults to false.
+            allBranches: false
+            # Reference to a Secret containing an access token. (optional)         
+          cloneProtocol: https
+          filters: 
+          - pathsExist: [chart/ms-dep-pkg-cud]
+            #repositoryMatch: ^ortelius-ms- 
+            branchMatch: deploy  
       - list:
           elements:
           - cluster: production
-            url: https://20.40.125.65
+            clusterUrl: https://20.40.125.65
             values:
               CLIENT_ENVIRONMENT: production             
   template:
     metadata:
-      name: '{{ path.basename }}'
+      name: '{{ repository }}'
     spec:
-      project: bradmccoy
+      project: odysseycloud
       source:
-        repoURL: https://github.com/bradmccoy/bradmccoy.git
-        targetRevision: svc_cat
-        path: '{{path}}'
+        repoURL: '{{ url }}'
+        targetRevision: deploy
+        path: chart/ms-dep-pkg-cud
         helm:
           valueFiles:
-            # - 'common-{{path.basename}}-values.yaml'
             - 'values.yaml'
       destination:
-        server: https://20.40.125.65
-        namespace: '{{path.basename}}'
+        server: '{{clusterUrl}}'
+        namespace: '{{ repository }}'
       syncPolicy:
         automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
             prune: true 
             selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
         syncOptions:     # Sync options which modifies sync behavior
-        - CreateNamespace=true     
+        - CreateNamespace=true 

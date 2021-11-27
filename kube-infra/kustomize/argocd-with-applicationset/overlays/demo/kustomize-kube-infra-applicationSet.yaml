@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kube-infra-kustomize-setup
+  namespace: ci-cd
+spec:
+  generators:
+  - matrix:
+      generators:
+      - git:
+          repoURL: https://github.com/bradmccoydev/argo-demo.git
+          revision: HEAD
+          directories:
+          - path: kube-infra/kustomize/ci-cd/*
+          - path: kube-infra/kustomize/dns-infra/*
+          - path: kube-infra/kustomize/observability/*
+          - exclude: true
+            path: kube-infra/kustomize/dns-infra/external-dns       
+          # - path: kube-infra/kustomize/dns-infra/*/*          
+          - path: kube-infra/kustomize/security/*
+        exclude: 
+      - list:
+          elements:
+          - cluster: production
+            url: https://20.40.125.65
+            values:
+              CLIENT_ENVIRONMENT: production             
+  template:
+    metadata:
+      name: '{{ path.basename }}'
+    spec:
+      project: bradmccoydev
+      source:
+        repoURL: https://github.com/bradmccoydev/argo-demo.git
+        targetRevision: HEAD
+        path: '{{path}}/overlays/{{cluster}}'
+      destination:
+        server: '{{ url }}'
+        # namespace: '{{ path.basename }}'
+      syncPolicy:
+        automated:  # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
+          prune: true 
+          selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+        syncOptions:     # Sync options which modifies sync behavior
+        - CreateNamespace=true         

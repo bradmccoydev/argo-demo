@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/name: argocd-rbac-cm
+    app.kubernetes.io/part-of: argocd
+  name: argocd-rbac-cm
+data: 
+  policy.default: role:readonly
+  policy.csv: |
+    g, bradmccoydev@gmail.com, role:admin
+    g, brad@odysseycloud.io, role:admin
+    g, amit@odysseycloud.io, role:admin
+  scopes: '[email,group]'

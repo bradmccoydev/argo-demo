@@ -15,7 +15,7 @@ spec:
       - list:
           elements:
           - cluster: production
-            url: https://aks-96cc8329.0bdd7a85-0827-4b5f-a665-5294ca534810.privatelink.eastus.azmk8s.io:443
+            url: https://20.40.125.65
             values:
               CLIENT_ENVIRONMENT: production             
   template:
@@ -31,7 +31,7 @@ spec:
           valueFiles:
             - '{{cluster}}-{{path.basename}}-values.yaml'
       destination:
-        server: https://aks-96cc8329.0bdd7a85-0827-4b5f-a665-5294ca534810.privatelink.eastus.azmk8s.io:443
+        server: https://20.40.125.65
         namespace: '{{path.basename}}'
       syncPolicy:
         automated: 

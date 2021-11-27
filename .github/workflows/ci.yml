@@ -10,7 +10,7 @@ jobs:
     env:
       AWS_ACCESS_KEY: AKIASCEPZTFMGUH2KCZD
       CLIENT_ACCOUNT_ID: moulacloud-ause-prod
-      K8S_CLUSTER: moulacloud-ause-prod
+      K8S_CLUSTER: devops-ause-prod
       CLOUD_LOCATION_1: Australia Southeast
       DEPLOYMENT_NAME: moulacloud
       HELM_VERSION: 3.7.1
@@ -33,19 +33,19 @@ jobs:
     #   with:
     #     creds: ${{ secrets.AZURE_CREDENTIALS }}
     
-    # # - name: Azure CLI script
-    # #   uses: azure/CLI@v1
-    # #   with:
-    # #     azcliversion: 2.0.72
-    # #     inlineScript: |
-    # #       az aks get-credentials --resource-group ${K8S_CLUSTER} --name ${K8S_CLUSTER}
-
-    # # Set the target Azure Kubernetes Service (AKS) cluster. 
-    # - uses: azure/aks-set-context@v1
+    # - name: Azure CLI script
+    #   uses: azure/CLI@v1
     #   with:
-    #     creds: '${{ secrets.AZURE_CREDENTIALS }}'
-    #     cluster-name: ${{ env.K8S_CLUSTER }}
-    #     resource-group: ${{ env.K8S_CLUSTER }}
+    #     azcliversion: 2.0.72
+    #     inlineScript: |
+    #       az aks get-credentials --resource-group devops-prod --name ${K8S_CLUSTER}
+
+    # Set the target Azure Kubernetes Service (AKS) cluster. 
+    - uses: azure/aks-set-context@v1
+      with:
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+        cluster-name: ${{ env.K8S_CLUSTER }}
+        resource-group: devops-prod
 
     # Install Helm3
     - name: Install Helm3

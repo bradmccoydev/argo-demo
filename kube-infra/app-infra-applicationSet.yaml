@@ -23,7 +23,7 @@ spec:
       - list:
           elements:
           - cluster: demo
-            clusterUrl: https://20.40.125.65
+            clusterUrl: https://devops-ause-prod-dns-ed43d95a.hcp.australiaeast.azmk8s.io:443
             values:
               CLIENT_ENVIRONMENT: demo             
   template:

@@ -19,7 +19,7 @@ spec:
       - list:
           elements:
           - cluster: production
-            url: https://20.40.125.65
+            url: https://devops-ause-prod-dns-ed43d95a.hcp.australiaeast.azmk8s.io:443
             values:
               CLIENT_ENVIRONMENT: production             
   template:

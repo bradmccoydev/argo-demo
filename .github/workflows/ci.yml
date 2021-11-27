@@ -6,7 +6,7 @@ jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
-    environment: $CLIENT_ENVIRONMENT
+    environment: demo
     env:
       AWS_ACCESS_KEY: AKIASCEPZTFMGUH2KCZD
       CLIENT_ACCOUNT_ID: moulacloud-ause-prod
@@ -23,6 +23,7 @@ jobs:
       CLOUD_PROVIDER: azure
       ARGOCD_CLI_VERSION: v2.1.7
       ARGO_DESTINATION_CLUSTER_SERVER: https://argocd.bradmccoy.io
+      MICROSOFT_CLIENT_SECRET: ${{ secrets.MICROSOFT_CLIENT_SECRET }}
 
     steps:
     - name: Checkout
@@ -62,12 +63,12 @@ jobs:
 
     - name: Deploy
       run: |-
-        find "kube-infra/" -name "*.tmpl" -exec bash -c 'envsubst < $1 > ${1%.tmpl}' _ {} \;
-        ./helmfile --environment demo sync
+        #find "kube-infra/" -name "*.tmpl" -exec bash -c 'envsubst < $1 > ${1%.tmpl}' _ {} \;
+        #./helmfile --environment demo sync
 
     - name: Set up argocd CLI
       run: |-
         curl -sfLo argocd "https://github.com/argoproj/argo-cd/releases/download/$ARGOCD_CLI_VERSION/argocd-linux-amd64"
         chmod a+x argocd 
-        ./argocd login argocd.bradmccoy.io --username admin --password $( kubectl get secrets argocd-initial-admin-secret -o json -n ci-cd | jq -r '(.data.password)' | base64 --decode )
-        ./argocd cluster add $( kubectl config view -o json | jq -r '(.clusters[].name)' ) --name devops-ause-prod 
+        #./argocd login argocd.bradmccoy.io --username admin --password $( kubectl get secrets argocd-initial-admin-secret -o json -n ci-cd | jq -r '(.data.password)' | base64 --decode )
+        #./argocd cluster add $( kubectl config view -o json | jq -r '(.clusters[].name)' ) --name devops-ause-prod 

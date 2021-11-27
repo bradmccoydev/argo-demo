@@ -4,6 +4,9 @@ This Repo is for a Demo of ArgoCD
 
 # Configuration / Installation of ArgoCD
 
+# SSO
+I am using Azure for SSO.  There is a secret called 
+
 # Sealed Secrets
 BASE64 ENCODE AWS KEY AND SECRETS
 

@@ -59,7 +59,7 @@ server:
         name: KCD Guatemala
         config:
           clientID: cdc33587-12c3-4fc3-a163-33013a8af1ba
-          clientSecret: $CLIENT_SECRET
+          clientSecret: $MICROSOFT_CLIENT_SECRET
           redirectURI: https://argocd.bradmccoy.io/api/dex/callback
           tenant: 1543c9b8-a1d1-4f26-bffb-1368aaeb582e
           groups:

@@ -11,7 +11,7 @@ spec:
           repoURL: https://github.com/bradmccoydev/argo-demo.git
           revision: HEAD
           directories:
-          - path: kube-infra/kustomize/*
+          - path: kube-infra/kustomize/keptn/*
       - list:
           elements:
           - cluster: production

@@ -17,12 +17,12 @@ jobs:
       HELM_SECRETS_VERSION: 3.11.0
       HELMFILE_VERSION: 0.142.0
       KUBECTL_VERSION: 1.22.4
-      CLIENT_ENVIRONMENT: production
+      CLIENT_ENVIRONMENT: demo
       CLIENT_DOMAIN_URL: bradmccoy.io
       CLIENT_CODE: mc
       CLOUD_PROVIDER: azure
       ARGOCD_CLI_VERSION: v2.1.7
-      ARGO_DESTINATION_CLUSTER_SERVER: https://aks-672707da.hcp.australiasoutheast.azmk8s.io:443
+      ARGO_DESTINATION_CLUSTER_SERVER: https://argocd.bradmccoy.io
 
     steps:
     - name: Checkout
@@ -47,30 +47,30 @@ jobs:
     #     cluster-name: ${{ env.K8S_CLUSTER }}
     #     resource-group: ${{ env.K8S_CLUSTER }}
 
-    # # Install Helm3
-    # - name: Install Helm3
-    #   uses: azure/setup-helm@v1
-    #   with:
-    #     version: v3.6.1
+    # Install Helm3
+    - name: Install Helm3
+      uses: azure/setup-helm@v1
+      with:
+        version: v3.6.1
 
-    # # Set up Helm3
-    # - name: Set up Helm3
-    #   run: |-
-    #     helm repo add incubator https://charts.helm.sh/incubator
-    #     helm repo add stable https://charts.helm.sh/stable
-    #     helm plugin install https://github.com/jkroepke/helm-secrets --version ${HELM_SECRETS_VERSION}        
+    # Set up Helm3
+    - name: Set up Helm3
+      run: |-
+        helm repo add incubator https://charts.helm.sh/incubator
+        helm repo add stable https://charts.helm.sh/stable
+        helm plugin install https://github.com/jkroepke/helm-secrets --version ${HELM_SECRETS_VERSION}        
 
-    # # Set up Helmfile
-    # - name: Set up Helmfile
-    #   run: |-
-    #     curl -sfLo helmfile https://github.com/roboll/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_linux_amd64
-    #     chmod a+x ./helmfile
+    # Set up Helmfile
+    - name: Set up Helmfile
+      run: |-
+        curl -sfLo helmfile https://github.com/roboll/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_linux_amd64
+        chmod a+x ./helmfile
         
-    # # Set up Kubectl
-    # - name: Set up Kubectl
-    #   run: |-
-    #     curl -sfLo kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
-    #     chmod a+x ./kubectl               
+    # Set up Kubectl
+    - name: Set up Kubectl
+      run: |-
+        curl -sfLo kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
+        chmod a+x ./kubectl               
 
     # - name: Deploy
     #   run: |-

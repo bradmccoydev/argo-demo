@@ -1,4 +1,4 @@
-![GitHub](https://img.shields.io/github/license/bradmccoydev/argo-demo)
+![passing](https://github.com/bradmccoydev/argo-demo/actions/workflows/ci.yml/badge.svg) ![GitHub](https://img.shields.io/github/license/bradmccoydev/argo-demo)
 # Argo Demo
 This Repo is for a Demo of ArgoCD
 

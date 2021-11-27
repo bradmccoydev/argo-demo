@@ -38,27 +38,29 @@ server:
   rbacConfig:
     policy.default: role:readonly
     policy.csv: |
-      g, brad@odysseycloud.io, role:admin
-      g, amit@odysseycloud.io, role:admin
-    scopes: '[email,group]'
+      p, role:org-admin, applications, *, */*, allow
+      p, role:org-admin, clusters, get, *, allow
+      p, role:org-admin, repositories, get, *, allow
+      p, role:org-admin, repositories, create, *, allow
+      p, role:org-admin, repositories, update, *, allow
+      p, role:org-admin, repositories, delete, *, allow
+      g, "bce56b30-b35b-4249-ad06-0c0159591075", role:org-admin
+    scopes: '[roles, email]'
 
   config:
     url: https://argocd.bradmccoy.io
     kustomize.buildOptions: --enable-helm
     repositories: |
       - url: https://github.com/bradmccoydev/argo-demo.git
-    dex.config: | 
+    dex.config: |
       connectors:
-      - type: saml
-        id: saml
-        name: saml
+      - type: microsoft
+        id: microsoft
+        name: KCD Guatemala
         config:
-          ssoURL: https://accounts.google.com/o/saml2?idpid=C02ihwbf4
-          entityIssuer: https://argocd.bradmccoy.io/api/dex/callback
-          caData: |
-            TUlJRGREQ0NBbHlnQXdJQkFnSUdBWGZ0dEpFRE1BMEdDU3FHU0liM0RRRUJDd1VBTUhzeEZEQVNCZ05WQkFvVEMwZHZiMmRzWlNCSgpibU11TVJZd0ZBWURWUVFIRXcxTmIzVnVkR0ZwYmlCV2FXVjNNUTh3RFFZRFZRUURFd1pIYjI5bmJHVXhHREFXQmdOVkJBc1REMGR2CmIyZHNaU0JHYjNJZ1YyOXlhekVMTUFrR0ExVUVCaE1DVlZNeEV6QVJCZ05WQkFnVENrTmhiR2xtYjNKdWFXRXdIaGNOTWpFd016QXgKTVRJeE1qUTNXaGNOTWpZd01qSTRNVEl4TWpRM1dqQjdNUlF3RWdZRFZRUUtFd3RIYjI5bmJHVWdTVzVqTGpFV01CUUdBMVVFQnhNTgpUVzkxYm5SaGFXNGdWbWxsZHpFUE1BMEdBMVVFQXhNR1IyOXZaMnhsTVJnd0ZnWURWUVFMRXc5SGIyOW5iR1VnUm05eUlGZHZjbXN4CkN6QUpCZ05WQkFZVEFsVlRNUk13RVFZRFZRUUlFd3BEWVd4cFptOXlibWxoTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEEKTUlJQkNnS0NBUUVBNit6NkxvUVc3RW5abzF2N2NLODBEelNmK0Yzc1FjcXJwTmlyMGNINU5yS2RmelJTNEV4UzBQa1QxbWlia3d0MgpnRklSOEF5bUhjbDVhTS9qQzYyT3QwV25jV0UySnBhdWtnbVREWThLLytDQkFzc2Z2MFZnZEczaG5YcnplNjlOY2FiVUtkSTBoTUp6Cng1WFBuUmFXRGw1TEdRQlRpTkl4QkgydXlCeFBObjQ4V1hHN3lWejg1WXFnbGU3d3dmcFpkV001WC9Xang3TlNhWHgrRXVva2h5eTIKN3pEdlprcFZrc2pMZkIxY2J5VFBKUUdkci9hRzkxbGErTXVMZFJHcnZlL0JWRjNKVmtwOGVhYWxqSUJOUWwyYm5VK2UwV0ZhM3hVYQo1cCtrNmt5RnZjTGwrTHc5RExPTFNFVW1TVFVvOExkeGhXNW1ZYVd5N0Zlb1gwNERzd0lEQVFBQk1BMEdDU3FHU0liM0RRRUJDd1VBCkE0SUJBUUI5VWpvaGY2c0hTZTdUb2RMNisvOVl4SE1ib2EvSWg2dUpKdkRaZGR0Nlo0TmNtMGorNlZwd2I5L1JaKzFwT1l0eTJDOTQKSlMrcnZwTFYxVXRZdWR0VVE1YW5XUkhqamFsTXNkb3RsTWxQeVJpSVFhWXUyV2RNZ3Z0Q1AzcHNWbjEveVIyTkw5MnJFUzJ3OENuSQp2L0tYcmozZTJrSG9zeWdkUEtFdTkzSnhuZEFVWVJUNVJQOFdWbFQ4L1JMbS91Z1Q2UWttUDc2elIyQUNRRUtZZFk4aWtPNmk3REQrCmFxWTBadDdqNkNNWmtHRlpaUXlBYXgwN3NPN3RqOFZBdThwYnowRjFQU1dLbmlmZ1JGRW1XV2FLdmF0NFBOdFhsajEzdGlPTFNobWoKekMxVjE5YVc0WU5oVE90d1BmbHFQYW9RYUdaNTY5THVidFJZeVIzOU9NVDI=
+          clientID: cdc33587-12c3-4fc3-a163-33013a8af1ba
+          clientSecret: $CLIENT_SECRET
           redirectURI: https://argocd.bradmccoy.io/api/dex/callback
-          usernameAttr: name
-          emailAttr: email
-          # optional
-          ssoIssuer: https://accounts.google.com/o/saml2?idpid=C02ihwbf4
+          tenant: 1543c9b8-a1d1-4f26-bffb-1368aaeb582e
+          groups:
+            - moula.cloudengineering

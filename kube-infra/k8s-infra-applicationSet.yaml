@@ -11,13 +11,13 @@ spec:
           repoURL: https://github.com/bradmccoydev/argo-demo.git
           revision: HEAD
           directories:
-          - path: kube-infra/dns-infra/*
+          - path: kube-infra/helm/dns-infra/*
       - list:
           elements:
-          - cluster: production
+          - cluster: demo
             url: https://20.40.125.65
             values:
-              CLIENT_ENVIRONMENT: production             
+              CLIENT_ENVIRONMENT: demo             
   template:
     metadata:
       name: '{{ path.basename }}'

@@ -12,21 +12,21 @@ spec:
           revision: svc_cat
           directories:
           - path: chart/*
-          - path: chart/bradmccoy-console
+          - path: chart/bradmccoydev-console
             exclude: true
       - list:
           elements:
-          - cluster: production
+          - cluster: demo
             url: https://20.40.125.65
             values:
-              CLIENT_ENVIRONMENT: production             
+              CLIENT_ENVIRONMENT: demo             
   template:
     metadata:
       name: '{{ path.basename }}'
     spec:
       project: bradmccoy
       source:
-        repoURL: https://github.com/bradmccoy/bradmccoy.git
+        repoURL: https://github.com/bradmccoydev/argo-demo.git
         targetRevision: svc_cat
         path: '{{path}}'
         helm:

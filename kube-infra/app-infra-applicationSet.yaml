@@ -22,10 +22,10 @@ spec:
           - pathsExist: [chart]   
       - list:
           elements:
-          - cluster: production
+          - cluster: demo
             clusterUrl: https://20.40.125.65
             values:
-              CLIENT_ENVIRONMENT: production             
+              CLIENT_ENVIRONMENT: demo             
   template:
     metadata:
       name: '{{ repository }}'

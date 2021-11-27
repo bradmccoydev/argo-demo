@@ -14,15 +14,15 @@ spec:
           - path: kube-infra/kustomize/keptn/*
       - list:
           elements:
-          - cluster: production
+          - cluster: demo
             url: https://20.40.125.65
             values:
-              CLIENT_ENVIRONMENT: production             
+              CLIENT_ENVIRONMENT: demo             
   template:
     metadata:
       name: '{{ path.basename }}'
     spec:
-      project: bradmccoydev
+      project: kcd-guatemala
       source:
         repoURL: https://github.com/bradmccoydev/argo-demo.git
         targetRevision: HEAD

@@ -84,3 +84,11 @@ jobs:
     #     kubectl apply -f resources/after/argocd/production
     #     kubectl apply -f resources/after/keptn/production
     #     kubectl apply -f resources/after
+
+    - name: Set up argocd CLI
+      run: |-
+        curl -sfLo argocd "https://github.com/argoproj/argo-cd/releases/download/$ARGOCD_CLI_VERSION/argocd-linux-amd64"
+        chmod a+x argocd 
+        ./argocd login argocd.bradmccoy.io --username admin --password $( kubectl get secrets argocd-initial-admin-secret -o json -n ci-cd | jq -r '(.data.password)' | base64 --decode )
+        ./argocd cluster add $( kubectl config view -o json | jq -r '(.clusters[].name)' ) --name kcd-guatemala-demo 
+

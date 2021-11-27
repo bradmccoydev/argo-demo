@@ -4,6 +4,10 @@ This Repo is for a Demo of ArgoCD
 
 # Configuration / Installation of ArgoCD
 
+# Installing Keptn with Kustomise
+kubectl kustomize kube-infra/kustomize/keptn/base
+kubectl apply -k kube-infra/kustomize/keptn/overlays/demo
+
 # SSO
 I am using Azure for SSO.  There is a secret called 
 

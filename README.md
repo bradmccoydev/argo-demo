@@ -5,7 +5,7 @@ This Repo is for a Demo of ArgoCD
 # Configuration / Installation of ArgoCD
 
 # Installing Keptn with Kustomise
-kubectl kustomize kube-infra/kustomize/keptn/base
+kubectl kustomize kube-infra/kustomize/keptn/base --enable-helm
 kubectl apply -k kube-infra/kustomize/keptn/overlays/demo
 
 # SSO

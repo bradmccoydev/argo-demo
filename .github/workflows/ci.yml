@@ -8,8 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: demo
     env:
-      AWS_ACCESS_KEY: AKIASCEPZTFMGUH2KCZD
-      CLIENT_ACCOUNT_ID: moulacloud-ause-prod
       K8S_CLUSTER: devops-ause-prod
       CLOUD_LOCATION_1: Australia Southeast
       DEPLOYMENT_NAME: moulacloud
@@ -63,9 +61,14 @@ jobs:
 
     - name: Deploy
       run: |-
+        # kubectl apply -k kube-infra/kustomize/security/sealed-secrets/overlays/$CLIENT_ENVIRONMENT
         find "kube-infra/" -name "*.tmpl" -exec bash -c 'envsubst < $1 > ${1%.tmpl}' _ {} \;
         ./helmfile --environment demo sync
+        kubectl apply -k  kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/$CLIENT_ENVIRONMENT
 
+        export ARGO_DESTINATION_CLUSTER_SERVER="$( kubectl config view -o json | jq -r '(.clusters[].cluster.server)' )"
+        export ARGO_DESTINATION_CLUSTER_SERVER_CA=$(kubectl config view --raw -o json | jq -r '.clusters[] | select(.name == "'$(kubectl config current-context)'") | .cluster."certificate-authority-data"')
+        
     # - name: Set up argocd CLI
     #   run: |-
     #     curl -sfLo argocd "https://github.com/argoproj/argo-cd/releases/download/$ARGOCD_CLI_VERSION/argocd-linux-amd64"

@@ -38,4 +38,4 @@ spec:
           secretAccessKeySecretRef: 
             name: aws-dns-creds
             key: AWS_SECRET_ACCESS_KEY
----        
+---

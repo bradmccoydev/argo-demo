@@ -5,9 +5,7 @@ resources:
 - argocd-server-ingress.yaml
 
 - argocd-appproject.yaml
-#- app-infra-applicationSet.yaml
 - kustomize-kube-infra-applicationSet.yaml
-#- ortelius-appset.yaml
 
 namespace: ci-cd
 

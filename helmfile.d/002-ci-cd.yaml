@@ -19,36 +19,6 @@ environments:
           enabled: true
 
 releases:
-  - name: argo-cd
-    namespace: ci-cd
-    chart: argo/argo-cd
-    version: 3.26.11
-    condition: argo-cd.enabled
-    values:
-      -  ../kube-infra/helm/ci-cd/argo-cd/{{ requiredEnv "CLIENT_ENVIRONMENT" }}-argo-cd-values.yaml
-
-  - name: argocd-applicationset
-    namespace: ci-cd
-    chart: argo/argocd-applicationset
-    version: 1.6.0
-    condition: argo-cd.enabled 
-    values:
-      - ../kube-infra/helm/ci-cd/argocd-applicationset/{{ requiredEnv "CLIENT_ENVIRONMENT" }}-argocd-applicationset-values.yaml
-
-  - name: ingress-nginx
-    namespace: ingress-nginx
-    chart: ingress-nginx/ingress-nginx
-    version: 4.0.10
-    values:
-      - ../kube-infra/helm/dns-infra/ingress-nginx/{{ requiredEnv "CLIENT_ENVIRONMENT" }}-ingress-nginx-values.yaml
-
-  - name: cert-manager
-    namespace: dns-infra
-    chart: jetstack/cert-manager
-    version: 1.6.1
-    values:
-      - ../kube-infra/helm/dns-infra/cert-manager/demo-cert-manager-values.yaml
-
   - name: external-dns
     namespace: dns-infra
     chart: bitnami/external-dns
@@ -56,3 +26,10 @@ releases:
     values:
       - ../kube-infra/helm/dns-infra/external-dns-aws/common-external-dns-values.yaml
       - ../kube-infra/helm/dns-infra/external-dns-aws/{{ requiredEnv "CLIENT_ENVIRONMENT" }}-external-dns-values.yaml
+
+  - name: cert-manager
+    namespace: dns-infra
+    chart: jetstack/cert-manager
+    version: 1.6.1
+    values:
+      - ../kube-infra/helm/dns-infra/cert-manager/demo-cert-manager-values.yaml

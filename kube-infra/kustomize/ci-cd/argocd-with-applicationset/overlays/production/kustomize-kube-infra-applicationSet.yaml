@@ -13,10 +13,8 @@ spec:
           directories:
           - path: kube-infra/kustomize/ci-cd/*
           - path: kube-infra/kustomize/dns-infra/*
-          - path: kube-infra/kustomize/observability/*
-          - exclude: true
-            path: kube-infra/kustomize/dns-infra/external-dns       
-          # - path: kube-infra/kustomize/dns-infra/*/*          
+          - path: kube-infra/kustomize/database/*
+          - path: kube-infra/kustomize/observability/*    
           - path: kube-infra/kustomize/security/*
         exclude: 
       - list:

@@ -8,11 +8,11 @@ metadata:
 data: 
   policy.default: role:readonly
   policy.csv: |
-      p, role:org-admin, applications, *, */*, allow
-      p, role:org-admin, clusters, get, *, allow
-      p, role:org-admin, repositories, get, *, allow
-      p, role:org-admin, repositories, create, *, allow
-      p, role:org-admin, repositories, update, *, allow
-      p, role:org-admin, repositories, delete, *, allow
-      g, "bce56b30-b35b-4249-ad06-0c0159591075", role:org-admin
-    scopes: '[roles, email]'
+    p, role:org-admin, applications, *, */*, allow
+    p, role:org-admin, clusters, get, *, allow
+    p, role:org-admin, repositories, get, *, allow
+    p, role:org-admin, repositories, create, *, allow
+    p, role:org-admin, repositories, update, *, allow
+    p, role:org-admin, repositories, delete, *, allow
+    g, "bce56b30-b35b-4249-ad06-0c0159591075", role:org-admin
+  scopes: '[roles, email]'

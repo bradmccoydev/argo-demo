@@ -1,28 +1,47 @@
 repositories:
-  - name: argo
-    url: https://argoproj.github.io/argo-helm
-  - name: jetstack
-    url: https://charts.jetstack.io
+  - name: sealed-secrets
+    url: https://bitnami-labs.github.io/sealed-secrets
   - name: bitnami
     url: https://charts.bitnami.com/bitnami
+  - name: jetstack
+    url: https://charts.jetstack.io
   - name: ingress-nginx
     url: https://kubernetes.github.io/ingress-nginx
 
 values:
-  - argo-cd:
-      enabled: true 
+  - sealed-secrets:
+      enabled: true
+  - external-dns:
+      enabled: true
+  - cert-manager:
+      enabled: true
+  - ingress-nginx:
+      enabled: true
       
 environments:
   demo:
     values:
-      - argo-cd:
+      - sealed-secrets:
+          enabled: true
+      - external-dns:
+          enabled: true
+      - cert-manager:
+          enabled: true
+      - ingress-nginx:
           enabled: true
 
 releases:
+  - name: sealed-secrets-controller
+    namespace: secrets
+    chart: sealed-secrets/sealed-secrets 
+    version: 1.16.1
+    condition: sealed-secrets.enabled
+
   - name: external-dns
     namespace: dns-infra
     chart: bitnami/external-dns
     version: 5.5.0
+    condition: external-dns.enabled
     values:
       - ../kube-infra/helm/dns-infra/external-dns-aws/common-external-dns-values.yaml
       - ../kube-infra/helm/dns-infra/external-dns-aws/{{ requiredEnv "CLIENT_ENVIRONMENT" }}-external-dns-values.yaml
@@ -31,6 +50,7 @@ releases:
     namespace: dns-infra
     chart: jetstack/cert-manager
     version: 1.6.1
+    condition: cert-manager.enabled
     values:
       - ../kube-infra/helm/dns-infra/cert-manager/demo-cert-manager-values.yaml
 
@@ -38,5 +58,6 @@ releases:
     namespace: ingress-nginx
     chart: ingress-nginx/ingress-nginx
     version: 4.0.10
+    condition: ingress-nginx.enabled
     values:
       - ../kube-infra/helm/dns-infra/ingress-nginx/{{ requiredEnv "CLIENT_ENVIRONMENT" }}-ingress-nginx-values.yaml

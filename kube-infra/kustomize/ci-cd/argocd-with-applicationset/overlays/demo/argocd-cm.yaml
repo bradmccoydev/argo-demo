@@ -8,6 +8,7 @@ metadata:
 data: 
   url: https://argocd.bradmccoy.io
   kustomize.buildOptions: --enable-helm
+  ga.trackingid: "G-SMLWM11VB0"
   repositories: |
     - url: https://github.com/bradmccoydev/argo-demo.git
   dex.config: |
@@ -17,7 +18,7 @@ data:
       name: bradmccoy.io
       config:
         clientID: cdc33587-12c3-4fc3-a163-33013a8af1ba
-        clientSecret: $MICROSOFT_CLIENT_SECRET
+        clientSecret: $sso.clientSecret
         redirectURI: https://argocd.bradmccoy.io/api/dex/callback
         tenant: 1543c9b8-a1d1-4f26-bffb-1368aaeb582e
         groups:

@@ -27,13 +27,7 @@ spec:
         - mountPath: /tmp
           name: dexconfig
       containers:
-      - name: dex
-        env:
-        - name: ARGO_WORKFLOWS_SSO_CLIENT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: argo-workflows-sso
-              key: client-secret      
+      - name: dex  
         image: ghcr.io/dexidp/dex:v2.30.0
         imagePullPolicy: Always
         command: [/shared/argocd-dex, rundex]

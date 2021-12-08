@@ -55,8 +55,10 @@ jobs:
     
     - name: Set up Kubeseal
       run: |-
-        wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.17.0/kubeseal-linux-amd64 -O kubeseal
-        sudo install -m 755 kubeseal /usr/local/bin/kubeseal
+        VERSION=$(curl --silent "https://api.github.com/repos/bitnami-labs/sealed-secrets/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+        wget https://github.com/bitnami-labs/sealed-secrets/releases/download/$VERSION/kubeseal-linux-amd64 -O /usr/local/bin/kubeseal
+        chmod 755 /usr/local/bin/kubeseal
+        kubeseal --version
 
     - name: Substitute Environment Variables
       run: |-
@@ -65,8 +67,8 @@ jobs:
     - name: Install Secrets
       run: |-
         kubectl apply -k kube-infra/kustomize/security/sealed-secrets/overlays/demo
-        kubeseal <kube-infra/kustomize/security/sealed-secrets/overlays/demo/aws-dns-creds.yaml >aws-dns-creds.enc.json --controller-namespace security
-        kubectl apply -f aws-dns-creds.enc.json
+        kubeseal <kube-infra/kustomize/security/sealed-secrets/overlays/demo/aws-dns-creds.yaml >aws-dns-creds-sealed.yaml --format yaml --controller-namespace security
+        kubectl apply -f aws-dns-creds-sealed.yaml
         rm aws-dns-creds.enc.json    
 
     - name: Deploy

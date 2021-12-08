@@ -25,43 +25,53 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    # Set the target Azure Kubernetes Service (AKS) cluster. 
-    - uses: azure/aks-set-context@v1
+    - name: Set AKS Context
+      uses: azure/aks-set-context@v1
       with:
         creds: '${{ secrets.AZURE_CREDENTIALS }}'
         cluster-name: ${{ env.K8S_CLUSTER }}
         resource-group: ${{ env.RESOURCE_GROUP_NAME }}
 
-    # Install Helm3
     - name: Install Helm3
       uses: azure/setup-helm@v1
       with:
         version: v3.6.1
 
-    # Set up Helm3
     - name: Set up Helm3
       run: |-
         helm repo add incubator https://charts.helm.sh/incubator
         helm repo add stable https://charts.helm.sh/stable
         helm plugin install https://github.com/jkroepke/helm-secrets --version ${HELM_SECRETS_VERSION}        
 
-    # Set up Helmfile
     - name: Set up Helmfile
       run: |-
         curl -sfLo helmfile https://github.com/roboll/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_linux_amd64
         chmod a+x ./helmfile
         
-    # Set up Kubectl
     - name: Set up Kubectl
       run: |-
         curl -sfLo kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
-        chmod a+x ./kubectl               
+        chmod a+x ./kubectl
+    
+    - name: Set up Kubeseal
+      run: |-
+        wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.17.0/kubeseal-linux-amd64 -O kubeseal
+        sudo install -m 755 kubeseal /usr/local/bin/kubeseal
+
+    - name: Substitute Environment Variables
+      run: |-
+        find "kube-infra/" -name "*.tmpl" -exec bash -c 'envsubst < $1 > ${1%.tmpl}' _ {} \;
+
+    - name: Install Secrets
+      run: |-
+        kubectl apply -k kube-infra/kustomize/security/sealed-secrets/overlays/demo
+        kubeseal <kube-infra/kustomize/security/sealed-secrets/overlays/demo/aws-dns-creds.yaml >aws-dns-creds.enc.json --controller-namespace security
+        kubectl apply -f aws-dns-creds.enc.json
+        rm aws-dns-creds.enc.json    
 
     - name: Deploy
       run: |-
-        find "kube-infra/" -name "*.tmpl" -exec bash -c 'envsubst < $1 > ${1%.tmpl}' _ {} \;
-        ./helmfile --environment demo sync
-
+        ./helmfile --environment demo sync       
         kubectl apply -k kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo
 
         export ARGO_DESTINATION_CLUSTER_SERVER="$( kubectl config view -o json | jq -r '(.clusters[].cluster.server)' )"

@@ -15,7 +15,7 @@ spec:
       - list:
           elements:
           - cluster: demo
-            url: https://devops-ause-prod-dns-ed43d95a.hcp.australiaeast.azmk8s.io:443
+            url: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io/
             values:
               CLIENT_ENVIRONMENT: demo             
   template:
@@ -31,7 +31,7 @@ spec:
           valueFiles:
             - '{{cluster}}-{{path.basename}}-values.yaml'
       destination:
-        server: https://devops-ause-prod-dns-ed43d95a.hcp.australiaeast.azmk8s.io:443
+        server: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io/
         namespace: '{{path.basename}}'
       syncPolicy:
         automated: 

@@ -13,16 +13,15 @@ spec:
           directories:
           - path: kube-infra/kustomize/ci-cd/*
           - path: kube-infra/kustomize/dns-infra/*
-          - path: kube-infra/kustomize/database/*
-          - path: kube-infra/kustomize/observability/*    
+          - path: kube-infra/kustomize/keptn/*    
           - path: kube-infra/kustomize/security/*
         exclude: 
       - list:
           elements:
-          - cluster: production
-            url: https://devops-ause-prod-dns-ed43d95a.hcp.australiaeast.azmk8s.io:443
+          - cluster: demo
+            url: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io/
             values:
-              CLIENT_ENVIRONMENT: production             
+              CLIENT_ENVIRONMENT: demo             
   template:
     metadata:
       name: '{{ path.basename }}'

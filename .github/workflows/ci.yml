@@ -8,21 +8,19 @@ jobs:
     runs-on: ubuntu-latest
     environment: demo
     env:
-      K8S_CLUSTER: devops-ause-prod
+      CLIENT_ENVIRONMENT: demo
+      K8S_CLUSTER: tf-ause-demo
+      RESOURCE_GROUP_NAME: tf-demo
       CLOUD_LOCATION_1: Australia Southeast
-      DEPLOYMENT_NAME: moulacloud
       HELM_VERSION: 3.7.1
       HELM_SECRETS_VERSION: 3.11.0
       HELMFILE_VERSION: 0.142.0
       KUBECTL_VERSION: 1.22.4
-      CLIENT_ENVIRONMENT: demo
-      CLIENT_DOMAIN_URL: bradmccoy.io
-      CLIENT_CODE: mc
-      CLOUD_PROVIDER: azure
       ARGOCD_CLI_VERSION: v2.1.7
       ARGO_DESTINATION_CLUSTER_SERVER: https://argocd.bradmccoy.io
       MICROSOFT_CLIENT_SECRET: ${{ secrets.MICROSOFT_CLIENT_SECRET }}
-
+      ARGO_SECRET_KEY: ${{ secrets.ARGO_SECRET_KEY }}
+      ARGO_ADMIN_PASSWORD: ${{ secrets.ARGO_ADMIN_PASSWORD }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -32,7 +30,7 @@ jobs:
       with:
         creds: '${{ secrets.AZURE_CREDENTIALS }}'
         cluster-name: ${{ env.K8S_CLUSTER }}
-        resource-group: devops-prod
+        resource-group: ${{ env.RESOURCE_GROUP_NAME }}
 
     # Install Helm3
     - name: Install Helm3
@@ -61,10 +59,9 @@ jobs:
 
     - name: Deploy
       run: |-
-        # kubectl apply -k kube-infra/kustomize/security/sealed-secrets/overlays/demo
         find "kube-infra/" -name "*.tmpl" -exec bash -c 'envsubst < $1 > ${1%.tmpl}' _ {} \;
         ./helmfile --environment demo sync
-        kubectl kustomize kube-infra/kustomize/ci-cd/argocd-with-applicationset/base --enable-helm
+
         kubectl apply -k kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo
 
         export ARGO_DESTINATION_CLUSTER_SERVER="$( kubectl config view -o json | jq -r '(.clusters[].cluster.server)' )"

@@ -15,7 +15,7 @@ spec:
   - '*'
   destinations:
   - namespace: '*'
-    server: https://devops-ause-prod-dns-ed43d95a.hcp.australiaeast.azmk8s.io:443
+    server: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io/ 
   clusterResourceWhitelist:
   - group: '*'
     kind: '*'    

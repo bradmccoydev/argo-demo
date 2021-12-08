@@ -1,2 +1,3 @@
 aws-dns-creds-secret-argo-cd.yaml
 demo-argo-cd-values.yaml
+argocd-secrets.yaml

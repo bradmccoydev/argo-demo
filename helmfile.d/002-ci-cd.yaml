@@ -1,4 +1,6 @@
 repositories:
+  - name: sealed-secrets
+    url: https://bitnami-labs.github.io/sealed-secrets
   - name: bitnami
     url: https://charts.bitnami.com/bitnami
   - name: jetstack
@@ -7,6 +9,8 @@ repositories:
     url: https://kubernetes.github.io/ingress-nginx
 
 values:
+  - sealed-secrets:
+      enabled: true
   - external-dns:
       enabled: true
   - cert-manager:
@@ -17,6 +21,8 @@ values:
 environments:
   demo:
     values:
+      - sealed-secrets:
+          enabled: true
       - external-dns:
           enabled: true
       - cert-manager:
@@ -25,6 +31,12 @@ environments:
           enabled: true
 
 releases:
+  - name: sealed-secrets-controller
+    namespace: secrets
+    chart: sealed-secrets/sealed-secrets 
+    version: 1.16.1
+    condition: sealed-secrets.enabled
+
   - name: external-dns
     namespace: dns-infra
     chart: bitnami/external-dns

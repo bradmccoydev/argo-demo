@@ -21,6 +21,8 @@ jobs:
       MICROSOFT_CLIENT_SECRET: ${{ secrets.MICROSOFT_CLIENT_SECRET }}
       ARGO_SECRET_KEY: ${{ secrets.ARGO_SECRET_KEY }}
       ARGO_ADMIN_PASSWORD: ${{ secrets.ARGO_ADMIN_PASSWORD }}
+      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY  }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -69,7 +71,7 @@ jobs:
       run: |-
         kubeseal <kube-infra/kustomize/security/sealed-secrets/overlays/demo/aws-dns-creds.yaml >aws-dns-creds-sealed.yaml --format yaml --controller-namespace security
         kubectl apply -f aws-dns-creds-sealed.yaml
-        rm aws-dns-creds.enc.json    
+        rm kube-infra/kustomize/security/sealed-secrets/overlays/demo/aws-dns-creds.yaml    
 
     - name: Deploy
       run: |-

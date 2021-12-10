@@ -59,6 +59,7 @@ jobs:
         sudo install -m 755 kubeseal /usr/local/bin/kubeseal
         kubeseal --version
 
+    # base64 encode secrets in the ci
     - name: Substitute Environment Variables
       run: |-
         find "kube-infra/" -name "*.tmpl" -exec bash -c 'envsubst < $1 > ${1%.tmpl}' _ {} \;

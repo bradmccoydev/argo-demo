@@ -18,11 +18,6 @@ jobs:
       KUBECTL_VERSION: 1.22.4
       ARGOCD_CLI_VERSION: v2.1.7
       ARGO_DESTINATION_CLUSTER_SERVER: https://argocd.bradmccoy.io
-      MICROSOFT_CLIENT_SECRET: ${{ secrets.MICROSOFT_CLIENT_SECRET }}
-      ARGO_SECRET_KEY: ${{ secrets.ARGO_SECRET_KEY }}
-      ARGO_ADMIN_PASSWORD: ${{ secrets.ARGO_ADMIN_PASSWORD }}
-      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY  }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -53,26 +48,9 @@ jobs:
         curl -sfLo kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
         chmod a+x ./kubectl
     
-    - name: Set up Kubeseal
-      run: |-
-        wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/kubeseal-linux-amd64 -O kubeseal
-        sudo install -m 755 kubeseal /usr/local/bin/kubeseal
-        kubeseal --version
-
-    # base64 encode secrets in the ci
-    - name: Substitute Environment Variables
-      run: |-
-        find "secrets/" -name "*.tmpl" -exec bash -c 'envsubst < $1 > ${1%.tmpl}' _ {} \;
-
     - name: Deploy Sealed Secrets and DNS
       run: |-
-        ./helmfile --environment demo sync       
-
-    - name: Install Secrets
-      run: |-
-        kubeseal <secrets/aws-dns-creds.yaml >aws-dns-creds-sealed.yaml --format yaml --controller-namespace security
-        kubectl apply -f aws-dns-creds-sealed.yaml
-        rm kube-infra/kustomize/security/sealed-secrets/overlays/demo/aws-dns-creds.yaml    
+        ./helmfile --environment demo sync        
 
     - name: Deploy
       run: |-

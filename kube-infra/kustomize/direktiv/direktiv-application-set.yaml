@@ -26,14 +26,9 @@ spec:
       source:
         repoURL: https://github.com/bradmccoydev/argo-demo.git
         targetRevision: HEAD
-        path: '{{path}}'
-        helm:
-          valueFiles:
-            # - 'common-{{path.basename}}-values.yaml'
-            - '{{cluster}}-{{path.basename}}-values.yaml'
+        path: '{{path}}/overlays/{{cluster}}'
       destination:
         server: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io
-        namespace: '{{path.basename}}'
       syncPolicy:
         automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
             prune: true 

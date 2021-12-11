@@ -82,9 +82,9 @@ jobs:
         export ARGO_DESTINATION_CLUSTER_SERVER="$( kubectl config view -o json | jq -r '(.clusters[].cluster.server)' )"
         export ARGO_DESTINATION_CLUSTER_SERVER_CA=$(kubectl config view --raw -o json | jq -r '.clusters[] | select(.name == "'$(kubectl config current-context)'") | .cluster."certificate-authority-data"')
         
-    # - name: Set up argocd CLI
-    #   run: |-
-    #     curl -sfLo argocd "https://github.com/argoproj/argo-cd/releases/download/$ARGOCD_CLI_VERSION/argocd-linux-amd64"
-    #     chmod a+x argocd 
-    #     ./argocd login argocd.bradmccoy.io --username admin --password $( kubectl get secrets argocd-initial-admin-secret -o json -n ci-cd | jq -r '(.data.password)' | base64 --decode )
-    #     ./argocd cluster add $( kubectl config view -o json | jq -r '(.clusters[].name)' ) --name devops-ause-prod 
+    - name: Set up argocd CLI
+      run: |-
+        curl -sfLo argocd "https://github.com/argoproj/argo-cd/releases/download/$ARGOCD_CLI_VERSION/argocd-linux-amd64"
+        chmod a+x argocd 
+        ./argocd login argocd.bradmccoy.io --username admin --password $( kubectl get secrets argocd-initial-admin-secret -o json -n ci-cd | jq -r '(.data.password)' | base64 --decode )
+        ./argocd cluster add $( kubectl config view -o json | jq -r '(.clusters[].name)' ) --name tf-ause-demo 

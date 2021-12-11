@@ -22,7 +22,7 @@ spec:
     metadata:
       name: '{{ path.basename }}'
     spec:
-      project: ortelius
+      project: bradmccoydev
       source:
         repoURL: https://github.com/bradmccoydev/argo-demo.git
         targetRevision: HEAD

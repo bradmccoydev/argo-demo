@@ -1,0 +1,27 @@
+helmCharts:
+- name: bitnami/postgresql
+  version: 10.13.12
+  namespace: postgres
+  repo: https://charts.bitnami.com/bitnami
+  releaseName: postgresql
+  valuesInline:
+    postgresqlUsername: "direktiv"
+    postgresqlPassword: "direktivdirektiv"
+# - name: knative
+#   version: 0.1.0
+#   namespace: direktiv-services-direktiv
+#   repo: https://charts.direktiv.io
+#   releaseName: knative
+# - name: direktiv
+#   version: 0.5.9
+#   namespace: direktiv
+#   repo: https://charts.direktiv.io
+#   releaseName: direktiv
+#   valuesInline: 
+#     database:
+#       host: "direktiv-ha.postgres.svc"
+#       port: 5432
+#       user: "direktiv"
+#       password: "direktivdirektiv"
+#       name: "direktiv"
+#       sslmode: require

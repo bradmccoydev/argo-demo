@@ -1,6 +1,9 @@
 name: Build and Deploy to AKS
 
-on: push
+on:
+  push:
+    paths:
+    - 'helmfile.d/**'
 
 jobs:
   setup-build-publish-deploy:

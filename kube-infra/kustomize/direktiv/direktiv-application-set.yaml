@@ -11,7 +11,7 @@ spec:
           repoURL: https://github.com/bradmccoydev/argo-demo.git
           revision: HEAD
           directories:
-          - path: kube-infra/kustomize/direktiv/direktiv-postgres/*
+          - path: kube-infra/kustomize/direktiv/*
       - list:
           elements:
           - cluster: demo

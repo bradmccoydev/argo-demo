@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: keptn
-  namespace: keptn
+  namespace: ci-cd
 spec:
   generators:
   - matrix:
@@ -15,7 +15,7 @@ spec:
       - list:
           elements:
           - cluster: demo
-            url: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io/
+            url: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io:443
             values:
               CLIENT_ENVIRONMENT: demo             
   template:
@@ -31,7 +31,7 @@ spec:
           valueFiles:
             - '{{cluster}}-{{path.basename}}-values.yaml'
       destination:
-        server: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io/
+        server: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io:443
         namespace: '{{path.basename}}'
       syncPolicy:
         automated: 

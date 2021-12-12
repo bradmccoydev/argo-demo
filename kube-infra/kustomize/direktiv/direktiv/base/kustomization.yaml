@@ -1,0 +1,14 @@
+helmCharts:
+- name: direktiv
+  version: 0.5.10
+  namespace: direktiv
+  repo: https://charts.direktiv.io
+  releaseName: direktiv
+  valuesInline: 
+    database:
+      host: "direktiv-ha.postgres.svc"
+      port: 5432
+      user: "direktiv"
+      password: "direktivdirektiv"
+      name: "direktiv"
+      sslmode: require

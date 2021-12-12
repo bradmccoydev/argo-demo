@@ -1,0 +1,11 @@
+helmCharts:
+- name: knative
+  version: 0.1.0
+  namespace: direktiv-services-direktiv
+  repo: https://charts.direktiv.io
+  releaseName: knative
+  valuesInline:
+    kong-external:
+    replicaCount: 2
+    kong-internal:
+    replicaCount: 2

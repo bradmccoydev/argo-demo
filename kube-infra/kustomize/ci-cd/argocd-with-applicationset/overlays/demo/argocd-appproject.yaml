@@ -15,7 +15,7 @@ spec:
   - '*'
   destinations:
   - namespace: '*'
-    server: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io/ 
+    server: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io:443
   clusterResourceWhitelist:
   - group: '*'
     kind: '*'    

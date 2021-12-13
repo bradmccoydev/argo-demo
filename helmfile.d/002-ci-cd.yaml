@@ -52,7 +52,7 @@ releases:
     version: 1.6.1
     condition: cert-manager.enabled
     values:
-      - ../kube-infra/helm/dns-infra/cert-manager/demo-cert-manager-values.yaml
+      - ../kube-infra/helm/dns-infra/cert-manager/{{ requiredEnv "CLIENT_ENVIRONMENT" }}-cert-manager-values.yaml
 
   - name: ingress-nginx
     namespace: ingress-nginx

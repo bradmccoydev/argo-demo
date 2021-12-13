@@ -11,21 +11,6 @@ data:
   ga.trackingid: "G-SMLWM11VB0"
   repositories: |
     - url: https://github.com/bradmccoydev/argo-demo.git
-  additionalProjects:
-  - name: bradmccoydev
-    namespace: ci-cd
-    description: Demo Project
-    sourceRepos:
-    - '*'
-    destinations:
-    - namespace: '*'
-      server: 
-    clusterResourceWhitelist: 
-    - group: '*'
-      kind: '*'
-    namespaceResourceWhitelist:
-    - group: '*'
-      kind: '*'
   dex.config: |
     connectors:
     - type: microsoft

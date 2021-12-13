@@ -24,4 +24,5 @@ helmCharts:
     provider: aws          
     domainFilters:
     - bradmccoy.io
-    txtOwnderId: external-dns.bradmccoy.io    
+    txtOwnderId: external-dns.bradmccoy.io
+ 

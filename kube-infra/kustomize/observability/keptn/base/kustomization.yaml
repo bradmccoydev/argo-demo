@@ -15,7 +15,7 @@ helmCharts:
         enabled: true
         annotations:
           kubernetes.io/ingress.class: nginx
-          kubernetes.io/tls-acme: "true"
+          cert-manager.io/cluster-issuer: letsencrypt-demo-aws
         host: "keptn.bradmccoy.io"
         path: /
         pathType: Prefix

@@ -4,7 +4,7 @@ helmCharts:
   namespace: knative-serving
   repo: https://charts.direktiv.io
   releaseName: knative
-  includeCRDs: true
+  includeCRDs: false
   valuesInline:
     kong-external:
       replicaCount: 2

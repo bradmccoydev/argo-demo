@@ -10,7 +10,6 @@ helm install knative direktiv/knative
 
 helm install -n direktiv --create-namespace direktiv direktiv/direktiv 
 
-
 for ns in "default" "postgres" "knative-serving" "direktiv-services-direktiv"
 do
   kubectl create namespace $ns || true

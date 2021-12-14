@@ -10,10 +10,3 @@ kind: Namespace
 metadata:
   name: direktiv
 ---
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: knative-serving
-  annotations:
-    linkerd.io/inject: enabled
----

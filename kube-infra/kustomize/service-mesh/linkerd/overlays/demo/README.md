@@ -26,7 +26,7 @@ kubectl patch -f - \
   --local -oyaml > gitops/resources/linkerd/trust-anchor.yaml
 ```
 
-exp=$(date -v+8760H +"%Y-%m-%dT%H:%M:%SZ")
+exp=$(date -v+8760H +"%Y-%m-%dT%H:%M:%SZ") && echo $exp
 
 helm install linkerd2 \
   --set-file identityTrustAnchorsPEM=ca.crt \

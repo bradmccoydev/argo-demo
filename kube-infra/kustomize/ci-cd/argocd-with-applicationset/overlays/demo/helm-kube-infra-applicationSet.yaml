@@ -1,41 +1,41 @@
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: kube-infra-helm-setup
-  namespace: ci-cd
-spec:
-  generators:
-  - matrix:
-      generators:
-      - git:
-          repoURL: https://github.com/bradmccoydev/argo-demo.git
-          revision: HEAD
-          directories:
-          - path: kube-infra/direktiv/*
-      - list:
-          elements:
-          - cluster: demo
-            url: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io:443
-            values:
-              CLIENT_ENVIRONMENT: demo             
-  template:
-    metadata:
-      name: '{{ path.basename }}'
-    spec:
-      project: bradmccoydev
-      source:
-        repoURL: https://github.com/bradmccoydev/argo-demo.git
-        targetRevision: HEAD
-        path: '{{path}}'
-        helm:
-          valueFiles:
-            - '{{cluster}}-{{path.basename}}-values.yaml'
-      destination:
-        server: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io:443
-        namespace: '{{path.basename}}'
-      syncPolicy:
-        automated:
-            prune: true 
-            selfHeal: true 
-        syncOptions:
-        - CreateNamespace=true     
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: kube-infra-helm-setup
+#   namespace: ci-cd
+# spec:
+#   generators:
+#   - matrix:
+#       generators:
+#       - git:
+#           repoURL: https://github.com/bradmccoydev/argo-demo.git
+#           revision: HEAD
+#           directories:
+#           - path: kube-infra/direktiv/*
+#       - list:
+#           elements:
+#           - cluster: demo
+#             url: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io:443
+#             values:
+#               CLIENT_ENVIRONMENT: demo             
+#   template:
+#     metadata:
+#       name: '{{ path.basename }}'
+#     spec:
+#       project: bradmccoydev
+#       source:
+#         repoURL: https://github.com/bradmccoydev/argo-demo.git
+#         targetRevision: HEAD
+#         path: '{{path}}'
+#         helm:
+#           valueFiles:
+#             - '{{cluster}}-{{path.basename}}-values.yaml'
+#       destination:
+#         server: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io:443
+#         namespace: '{{path.basename}}'
+#       syncPolicy:
+#         automated:
+#             prune: true 
+#             selfHeal: true 
+#         syncOptions:
+#         - CreateNamespace=true     

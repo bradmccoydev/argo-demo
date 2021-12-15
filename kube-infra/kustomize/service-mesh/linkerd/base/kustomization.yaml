@@ -1,0 +1,9 @@
+helmCharts:
+- name: linkerd
+  namespace: linkerd
+  version: 2.11.1
+  repo: https://helm.linkerd.io/stable
+  releaseName: linkerd
+  includeCRDs: true
+  valuesInline: 
+

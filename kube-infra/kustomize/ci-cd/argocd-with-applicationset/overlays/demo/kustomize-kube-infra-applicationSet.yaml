@@ -16,10 +16,6 @@ spec:
           - path: kube-infra/kustomize/observability/*    
           - path: kube-infra/kustomize/direktiv/*
           - path: kube-infra/kustomize/service-mesh/*
-          - exclude: true
-            path: kube-infra/kustomize/direktiv/knative
-          - exclude: true
-            path: kube-infra/kustomize/direktiv/direktiv
         exclude: 
       - list:
           elements:

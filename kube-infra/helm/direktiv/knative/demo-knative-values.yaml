@@ -1,0 +1,4 @@
+kong-external:
+  replicaCount: 2
+kong-internal:
+  replicaCount: 2

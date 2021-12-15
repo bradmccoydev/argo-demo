@@ -15,8 +15,6 @@ values:
       enabled: true
   - cert-manager:
       enabled: true
-  - ingress-nginx:
-      enabled: true
       
 environments:
   demo:
@@ -26,8 +24,6 @@ environments:
       - external-dns:
           enabled: true
       - cert-manager:
-          enabled: true
-      - ingress-nginx:
           enabled: true
 
 releases:

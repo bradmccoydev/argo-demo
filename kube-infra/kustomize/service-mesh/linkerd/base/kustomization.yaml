@@ -1,9 +1,9 @@
 helmCharts:
-- name: linkerd
+- name: linkerd2
   namespace: linkerd
   version: 2.11.1
   repo: https://helm.linkerd.io/stable
-  releaseName: linkerd
+  releaseName: linkerd2
   includeCRDs: true
   valuesInline: 
 

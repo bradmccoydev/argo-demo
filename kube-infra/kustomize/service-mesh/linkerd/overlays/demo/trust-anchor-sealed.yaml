@@ -11,8 +11,12 @@ spec:
   template:
     data: null
     metadata:
-      creationTimestamp: null
+      annotations:
+        linkerd.io/created-by: linkerd/cli stable-2.8.1
+        linkerd.io/identity-issuer-expiry: "2022-07-19T20:51:01Z"
+      labels:
+        linkerd.io/control-plane-component: identity
+        linkerd.io/control-plane-ns: linkerd
       name: linkerd-trust-anchor
       namespace: linkerd
     type: kubernetes.io/tls
-

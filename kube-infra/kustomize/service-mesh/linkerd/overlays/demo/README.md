@@ -25,3 +25,13 @@ kubectl patch -f - \
   --type=merge \
   --local -oyaml > gitops/resources/linkerd/trust-anchor.yaml
 ```
+
+exp=$(date -v+8760H +"%Y-%m-%dT%H:%M:%SZ")
+
+helm install linkerd2 \
+  --set-file identityTrustAnchorsPEM=ca.crt \
+  --set-file identity.issuer.tls.crtPEM=issuer.crt \
+  --set-file identity.issuer.tls.keyPEM=issuer.key \
+  --set identity.issuer.crtExpiry=$exp \
+  -f linkerd2/values-ha.yaml \
+  linkerd/linkerd2

@@ -5,8 +5,8 @@ helmCharts:
   repo: https://charts.direktiv.io
   releaseName: knative
   includeCRDs: true
-  valuesInline:
-    kong-external:
-      replicaCount: 2
-    kong-internal:
-      replicaCount: 2
+  # valuesInline:
+  #   kong-external:
+  #     replicaCount: 2
+  #   kong-internal:
+  #     replicaCount: 2

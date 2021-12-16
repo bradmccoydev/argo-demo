@@ -5,7 +5,7 @@ affinity:
     - podAffinityTerm:
         labelSelector:
           matchExpressions:
-          - key: {{ default "linkerd.io/control-plane-component" .label }}
+          - key: {{ .label }}
             operator: In
             values:
             - {{ .component }}
@@ -14,7 +14,7 @@ affinity:
     requiredDuringSchedulingIgnoredDuringExecution:
     - labelSelector:
         matchExpressions:
-        - key: {{ default "linkerd.io/control-plane-component" .label }}
+        - key: {{ .label }}
           operator: In
           values:
           - {{ .component }}

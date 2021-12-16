@@ -6,155 +6,166 @@ helmCharts:
   releaseName: linkerd2
   includeCRDs: true
   valuesInline:
-    linkerd2:
-      installNamespace: false
-      namespace: linkerd
-      controlPlaneTracing: true
-      controlPlaneTracingNamespace: observability
-      controllerLogLevel: debug
-      identityTrustAnchorsPEM: |
-        -----BEGIN CERTIFICATE-----
-        MIIBmDCCAT6gAwIBAgIRAMIwvx6+JkWTR/CLWV9pcEUwCgYIKoZIzj0EAwIwKjEo
-        MCYGA1UEAxMfcm9vdC5zZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDAeFw0yMTEw
-        MDYwNTM4MjRaFw0zMTEwMDQwNTM4MjRaMCoxKDAmBgNVBAMTH3Jvb3Quc2Vydmlj
-        ZS1tZXNoLmNsdXN0ZXIubG9jYWwwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARd
-        I336SFXRuVtvCofQjNMWuVy6ph5HF20l8qNiNIv0/ZpL5LItRTgtrFoBLT8yR4pz
-        Qu7aQTQ54zGBH5c1oQtgo0UwQzAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgw
-        BgEB/wIBATAdBgNVHQ4EFgQUBcKOsinja43VabK2qB4YX74LBeowCgYIKoZIzj0E
-        AwIDSAAwRQIgPZm5ogFbwrNc2300YhLo+yaY6ukvNYqRT3n+4yu3Hz0CIQDuxSdE
-        ynh+J4Pc4SgWeyNnPiQ+vYBtIwOU6mTQmjpp7Q==
-        -----END CERTIFICATE-----
-      identity:
-        issuer:
-          tls: 
-            crtPEM: sample-trust.crt
-            keyPEM: sample-trust.key
-            crtExpiry: "2022-12-16T16:30:34Z"
-      proxyInjector:
-        externalSecret: true
-        caBundle: |
+    identity:
+      issuer:
+        crtExpiry: "2022-12-16T16:30:34Z"
+        tls: 
+          crtPEM: sample-trust.crt
+          keyPEM: sample-trust.key
+          crtExpiry: "2022-12-16T16:30:34Z"
+    global: 
+        identityTrustAnchorsPEM: |
           -----BEGIN CERTIFICATE-----
-          MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
-          KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
-          MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
-          ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
-          A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
-          VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
-          Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
-          hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
-          IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
+          MIIBmDCCAT6gAwIBAgIRAMIwvx6+JkWTR/CLWV9pcEUwCgYIKoZIzj0EAwIwKjEo
+          MCYGA1UEAxMfcm9vdC5zZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDAeFw0yMTEw
+          MDYwNTM4MjRaFw0zMTEwMDQwNTM4MjRaMCoxKDAmBgNVBAMTH3Jvb3Quc2Vydmlj
+          ZS1tZXNoLmNsdXN0ZXIubG9jYWwwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARd
+          I336SFXRuVtvCofQjNMWuVy6ph5HF20l8qNiNIv0/ZpL5LItRTgtrFoBLT8yR4pz
+          Qu7aQTQ54zGBH5c1oQtgo0UwQzAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgw
+          BgEB/wIBATAdBgNVHQ4EFgQUBcKOsinja43VabK2qB4YX74LBeowCgYIKoZIzj0E
+          AwIDSAAwRQIgPZm5ogFbwrNc2300YhLo+yaY6ukvNYqRT3n+4yu3Hz0CIQDuxSdE
+          ynh+J4Pc4SgWeyNnPiQ+vYBtIwOU6mTQmjpp7Q==
           -----END CERTIFICATE-----
-      profileValidator:
-        externalSecret: true
-        caBundle: |
-          -----BEGIN CERTIFICATE-----
-          MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
-          KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
-          MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
-          ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
-          A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
-          VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
-          Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
-          hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
-          IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
-          -----END CERTIFICATE-----
-      # This values.yaml file contains the values needed to enable HA mode.
-      # Usage:
-      #   helm install -f values.yaml -f values-ha.yaml
-      enablePodAntiAffinity: true
-      # proxy configuration
-      proxy:
-        resources:
-          cpu:
-            request: 100m
-          memory:
-            limit: 250Mi
-            request: 20Mi
-      # controller configuration
-      controllerReplicas: 3
-      controllerResources: &controller_resources
-        cpu: &controller_resources_cpu
-          limit: ""
-          request: 100m
-        memory:
-          limit: 250Mi
-          request: 50Mi
-      destinationResources: *controller_resources
-      publicAPIResources: *controller_resources
-      # identity configuration
-      identityResources:
-        cpu: *controller_resources_cpu
-        memory:
-          limit: 250Mi
-          request: 10Mi
-      # heartbeat configuration
-      heartbeatResources: *controller_resources
-      # proxy injector configuration
-      proxyInjectorResources: *controller_resources
-      webhookFailurePolicy: Fail
-      # service profile validator configuration
-      spValidatorResources: *controller_resources
+    # linkerd2:
+    #   installNamespace: false
+    #   namespace: linkerd
+    #   controlPlaneTracing: true
+    #   controlPlaneTracingNamespace: observability
+    #   controllerLogLevel: debug
+    #   identity:
+    #     issuer:
+    #       crtExpiry: "2022-12-16T16:30:34Z"
+    #       crtExpiryAnnotation: "2022-12-16T16:30:34Z"
+    #       tls: 
+    #         crtPEM: sample-trust.crt
+    #         keyPEM: sample-trust.key
+    #         crtExpiry: "2022-12-16T16:30:34Z"
+    #       scheme: kubernetes.io/tls
+    #   proxyInjector:
+    #     externalSecret: true
+    #     caBundle: |
+    #       -----BEGIN CERTIFICATE-----
+    #       MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
+    #       KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
+    #       MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
+    #       ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
+    #       A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
+    #       VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
+    #       Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
+    #       hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
+    #       IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
+    #       -----END CERTIFICATE-----
+    #   profileValidator:
+    #     externalSecret: true
+    #     caBundle: |
+    #       -----BEGIN CERTIFICATE-----
+    #       MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
+    #       KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
+    #       MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
+    #       ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
+    #       A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
+    #       VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
+    #       Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
+    #       hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
+    #       IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
+    #       -----END CERTIFICATE-----
+    #   # This values.yaml file contains the values needed to enable HA mode.
+    #   # Usage:
+    #   #   helm install -f values.yaml -f values-ha.yaml
+    #   enablePodAntiAffinity: true
+    #   # proxy configuration
+    #   proxy:
+    #     resources:
+    #       cpu:
+    #         request: 100m
+    #       memory:
+    #         limit: 250Mi
+    #         request: 20Mi
+    #   # controller configuration
+    #   controllerReplicas: 3
+    #   controllerResources: &controller_resources
+    #     cpu: &controller_resources_cpu
+    #       limit: ""
+    #       request: 100m
+    #     memory:
+    #       limit: 250Mi
+    #       request: 50Mi
+    #   destinationResources: *controller_resources
+    #   publicAPIResources: *controller_resources
+    #   # identity configuration
+    #   identityResources:
+    #     cpu: *controller_resources_cpu
+    #     memory:
+    #       limit: 250Mi
+    #       request: 10Mi
+    #   # heartbeat configuration
+    #   heartbeatResources: *controller_resources
+    #   # proxy injector configuration
+    #   proxyInjectorResources: *controller_resources
+    #   webhookFailurePolicy: Fail
+    #   # service profile validator configuration
+    #   spValidatorResources: *controller_resources
 
-- name: linkerd-jaeger
-  version: 2.11.1
-  repo: https://helm.linkerd.io/stable
-  releaseName: linkerd-jaeger
-  includeCRDs: true
-  valuesInline: 
-    linkerd-jaeger:
-      installNamespace: false
-      namespace: linkerd-jaeger
-      webhook:
-        externalSecret: true
-        caBundle: |
-          -----BEGIN CERTIFICATE-----
-          MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
-          KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
-          MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
-          ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
-          A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
-          VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
-          Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
-          hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
-          IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
-          -----END CERTIFICATE-----
+# - name: linkerd-jaeger
+#   version: 2.11.1
+#   repo: https://helm.linkerd.io/stable
+#   releaseName: linkerd-jaeger
+#   includeCRDs: true
+#   valuesInline: 
+#     linkerd-jaeger:
+#       installNamespace: false
+#       namespace: linkerd-jaeger
+#       webhook:
+#         externalSecret: true
+#         caBundle: |
+#           -----BEGIN CERTIFICATE-----
+#           MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
+#           KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
+#           MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
+#           ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
+#           A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
+#           VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
+#           Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
+#           hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
+#           IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
+#           -----END CERTIFICATE-----
 
-- name: linkerd-viz
-  version: 2.11.1
-  repo: https://helm.linkerd.io/stable
-  releaseName: linkerd-viz
-  includeCRDs: true
-  valuesInline: 
-    linkerd-viz:
-      installNamespace: false
-      namespace: linkerd-viz
-      linkerdNamespace: linkerd
-      defaultLogLevel: debug
-      tap:
-        externalSecret: true
-        caBundle: |
-          -----BEGIN CERTIFICATE-----
-          MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
-          KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
-          MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
-          ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
-          A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
-          VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
-          Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
-          hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
-          IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
-          -----END CERTIFICATE-----
-      tapInjector:
-        externalSecret: true
-        caBundle: |
-          -----BEGIN CERTIFICATE-----
-          MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
-          KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
-          MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
-          ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
-          A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
-          VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
-          Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
-          hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
-          IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
-          -----END CERTIFICATE-----
+# - name: linkerd-viz
+#   version: 2.11.1
+#   repo: https://helm.linkerd.io/stable
+#   releaseName: linkerd-viz
+#   includeCRDs: true
+#   valuesInline: 
+#     linkerd-viz:
+#       installNamespace: false
+#       namespace: linkerd-viz
+#       linkerdNamespace: linkerd
+#       defaultLogLevel: debug
+#       tap:
+#         externalSecret: true
+#         caBundle: |
+#           -----BEGIN CERTIFICATE-----
+#           MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
+#           KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
+#           MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
+#           ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
+#           A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
+#           VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
+#           Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
+#           hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
+#           IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
+#           -----END CERTIFICATE-----
+#       tapInjector:
+#         externalSecret: true
+#         caBundle: |
+#           -----BEGIN CERTIFICATE-----
+#           MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
+#           KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
+#           MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
+#           ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
+#           A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
+#           VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
+#           Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
+#           hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
+#           IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
+#           -----END CERTIFICATE-----

@@ -3,58 +3,45 @@
 ###
 ### Heartbeat
 ###
+---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: linkerd-heartbeat
-  namespace: {{.Values.namespace}}
+  namespace: {{.Values.global.namespace}}
   labels:
     app.kubernetes.io/name: heartbeat
     app.kubernetes.io/part-of: Linkerd
-    app.kubernetes.io/version: {{default .Values.linkerdVersion .Values.controllerImageVersion}}
-    linkerd.io/control-plane-component: heartbeat
-    linkerd.io/control-plane-ns: {{.Values.namespace}}
+    app.kubernetes.io/version: {{default .Values.global.linkerdVersion .Values.global.controllerImageVersion}}
+    {{.Values.global.controllerComponentLabel}}: heartbeat
+    {{.Values.global.controllerNamespaceLabel}}: {{.Values.global.namespace}}
   annotations:
-    {{ include "partials.annotations.created-by" . }}
+    {{.Values.global.createdByAnnotation}}: {{default (printf "linkerd/helm %s" .Values.global.linkerdVersion) .Values.global.cliVersion}}
 spec:
-  concurrencyPolicy: Replace
-  {{ if .Values.heartbeatSchedule -}}
   schedule: "{{.Values.heartbeatSchedule}}"
-  {{ else -}}
-  schedule: "{{ dateInZone "04 15 * * *" (now | mustDateModify "+10m") "UTC"}}"
-  {{ end -}}
   successfulJobsHistoryLimit: 0
   jobTemplate:
     spec:
       template:
         metadata:
           labels:
-            linkerd.io/control-plane-component: heartbeat
-            linkerd.io/workload-ns: {{.Values.namespace}}
-            {{- with .Values.podLabels }}{{ toYaml . | trim | nindent 12 }}{{- end }}
+            {{.Values.global.controllerComponentLabel}}: heartbeat
+            {{.Values.global.workloadNamespaceLabel}}: {{.Values.global.namespace}}
           annotations:
-            {{ include "partials.annotations.created-by" . }}
-            {{- with .Values.podAnnotations }}{{ toYaml . | trim | nindent 12 }}{{- end }}
+            {{.Values.global.createdByAnnotation}}: {{default (printf "linkerd/helm %s" .Values.global.linkerdVersion) .Values.global.cliVersion}}
         spec:
-          {{- if .Values.tolerations -}}
-          {{- include "linkerd.tolerations" . | nindent 10 }}
-          {{- end -}}
           {{- include "linkerd.node-selector" . | nindent 10 }}
           serviceAccountName: linkerd-heartbeat
           restartPolicy: Never
           containers:
           - name: heartbeat
-            image: {{.Values.controllerImage}}:{{default .Values.linkerdVersion .Values.controllerImageVersion}}
-            imagePullPolicy: {{.Values.imagePullPolicy}}
-            env:
-            - name: LINKERD_DISABLED
-              value: "the heartbeat controller does not use the proxy"
+            image: {{.Values.controllerImage}}:{{default .Values.global.linkerdVersion .Values.global.controllerImageVersion}}
+            imagePullPolicy: {{.Values.global.imagePullPolicy}}
             args:
             - "heartbeat"
-            - "-controller-namespace={{.Values.namespace}}"
+            - "-prometheus-url=http://linkerd-prometheus.{{.Values.global.namespace}}.svc.{{.Values.global.clusterDomain}}:9090"
+            - "-controller-namespace={{.Values.global.namespace}}"
             - "-log-level={{.Values.controllerLogLevel}}"
-            - "-log-format={{.Values.controllerLogFormat}}"
-            - "-prometheus-url=http://prometheus.linkerd-viz.svc.{{.Values.clusterDomain}}:9090"
             {{- if .Values.heartbeatResources -}}
             {{- include "partials.resources" .Values.heartbeatResources | nindent 12 }}
             {{- end }}

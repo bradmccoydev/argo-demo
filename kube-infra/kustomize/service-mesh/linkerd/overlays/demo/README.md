@@ -9,6 +9,15 @@ step certificate create root.linkerd.cluster.local sample-trust.crt sample-trust
   --not-after 43800h \
   --insecure
 
+  ertDir=$(tmpDir=$(mktemp -d); \
+exe='cd /certs && step certificate create root.linkerd.cluster.local ca.crt ca.key \
+--profile root-ca --no-password --insecure \
+&& step certificate create identity.linkerd.cluster.local issuer.crt issuer.key \
+--profile intermediate-ca --not-after 8760h --no-password --insecure \
+--ca ca.crt --ca-key ca.key'; \
+docker run --user root -v $tmpDir:/certs  -i smallstep/step-cli /bin/bash -c "$exe"; \
+echo $tmpDir);
+
 step certificate inspect sample-trust.crt
 
 ```

@@ -8,24 +8,20 @@ helmCharts:
   valuesInline:
     identity:
       issuer:
-        crtExpiry: "2022-12-16T16:30:34Z"
-        tls: 
-          crtPEM: sample-trust.crt
-          keyPEM: sample-trust.key
-          crtExpiry: "2022-12-16T16:30:34Z"
+        scheme: kubernetes.io/tls
     global: 
-        identityTrustAnchorsPEM: |
-          -----BEGIN CERTIFICATE-----
-          MIIBmDCCAT6gAwIBAgIRAMIwvx6+JkWTR/CLWV9pcEUwCgYIKoZIzj0EAwIwKjEo
-          MCYGA1UEAxMfcm9vdC5zZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDAeFw0yMTEw
-          MDYwNTM4MjRaFw0zMTEwMDQwNTM4MjRaMCoxKDAmBgNVBAMTH3Jvb3Quc2Vydmlj
-          ZS1tZXNoLmNsdXN0ZXIubG9jYWwwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARd
-          I336SFXRuVtvCofQjNMWuVy6ph5HF20l8qNiNIv0/ZpL5LItRTgtrFoBLT8yR4pz
-          Qu7aQTQ54zGBH5c1oQtgo0UwQzAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgw
-          BgEB/wIBATAdBgNVHQ4EFgQUBcKOsinja43VabK2qB4YX74LBeowCgYIKoZIzj0E
-          AwIDSAAwRQIgPZm5ogFbwrNc2300YhLo+yaY6ukvNYqRT3n+4yu3Hz0CIQDuxSdE
-          ynh+J4Pc4SgWeyNnPiQ+vYBtIwOU6mTQmjpp7Q==
-          -----END CERTIFICATE-----
+      identityTrustAnchorsPEM: |
+        -----BEGIN CERTIFICATE-----
+        MIIBjTCCATOgAwIBAgIQVEcCYumXcWijAb6dCnS03jAKBggqhkjOPQQDAjAlMSMw
+        IQYDVQQDExpyb290LmxpbmtlcmQuY2x1c3Rlci5sb2NhbDAeFw0yMTEyMTYwNTAz
+        MThaFw0yNjEyMTUwNTAzMThaMCUxIzAhBgNVBAMTGnJvb3QubGlua2VyZC5jbHVz
+        dGVyLmxvY2FsMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE8Xs9qGB7MTei5yx1
+        nRON6YyzgWnwZbRO+OfrUh/fVV6MuI1FgX/WO6Em8Hp5plDRO3z1zxSLjKiybGc/
+        kS4zFqNFMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYD
+        VR0OBBYEFOY543MHf2m31SgjUNt6TijNGyYdMAoGCCqGSM49BAMCA0gAMEUCIFsd
+        c27VRBrUYMHxX/xedgv8thUmAkkY7kZs2WwdZELHAiEApEI7csmRVJa7Wu0Mesnt
+        IO7udWyfi+dGXMYAXxyoYmo=
+        -----END CERTIFICATE-----
     # linkerd2:
     #   installNamespace: false
     #   namespace: linkerd

@@ -3,34 +3,32 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: linkerd-config
-  namespace: {{.Values.global.namespace}}
+  namespace: {{.Values.namespace}}
   labels:
-    {{.Values.global.controllerComponentLabel}}: controller
-    {{.Values.global.controllerNamespaceLabel}}: {{.Values.global.namespace}}
+    linkerd.io/control-plane-component: controller
+    linkerd.io/control-plane-ns: {{.Values.namespace}}
   annotations:
-    {{.Values.global.createdByAnnotation}}: {{default (printf "linkerd/helm %s" .Values.global.linkerdVersion) .Values.global.cliVersion}}
+    {{ include "partials.annotations.created-by" . }}
 data:
-  global: |
-  {{- if .Values.configs -}}
-  {{- if .Values.configs.global -}}
-  {{.Values.configs.global | nindent 4}}
-  {{- end }}
-  {{- else -}}
-  {{- include "linkerd.configs.global" . | nindent 4}}
-  {{- end }}
-  proxy: |
-  {{- if .Values.configs -}}
-  {{- if .Values.configs.proxy -}}
-  {{.Values.configs.proxy | nindent 4}}
-  {{- end }}
-  {{- else -}}
-  {{- include "linkerd.configs.proxy" . | nindent 4}}
-  {{- end }}
-  install: |
-  {{- if .Values.configs -}}
-  {{- if .Values.configs.install -}}
-  {{.Values.configs.install | nindent 4}}
-  {{- end }}
-  {{- else -}}
-  {{- include "linkerd.configs.install" . | nindent 4}}
-  {{- end }}
+  values: |
+  {{- $values := deepCopy .Values }}
+  {{- /*
+    WARNING! All sensitive or private data such as TLS keys must be removed
+    here to avoid it being publicly readable.
+  */ -}}
+  {{- if kindIs "map" $values.identity.issuer.tls -}}
+    {{- $_ := unset $values.identity.issuer.tls "keyPEM"}}
+  {{- end -}}
+  {{- if kindIs "map" $values.profileValidator -}}
+    {{- $_ := unset $values.profileValidator "keyPEM"}}
+  {{- end -}}
+  {{- if kindIs "map" $values.proxyInjector -}}
+    {{- $_ := unset $values.proxyInjector "keyPEM"}}
+  {{- end -}}
+  {{- if (empty $values.identityTrustDomain) -}}
+  {{- $_ := set $values "identityTrustDomain" $values.clusterDomain}}
+  {{- end -}}
+  {{- $_ := unset $values "partials"}}
+  {{- $_ := unset $values "configs"}}
+  {{- $_ := unset $values "stage"}}
+  {{- toYaml $values | trim | nindent 4 }}

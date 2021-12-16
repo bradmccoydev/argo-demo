@@ -26,7 +26,10 @@ helmCharts:
         -----END CERTIFICATE-----
       identity:
         issuer:
-          scheme: kubernetes.io/tls
+          tls: 
+            crtPEM: sample-trust.crt
+            keyPEM: sample-trust.key
+            crtExpiry: "2022-12-16T16:30:34Z"
       proxyInjector:
         externalSecret: true
         caBundle: |

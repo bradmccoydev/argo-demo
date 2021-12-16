@@ -39,3 +39,6 @@ helm install linkerd2 \
   kustomize build kube-infra/kustomize/direktiv/direktiv-postgres/overlays/demo --enable-helm | kubectl -f
 
   kustomize build kube-infra/kustomize/service-mesh/linkerd/overlays/demo --enable-helm
+
+sample-trust.crt
+sample-trust.key

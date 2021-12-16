@@ -35,3 +35,7 @@ helm install linkerd2 \
   --set identity.issuer.crtExpiry=$exp \
   -f linkerd2/values-ha.yaml \
   linkerd/linkerd2
+
+  kustomize build kube-infra/kustomize/direktiv/direktiv-postgres/overlays/demo --enable-helm | kubectl -f
+
+  kustomize build kube-infra/kustomize/service-mesh/linkerd/overlays/demo --enable-helm

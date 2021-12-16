@@ -14,7 +14,7 @@ spec:
           - path: kube-infra/kustomize/ci-cd/*
           - path: kube-infra/kustomize/dns-infra/*
           - path: kube-infra/kustomize/observability/*    
-          - path: kube-infra/kustomize/direktiv/*
+          #- path: kube-infra/kustomize/direktiv/*
           - path: kube-infra/kustomize/service-mesh/*
         exclude: 
       - list:

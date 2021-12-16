@@ -51,3 +51,8 @@ helm install linkerd2 \
 
 sample-trust.crt
 sample-trust.key
+
+kubectl -n linkerd create secret tls linkerd-trust-anchor \
+  --cert sample-trust.crt \
+  --key sample-trust.key \
+  --dry-run=client -oyaml

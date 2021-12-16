@@ -8,15 +8,21 @@ helmCharts:
   valuesInline:
     linkerd2:
       installNamespace: false
-      namespace: service-mesh
+      namespace: linkerd
       controlPlaneTracing: true
       controlPlaneTracingNamespace: observability
       controllerLogLevel: debug
       identityTrustAnchorsPEM: |
         -----BEGIN CERTIFICATE-----
-        MHcCAQEEIKKd6G1QvkXrHweaNY0Okl268HeKUMHo+KX2mClLmWlXoAoGCCqGSM49
-        AwEHoUQDQgAE3JMktSh2l/JlYQFvpUpp75l/mBpvHGlP/ivLz8L9CR6dU46CRFtW
-        2Ek4FBmORD8D3loDceIBK8pgQaJ2kKTCrA==
+        MIIBmDCCAT6gAwIBAgIRAMIwvx6+JkWTR/CLWV9pcEUwCgYIKoZIzj0EAwIwKjEo
+        MCYGA1UEAxMfcm9vdC5zZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDAeFw0yMTEw
+        MDYwNTM4MjRaFw0zMTEwMDQwNTM4MjRaMCoxKDAmBgNVBAMTH3Jvb3Quc2Vydmlj
+        ZS1tZXNoLmNsdXN0ZXIubG9jYWwwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARd
+        I336SFXRuVtvCofQjNMWuVy6ph5HF20l8qNiNIv0/ZpL5LItRTgtrFoBLT8yR4pz
+        Qu7aQTQ54zGBH5c1oQtgo0UwQzAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgw
+        BgEB/wIBATAdBgNVHQ4EFgQUBcKOsinja43VabK2qB4YX74LBeowCgYIKoZIzj0E
+        AwIDSAAwRQIgPZm5ogFbwrNc2300YhLo+yaY6ukvNYqRT3n+4yu3Hz0CIQDuxSdE
+        ynh+J4Pc4SgWeyNnPiQ+vYBtIwOU6mTQmjpp7Q==
         -----END CERTIFICATE-----
       identity:
         issuer:
@@ -25,29 +31,29 @@ helmCharts:
         externalSecret: true
         caBundle: |
           -----BEGIN CERTIFICATE-----
-          MIIBjTCCATOgAwIBAgIQFKEhG4tAOGSinAi/ub3MOzAKBggqhkjOPQQDAjAlMSMw
-          IQYDVQQDExpyb290LmxpbmtlcmQuY2x1c3Rlci5sb2NhbDAeFw0yMTEyMTUwMzU4
-          NTFaFw0yNjEyMTQwMzU4NTFaMCUxIzAhBgNVBAMTGnJvb3QubGlua2VyZC5jbHVz
-          dGVyLmxvY2FsMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE3JMktSh2l/JlYQFv
-          pUpp75l/mBpvHGlP/ivLz8L9CR6dU46CRFtW2Ek4FBmORD8D3loDceIBK8pgQaJ2
-          kKTCrKNFMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYD
-          VR0OBBYEFK8aOMatbsY5mYeXQLqze8FYS04aMAoGCCqGSM49BAMCA0gAMEUCIAlT
-          NwRoIQe4GEAXGTWLI763Gw08MD1NMj+qoaawOVHyAiEApIpnqMsa5rqxsQa7OgPo
-          orwA9AKAt7AaYvl0z+5F7Ds=
+          MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
+          KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
+          MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
+          ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
+          A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
+          VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
+          Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
+          hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
+          IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
           -----END CERTIFICATE-----
       profileValidator:
         externalSecret: true
         caBundle: |
           -----BEGIN CERTIFICATE-----
-          MIIBjTCCATOgAwIBAgIQFKEhG4tAOGSinAi/ub3MOzAKBggqhkjOPQQDAjAlMSMw
-          IQYDVQQDExpyb290LmxpbmtlcmQuY2x1c3Rlci5sb2NhbDAeFw0yMTEyMTUwMzU4
-          NTFaFw0yNjEyMTQwMzU4NTFaMCUxIzAhBgNVBAMTGnJvb3QubGlua2VyZC5jbHVz
-          dGVyLmxvY2FsMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE3JMktSh2l/JlYQFv
-          pUpp75l/mBpvHGlP/ivLz8L9CR6dU46CRFtW2Ek4FBmORD8D3loDceIBK8pgQaJ2
-          kKTCrKNFMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYD
-          VR0OBBYEFK8aOMatbsY5mYeXQLqze8FYS04aMAoGCCqGSM49BAMCA0gAMEUCIAlT
-          NwRoIQe4GEAXGTWLI763Gw08MD1NMj+qoaawOVHyAiEApIpnqMsa5rqxsQa7OgPo
-          orwA9AKAt7AaYvl0z+5F7Ds=
+          MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
+          KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
+          MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
+          ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
+          A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
+          VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
+          Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
+          hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
+          IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
           -----END CERTIFICATE-----
       # This values.yaml file contains the values needed to enable HA mode.
       # Usage:
@@ -99,15 +105,15 @@ helmCharts:
         externalSecret: true
         caBundle: |
           -----BEGIN CERTIFICATE-----
-          MIIBjTCCATOgAwIBAgIQFKEhG4tAOGSinAi/ub3MOzAKBggqhkjOPQQDAjAlMSMw
-          IQYDVQQDExpyb290LmxpbmtlcmQuY2x1c3Rlci5sb2NhbDAeFw0yMTEyMTUwMzU4
-          NTFaFw0yNjEyMTQwMzU4NTFaMCUxIzAhBgNVBAMTGnJvb3QubGlua2VyZC5jbHVz
-          dGVyLmxvY2FsMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE3JMktSh2l/JlYQFv
-          pUpp75l/mBpvHGlP/ivLz8L9CR6dU46CRFtW2Ek4FBmORD8D3loDceIBK8pgQaJ2
-          kKTCrKNFMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYD
-          VR0OBBYEFK8aOMatbsY5mYeXQLqze8FYS04aMAoGCCqGSM49BAMCA0gAMEUCIAlT
-          NwRoIQe4GEAXGTWLI763Gw08MD1NMj+qoaawOVHyAiEApIpnqMsa5rqxsQa7OgPo
-          orwA9AKAt7AaYvl0z+5F7Ds=
+          MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
+          KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
+          MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
+          ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
+          A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
+          VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
+          Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
+          hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
+          IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
           -----END CERTIFICATE-----
 
 - name: linkerd-viz
@@ -125,27 +131,27 @@ helmCharts:
         externalSecret: true
         caBundle: |
           -----BEGIN CERTIFICATE-----
-          MIIBjTCCATOgAwIBAgIQFKEhG4tAOGSinAi/ub3MOzAKBggqhkjOPQQDAjAlMSMw
-          IQYDVQQDExpyb290LmxpbmtlcmQuY2x1c3Rlci5sb2NhbDAeFw0yMTEyMTUwMzU4
-          NTFaFw0yNjEyMTQwMzU4NTFaMCUxIzAhBgNVBAMTGnJvb3QubGlua2VyZC5jbHVz
-          dGVyLmxvY2FsMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE3JMktSh2l/JlYQFv
-          pUpp75l/mBpvHGlP/ivLz8L9CR6dU46CRFtW2Ek4FBmORD8D3loDceIBK8pgQaJ2
-          kKTCrKNFMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYD
-          VR0OBBYEFK8aOMatbsY5mYeXQLqze8FYS04aMAoGCCqGSM49BAMCA0gAMEUCIAlT
-          NwRoIQe4GEAXGTWLI763Gw08MD1NMj+qoaawOVHyAiEApIpnqMsa5rqxsQa7OgPo
-          orwA9AKAt7AaYvl0z+5F7Ds=
+          MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
+          KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
+          MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
+          ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
+          A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
+          VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
+          Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
+          hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
+          IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
           -----END CERTIFICATE-----
       tapInjector:
         externalSecret: true
         caBundle: |
           -----BEGIN CERTIFICATE-----
-          MIIBjTCCATOgAwIBAgIQFKEhG4tAOGSinAi/ub3MOzAKBggqhkjOPQQDAjAlMSMw
-          IQYDVQQDExpyb290LmxpbmtlcmQuY2x1c3Rlci5sb2NhbDAeFw0yMTEyMTUwMzU4
-          NTFaFw0yNjEyMTQwMzU4NTFaMCUxIzAhBgNVBAMTGnJvb3QubGlua2VyZC5jbHVz
-          dGVyLmxvY2FsMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE3JMktSh2l/JlYQFv
-          pUpp75l/mBpvHGlP/ivLz8L9CR6dU46CRFtW2Ek4FBmORD8D3loDceIBK8pgQaJ2
-          kKTCrKNFMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYD
-          VR0OBBYEFK8aOMatbsY5mYeXQLqze8FYS04aMAoGCCqGSM49BAMCA0gAMEUCIAlT
-          NwRoIQe4GEAXGTWLI763Gw08MD1NMj+qoaawOVHyAiEApIpnqMsa5rqxsQa7OgPo
-          orwA9AKAt7AaYvl0z+5F7Ds=
-          -----END CERTIFICATE----- 
+          MIIBnTCCAUOgAwIBAgIQWA/jeDn1t9reW8qlT+273jAKBggqhkjOPQQDAjAtMSsw
+          KQYDVQQDEyJ3ZWJob29rLnNlcnZpY2UtbWVzaC5jbHVzdGVyLmxvY2FsMB4XDTIx
+          MTAwNjA1MzYwMVoXDTMxMTAwNDA1MzYwMVowLTErMCkGA1UEAxMid2ViaG9vay5z
+          ZXJ2aWNlLW1lc2guY2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEH
+          A0IABMblunpMF2jMDmtLC8xo2W6oSfYx+O3lwEux9Jxt1nT6MB4SYOUH8qhE6xMl
+          VLue/BgY++UYNZjOYg1h2RbJEeyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB
+          Af8ECDAGAQH/AgEBMB0GA1UdDgQWBBQgHtxrrF1Zz96phgJI2jX2H+9aojAKBggq
+          hkjOPQQDAgNIADBFAiEAtuA2vHkknWkeJP3nb+TW6LbIlxV7E5lGl+flqCM2e4sC
+          IFjyyfnOZk9UkqMj29hpKzgUF82AscjivpCIacY+2Ni8
+          -----END CERTIFICATE-----

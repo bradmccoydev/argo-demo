@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
 #- namespace.yaml
 - trust-anchor-sealed.yaml
+- webhook-issuer-tls-sealed.yaml
 - trust-issuer.yaml
 - ../../base

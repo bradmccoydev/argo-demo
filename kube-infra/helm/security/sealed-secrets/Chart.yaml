@@ -11,4 +11,6 @@ dependencies:
   chart: sealed-secrets/sealed-secrets
   version: 1.16.1
   condition: sealed-secrets.enabled
-  repository: https://bitnami-labs.github.io/sealed-secrets   
+  repository: https://bitnami-labs.github.io/sealed-secrets 
+  values:
+    - demo-sealed-secrets-values.yaml  

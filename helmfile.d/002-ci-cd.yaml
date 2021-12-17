@@ -30,6 +30,8 @@ releases:
     chart: sealed-secrets/sealed-secrets 
     version: 1.16.1
     condition: sealed-secrets.enabled
+    values:
+      - ../kube-infra/helm/security/sealed-secrets/{{ requiredEnv "CLIENT_ENVIRONMENT" }}-sealed-secrets-values.yaml
 
   - name: external-dns
     namespace: dns-infra

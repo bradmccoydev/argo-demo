@@ -3,3 +3,4 @@ demo-argo-cd-values.yaml
 argocd-secrets.yaml
 linkerd-trust-anchor.yaml
 webhook-issuer-tls.yaml
+y.yaml

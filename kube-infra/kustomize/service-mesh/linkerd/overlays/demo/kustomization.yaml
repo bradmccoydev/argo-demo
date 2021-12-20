@@ -4,7 +4,7 @@ namespace: linkerd
 resources:
 #- namespace.yaml
 - linkerd-viz-ingress-auth-sealed.yaml
-- tap-injector-k8s-tls-sealed-sealed.yaml
+- tap-injector-k8s-tls-sealed.yaml
 - tap-k8s-tls-sealed.yaml
 - trust-anchor-sealed.yaml
 - trust-issuer-sealed.yaml

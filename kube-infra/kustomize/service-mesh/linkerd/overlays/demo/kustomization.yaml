@@ -3,10 +3,11 @@ kind: Kustomization
 namespace: linkerd
 resources:
 #- namespace.yaml
+- linkerd-viz-ingress-auth-sealed.yaml
+- tap-injector-k8s-tls-sealed-sealed.yaml
 - tap-k8s-tls-sealed.yaml
 - trust-anchor-sealed.yaml
 - trust-issuer-sealed.yaml
 - webhook-issuer-tls-sealed.yaml
-- linkerd-viz-ingress-auth-sealed.yaml
 - ../../base
 - linkerd-viz-ingress.yaml

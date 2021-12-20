@@ -98,4 +98,4 @@ helmCharts:
         IO7udWyfi+dGXMYAXxyoYmo=
         -----END CERTIFICATE-----
     dashboard:
-      enforcedHostRegexp: ^linkerd\.bradmccoy\.io$
+      enforcedHostRegexp: .*

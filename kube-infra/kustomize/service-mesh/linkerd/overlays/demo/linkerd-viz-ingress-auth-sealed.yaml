@@ -1,0 +1,21 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: web-ingress-auth
+  namespace: linkerd-viz
+spec:
+  encryptedData:
+    auth: AgCix/ImHmddpB00iixa0QtP1An1vugH2UkAkMQdkU17KgfRnMHVtp7Ryw9XDCms3ekvDVP1DIdWL8HQ+LfgfQIjfeb51R8L//mk/Kv5XNVjO+37WrWjFDNvKhp4FQwDDTMxBi4P/LEHqT/uT9zlpKnt04qkbS3/NZCoT+jJeGbOtatevKVmD/IrXCMOT1NN9UB7lq5fSyFdNN4uGxVFJqlBzKgU02w9nr+rYx5+Qa70SlXl06Fhc3mjl/tPhj6WcpyCRWsyWH4XjG8nWiYqqL+gSKMKJQVRtebCpwFuq9x23lKDb4lSZXau+8pjgEB1ystVUY8eo6kRqhkBt5ka0g6WBY8DLZs3snbTHWjEswurDGTgF76OU6OEANvjl2At1Mv3UtGIHwwgoftYs2uGu58dkdsQkeoyBUkAwxHv2O3IjMr1v0U+ZjzrrdkuLu/EuEgr/pKwmb0r9dlf3WArso27LrUl3RJnTFC9ZjKvbyhwF0tz/JHddONfDiqWPPtMRmpNdVqaK+Z/QGFG/I/xFsokTEzgQCNyTRID5Oz8JAiRSsyGXiWXnGaC4VJNhBc05HtuwHad+ROuY4Sp1KG5I46z5ij2nAdBvJZjjdaXESFNTvkVdFaTLXMKJSCTS+Bk0S92stogUIV6IV+qe5Hci5JdvTJYWSgreH3SS/nHmA2sO9mdFZcFiwBZX9u8CWjcNqIkTDl17UGb9yzP7LWjl0HOwg==
+  template:
+    data: null
+    metadata:
+      creationTimestamp: null
+      labels:
+        environment: demo
+        folder: service-mesh
+        subFolder: linkerd
+      name: web-ingress-auth
+      namespace: linkerd-viz
+    type: Opaque
+

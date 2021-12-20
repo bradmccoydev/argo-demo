@@ -3,10 +3,10 @@ kind: SealedSecret
 metadata:
   creationTimestamp: null
   name: web-ingress-auth
-  namespace: linkerd-viz
+  namespace: linkerd
 spec:
   encryptedData:
-    auth: AgCix/ImHmddpB00iixa0QtP1An1vugH2UkAkMQdkU17KgfRnMHVtp7Ryw9XDCms3ekvDVP1DIdWL8HQ+LfgfQIjfeb51R8L//mk/Kv5XNVjO+37WrWjFDNvKhp4FQwDDTMxBi4P/LEHqT/uT9zlpKnt04qkbS3/NZCoT+jJeGbOtatevKVmD/IrXCMOT1NN9UB7lq5fSyFdNN4uGxVFJqlBzKgU02w9nr+rYx5+Qa70SlXl06Fhc3mjl/tPhj6WcpyCRWsyWH4XjG8nWiYqqL+gSKMKJQVRtebCpwFuq9x23lKDb4lSZXau+8pjgEB1ystVUY8eo6kRqhkBt5ka0g6WBY8DLZs3snbTHWjEswurDGTgF76OU6OEANvjl2At1Mv3UtGIHwwgoftYs2uGu58dkdsQkeoyBUkAwxHv2O3IjMr1v0U+ZjzrrdkuLu/EuEgr/pKwmb0r9dlf3WArso27LrUl3RJnTFC9ZjKvbyhwF0tz/JHddONfDiqWPPtMRmpNdVqaK+Z/QGFG/I/xFsokTEzgQCNyTRID5Oz8JAiRSsyGXiWXnGaC4VJNhBc05HtuwHad+ROuY4Sp1KG5I46z5ij2nAdBvJZjjdaXESFNTvkVdFaTLXMKJSCTS+Bk0S92stogUIV6IV+qe5Hci5JdvTJYWSgreH3SS/nHmA2sO9mdFZcFiwBZX9u8CWjcNqIkTDl17UGb9yzP7LWjl0HOwg==
+    auth: AgBp/pRQ/tFTYlt3B/VGehqAivOQQ1TG+WsWBrzwVspEgHP6ACOWFjx/dFqzGH6qvjnmLJ/xzNxzwkECwsZNtEd5fiNBOjreApIOxKmtNO0Gjximl2GcbhOCEiRN8wlRi1Vmm4xzOTm53Zu7quO2eDrr2Knp9lP2MgyAUyWG4hsNQF6CyPtbcADL1FVAPGu4l0lvFMLYufEn37qFwULCxkx055YbB1S0LxIfNy/vWF653FNKPf3xdYttsJ9iSDIjxx53CWGfDh8zssNXkHsXV1YuX3P1W4ZjFB0zSmPROKGFjNAGOER7a0t0HL3clCVZ/I/B9llANeohQsSLSoeuV+RFFYgw61rhXodMtQ64P4Mf5NYwAwtPu/VnnaZ9SnTC12wsG9sE46VCeIy8Ptrb3coU94V4m7xhfnQrEl9ix55Z3FPfyvmjMXq1KOAEU9TwR6tLmlHcB+msfcsberiPIuMD2PjSY5b4Wcu9vnF1630Zg3hlY9gEy2RrEP69ASgL+QlRoBU8x14DqzyLZs1k3M1EFhzWF5DPx13UHSA5M0Vsel4XeKT/DDTVzb2Jrjbl/IPmIjHA426shvFlfVI4Fdd7jgdS1rOZV2ZZV+2gQdeZs/+2lmBNVE14JdCnF//0coiou5esOKVwK9HR53uEUKrKsDn3mZraZvJ0IzKvFXTXx9ixG5rBIoo0ClJUhhp2gyY0MX2ww93z1MLVeOXW1hQMvw==
   template:
     data: null
     metadata:
@@ -16,6 +16,6 @@ spec:
         folder: service-mesh
         subFolder: linkerd
       name: web-ingress-auth
-      namespace: linkerd-viz
+      namespace: linkerd
     type: Opaque
 

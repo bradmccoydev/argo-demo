@@ -3,7 +3,9 @@ kind: Kustomization
 namespace: linkerd
 resources:
 #- namespace.yaml
+- tap-k8s-tls-sealed.yaml
 - trust-anchor-sealed.yaml
+- trust-anchor-sealed.yaml
+- trust-issuer-sealed.yaml
 - webhook-issuer-tls-sealed.yaml
-- trust-issuer.yaml
 - ../../base

@@ -97,3 +97,5 @@ helmCharts:
         c27VRBrUYMHxX/xedgv8thUmAkkY7kZs2WwdZELHAiEApEI7csmRVJa7Wu0Mesnt
         IO7udWyfi+dGXMYAXxyoYmo=
         -----END CERTIFICATE-----
+    dashboard:
+      enforcedHostRegexp: ^linkerd\.bradmccoy\.io$

@@ -8,3 +8,4 @@ resources:
 - trust-issuer-sealed.yaml
 - webhook-issuer-tls-sealed.yaml
 - ../../base
+- linkerd-viz-ingress.yaml

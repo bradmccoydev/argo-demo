@@ -6,7 +6,7 @@ metadata:
   namespace: linkerd
 spec:
   encryptedData:
-    auth: AgCQMh22bbhM1b+Kh58OZkMQq+hk2BpzCnr2k2XLea3VyAlcuMM7gTR/LyfCLQn1Rr2guLCNNCHXd8ZPbvHhMMgnamDGM26rlHo6QTj4QYYLEmN8yHv5GpYv++tvBmD5Z+y6hgJS4/MvCd4IlGN34JrQKHSwpgGB7okr2eRpUcSbtCLfF3qH1D3o1vyJT7ROlnMrb3+eJEvwsFu/wWe/4zdnlzXFiPUQHEWt6SFgcukR819wAZYtFRbr1JTM6pl4NoGr8cjy0gT2Y4skMdeXjTDV/DdzJWnyVCaJQlYXB/H1DhB3KnSmfMNWhjzqGyeCT9J6C53fjc0JvsQGZb2XC/LZpR2Jmnu58JXAyowKUg6NY/P+wSO4pJU83lPQjGuk1zAYI/ubPuHW2iIAs0ZUSLmcPdC8cxQCeG9pFT/n5NqmEkXC0APSJnovYpBCKrtLED37HE5VKxmUc/a3LvhO3sXIyGQ+7TjBj8ZkjWFCRqYaRUIhn/vIBcBYrLiKmoipXtLMQm+cjNvpE0b08m90V4/XzZbjdLR+QqXK1u5W4ZVNC/6aht+V/m134y+MdWOCncrvYxUR9g52dcegdNzIqN9gisD7Hckd3o86ZkbEMN2USNKLXYcq53NWxacNr3EkJadSvtbytr7t5nuxqwaLDoEdMVIW3Rq9uXeALerieS8g1Pdn7mMoSDpoyINMNrEyT9mEXex528JwrhTO6d45yd5P
+    auth: AgBZCgbMqnbzEksMC7b9if0l5QYYjTgVN/b/5UEsC7n7zd2N/SXry0lMbEwC/aGm8mUBp6L7ZyRU8Y1p3BWYIQw35tKyPyzqFoZp/4vv4C6d7eZPFkEft07wEkLd4UN+8N0SHrCQ+ds0/wx0ePE4/XDjmWylzrVNEa+PHPO5qxiwY+ooMDJG1MddFS3IZS1W7ScoW9U782q/URqjXJDvOUzO1cnCd8rCuB1A9zQuBACA556//felDSb7g8P8Q5hq/boSJ04crZvSdkhP5Bm7V1OAwwJXfKhwZkdmu17ukG0cHFAdAxTMhRLzx0FjgyoxDumLDUs1sOEMNlgzxeq+xErKVq+aoKlvbJUS3GNV3K6HdneZr87uxqG8U15by7a/6MMTCytBM1swnP3d61siSv1D8yuI9piNRkY3VLmvkGS+HGGTQO2zZKECekDdq1D7RmSu5zIDfGgpDNO+dRRGoYtNkjPphTinmmK4L6pF9ALhWd2GI9ZykBYamfGB/uDOtAa3VxzDjKLY8BOCPB2y7XBqLq7jXfbS88XkCD3UDWF5CFr5HFpXp4ac1WSbTb6sYJHv59AXWW3rLuQBk6S/+C0/oHrbuAQ5+YvYVOZdiMBVTKNBPXp9rSqbrMxuEOaf6kHnPd8VtS1s7zrEuhDQF+2pbEjZ+kvw9QqL0pbNMgKq3DkcbfC8D74k/Q+sf5xPPyUWm6ztEL2L+KH7veNDePWtM95heyWOg0l25Xp7n6/OCITfGIJOqCFtpv8i
   template:
     data: null
     metadata:
@@ -17,5 +17,4 @@ spec:
         subFolder: linkerd
       name: web-ingress-auth
       namespace: linkerd
-    type: Opaque
 

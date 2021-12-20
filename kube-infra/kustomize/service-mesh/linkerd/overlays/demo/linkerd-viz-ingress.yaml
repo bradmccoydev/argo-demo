@@ -6,7 +6,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-demo-aws
-    nginx.ingress.kubernetes.io/upstream-vhost: web.linkerd.svc.cluster.local:8084
+    nginx.ingress.kubernetes.io/upstream-vhost: web.linkerd-viz.svc.cluster.local:8084
     nginx.ingress.kubernetes.io/configuration-snippet: |
       proxy_set_header Origin "";
       proxy_hide_header l5d-remote-ip;

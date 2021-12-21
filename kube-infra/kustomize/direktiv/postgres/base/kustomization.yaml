@@ -4,4 +4,4 @@ helmCharts:
   version: 0.5.10
   repo: https://charts.direktiv.io
   releaseName: pgo
-  includeCRDs: false
+  includeCRDs: true

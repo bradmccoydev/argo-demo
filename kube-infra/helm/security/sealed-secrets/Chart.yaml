@@ -13,4 +13,4 @@ dependencies:
   condition: sealed-secrets.enabled
   repository: https://bitnami-labs.github.io/sealed-secrets 
   values:
-    - demo-sealed-secrets-values.yaml  
+    - demo-sealed-secrets-values.yaml

@@ -1,7 +1,7 @@
 helmCharts:
 - name: sealed-secrets-controller
   namespace: security
-  version: 1.16.1
+  version: 2.0.1
   repo: https://bitnami-labs.github.io/sealed-secrets
   releaseName: sealed-secrets
   includeCRDs: true

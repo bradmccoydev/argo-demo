@@ -1,10 +1,17 @@
 helmCharts:
+- name: kong
+  version: 2.6.3
+  namespace: dns-infra
+  repo: https://charts.konghq.com
+  releaseName: kong
+  includeCRDs: false
+
 - name: knative
   version: 0.5.10
   namespace: knative-serving
   repo: https://charts.direktiv.io
   releaseName: knative
-  includeCRDs: true
+  includeCRDs: false
   # valuesInline:
   #   kong-external:
   #     replicaCount: 2

@@ -1,0 +1,7 @@
+helmCharts:
+- name: contour
+  version: 4.3.9
+  repo: https://charts.bitnami.com/bitnami
+  releaseName: contour
+  namespace: dns-infra
+  includeCRDs: true

@@ -1,27 +1,39 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: hippo
+  name: direktiv
+  namespace: postgres
 spec:
-  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:centos8-13.5-0
+  users:
+    - name: direktiv
+      databases:
+        - direktiv
+  image: >-
+    registry.developers.crunchydata.com/crunchydata/crunchy-postgres-ha:centos8-13.4-0
   postgresVersion: 13
   instances:
     - name: instance1
       dataVolumeClaimSpec:
         accessModes:
-        - "ReadWriteOnce"
+          - ReadWriteOnce
         resources:
           requests:
-            storage: 1Gi
+            storage: 4Gi
   backups:
     pgbackrest:
-      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.36-0
+      image: >-
+        registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.33-2
+      repoHost:
+        dedicated: {}
+      metadata:
+        annotations:
+          linkerd.io/inject: disabled
       repos:
-      - name: repo1
-        volume:
-          volumeClaimSpec:
-            accessModes:
-            - "ReadWriteOnce"
-            resources:
-              requests:
-                storage: 1Gi
+        - name: repo1
+          volume:
+            volumeClaimSpec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 4Gi

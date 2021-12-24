@@ -54,6 +54,17 @@ helmCharts:
       enabled: true
 
     prometheus:
+      ingress:
+        enabled: true
+        annotations:
+          Kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: letsencrypt-demo-aws
+        hosts:
+          - prometheus.bradmccoy.io
+        tls:
+          - hosts:
+              - prometheus.bradmccoy.io
+            secretName: letsencrypt-demo-prometheus-bradmccoy-io
       prometheusSpec:
         serviceMonitorSelectorNilUsesHelmValues: false
         serviceMonitorSelector: {}

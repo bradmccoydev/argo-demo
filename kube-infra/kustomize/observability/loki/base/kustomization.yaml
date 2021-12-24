@@ -6,15 +6,3 @@ helmCharts:
   releaseName: grafana/loki
   includeCRDs: true
   valuesInline: 
-    fluent-bit:
-    enabled: true
-
-    loki:
-      config:
-        table_manager:
-          retention_deletes_enabled: true
-          retention_period: 720h
-        persistence:
-          enabled: true
-          size: 10Gi
-

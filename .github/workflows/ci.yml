@@ -70,8 +70,6 @@ jobs:
       run: |-      
         kubectl apply -k kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo
 
-        export ARGO_DESTINATION_CLUSTER_SERVER="$( kubectl config view -o json | jq -r '(.clusters[].cluster.server)' )"
-        export ARGO_DESTINATION_CLUSTER_SERVER_CA=$(kubectl config view --raw -o json | jq -r '.clusters[] | select(.name == "'$(kubectl config current-context)'") | .cluster."certificate-authority-data"')
         
     - name: Set up argocd CLI
       run: |-

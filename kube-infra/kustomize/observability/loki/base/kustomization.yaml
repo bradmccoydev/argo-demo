@@ -4,5 +4,5 @@ helmCharts:
   version: 2.8.4
   repo: https://grafana.github.io/helm-charts 
   releaseName: grafana/loki
-  includeCRDs: true
+  includeCRDs: false
   valuesInline: 

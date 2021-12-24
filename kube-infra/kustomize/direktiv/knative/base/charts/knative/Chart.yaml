@@ -1,7 +1,0 @@
-apiVersion: v2
-appVersion: 1.1.0
-description: knative for direktiv
-icon: https://chart.direktiv.io/logo.png
-name: knative
-type: application
-version: 0.4.0

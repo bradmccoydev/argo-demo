@@ -1,7 +1,7 @@
 helmCharts:
 - name: direktiv
   version: 0.1.0
-  namespace: direktiv-services-direktiv
+  namespace: direktiv
   repo: https://chart.direktiv.io
   releaseName: direktiv
   valuesInline: 

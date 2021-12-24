@@ -1,7 +1,7 @@
 helmCharts:
 - name: pgo
   namespace: postgres
-  version: 0.5.10
-  repo: https://charts.direktiv.io
+  version: 0.2.3
+  repo: https://chart.direktiv.io
   releaseName: pgo
   includeCRDs: true

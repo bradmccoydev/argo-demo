@@ -1,0 +1,2092 @@
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      duck.knative.dev/addressable: "true"
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: knative-serving-aggregated-addressable-resolver
+rules: null
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    duck.knative.dev/addressable: "true"
+    serving.knative.dev/release: v1.1.0
+  name: knative-serving-addressable-resolver
+rules:
+- apiGroups:
+  - serving.knative.dev
+  resources:
+  - routes
+  - routes/status
+  - services
+  - services/status
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+    serving.knative.dev/release: v1.1.0
+  name: knative-serving-namespaced-admin
+rules:
+- apiGroups:
+  - serving.knative.dev
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - networking.internal.knative.dev
+  - autoscaling.internal.knative.dev
+  - caching.internal.knative.dev
+  resources:
+  - '*'
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    serving.knative.dev/release: v1.1.0
+  name: knative-serving-namespaced-edit
+rules:
+- apiGroups:
+  - serving.knative.dev
+  resources:
+  - '*'
+  verbs:
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - networking.internal.knative.dev
+  - autoscaling.internal.knative.dev
+  - caching.internal.knative.dev
+  resources:
+  - '*'
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+    serving.knative.dev/release: v1.1.0
+  name: knative-serving-namespaced-view
+rules:
+- apiGroups:
+  - serving.knative.dev
+  - networking.internal.knative.dev
+  - autoscaling.internal.knative.dev
+  - caching.internal.knative.dev
+  resources:
+  - '*'
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/controller: "true"
+    serving.knative.dev/release: v1.1.0
+  name: knative-serving-core
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - namespaces
+  - secrets
+  - configmaps
+  - endpoints
+  - services
+  - events
+  - serviceaccounts
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+  - patch
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - endpoints/restricted
+  verbs:
+  - create
+- apiGroups:
+  - ""
+  resources:
+  - namespaces/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - deployments/finalizers
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+  - patch
+  - watch
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - mutatingwebhookconfigurations
+  - validatingwebhookconfigurations
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+  - patch
+  - watch
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  - customresourcedefinitions/status
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+  - patch
+  - watch
+- apiGroups:
+  - autoscaling
+  resources:
+  - horizontalpodautoscalers
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+  - patch
+  - watch
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+  - patch
+  - watch
+- apiGroups:
+  - serving.knative.dev
+  - autoscaling.internal.knative.dev
+  - networking.internal.knative.dev
+  resources:
+  - '*'
+  - '*/status'
+  - '*/finalizers'
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+  - deletecollection
+  - patch
+  - watch
+- apiGroups:
+  - caching.internal.knative.dev
+  resources:
+  - images
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+  - patch
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    duck.knative.dev/podspecable: "true"
+    serving.knative.dev/release: v1.1.0
+  name: knative-serving-podspecable-binding
+rules:
+- apiGroups:
+  - serving.knative.dev
+  resources:
+  - configurations
+  - services
+  verbs:
+  - list
+  - watch
+  - patch
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: controller
+  namespace: '{{ .Release.Namespace }}'
+---
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      serving.knative.dev/controller: "true"
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: knative-serving-admin
+rules: null
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: knative-serving-controller-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: knative-serving-admin
+subjects:
+- kind: ServiceAccount
+  name: controller
+  namespace: knative-serving
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: knative-serving-controller-addressable-resolver
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: knative-serving-aggregated-addressable-resolver
+subjects:
+- kind: ServiceAccount
+  name: controller
+  namespace: knative-serving
+---
+apiVersion: caching.internal.knative.dev/v1alpha1
+kind: Image
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: queue-proxy
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: queue-proxy
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:48a1753de35ecbe060611aea9e95751e3e4851183c4373e65aa1b9410ea6e263
+status: {}
+---
+apiVersion: v1
+data:
+  activator-capacity: "100.0"
+  allow-zero-initial-scale: "false"
+  container-concurrency-target-default: "100"
+  container-concurrency-target-percentage: "70"
+  enable-scale-to-zero: "true"
+  initial-scale: "1"
+  max-scale: "{{ .Values.autoscaler.max_scale }}"
+  max-scale-down-rate: "2.0"
+  max-scale-limit: "{{ .Values.autoscaler.max_scale }}"
+  max-scale-up-rate: "1000.0"
+  min-scale: "0"
+  panic-threshold-percentage: "200.0"
+  panic-window-percentage: "10.0"
+  pod-autoscaler-class: kpa.autoscaling.knative.dev
+  requests-per-second-target-default: "200"
+  scale-down-delay: 0s
+  scale-to-zero-grace-period: "{{ .Values.autoscaler.grace_period }}"
+  scale-to-zero-pod-retention-period: "{{ .Values.autoscaler.retention_period }}"
+  stable-window: 60s
+  target-burst-capacity: "200"
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: b4401cf4
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: autoscaler
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: config-autoscaler
+  namespace: '{{ .Release.Namespace }}'
+---
+apiVersion: v1
+data:
+  allow-container-concurrency-zero: "true"
+  container-concurrency: "0"
+  container-concurrency-max-limit: "1000"
+  container-name-template: user-container
+  enable-service-links: "false"
+  init-container-name-template: init-container
+  max-revision-timeout-seconds: "{{ .Values.defaults.max_timeout_seconds }}"
+  revision-cpu-limit: 1000m
+  revision-cpu-request: 400m
+  revision-ephemeral-storage-limit: 750M
+  revision-ephemeral-storage-request: 500M
+  revision-memory-limit: 200M
+  revision-memory-request: 100M
+  revision-timeout-seconds: "{{ .Values.defaults.timeout_seconds }}"
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: a0feb4c6
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: config-defaults
+  namespace: '{{ .Release.Namespace }}'
+---
+apiVersion: v1
+data:
+  concurrency-state-endpoint: ""
+  digest-resolution-timeout: 10s
+  progress-deadline: 600s
+  queue-sidecar-cpu-limit: 1000m
+  queue-sidecar-cpu-request: 25m
+  queue-sidecar-ephemeral-storage-limit: 1024Mi
+  queue-sidecar-ephemeral-storage-request: 512Mi
+  queue-sidecar-image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:48a1753de35ecbe060611aea9e95751e3e4851183c4373e65aa1b9410ea6e263
+  queue-sidecar-memory-limit: 800Mi
+  queue-sidecar-memory-request: 400Mi
+  queueSidecarImage: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:48a1753de35ecbe060611aea9e95751e3e4851183c4373e65aa1b9410ea6e263
+  registries-skipping-tag-resolving: {{ .Values.deployment.skip_tag }}
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: dd7ee769
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: config-deployment
+  namespace: '{{ .Release.Namespace }}'
+---
+apiVersion: v1
+data:
+  _example: |
+    ################################
+    #                              #
+    #    EXAMPLE CONFIGURATION     #
+    #                              #
+    ################################
+
+    # This block is not actually functional configuration,
+    # but serves to illustrate the available configuration
+    # options and document them in a way that is accessible
+    # to users that `kubectl edit` this config map.
+    #
+    # These sample configuration options may be copied out of
+    # this example block and unindented to be in the data block
+    # to actually change the configuration.
+
+    # Default value for domain.
+    # Although it will match all routes, it is the least-specific rule so it
+    # will only be used if no other domain matches.
+    example.com: |
+
+    # These are example settings of domain.
+    # example.org will be used for routes having app=nonprofit.
+    example.org: |
+      selector:
+        app: nonprofit
+
+    # Routes having the cluster domain suffix (by default 'svc.cluster.local')
+    # will not be exposed through Ingress. You can define your own label
+    # selector to assign that domain suffix to your Route here, or you can set
+    # the label
+    #    "networking.knative.dev/visibility=cluster-local"
+    # to achieve the same effect.  This shows how to make routes having
+    # the label app=secret only exposed to the local cluster.
+    svc.cluster.local: |
+      selector:
+        app: secret
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: 81552d0b
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: config-domain
+  namespace: '{{ .Release.Namespace }}'
+---
+apiVersion: v1
+data:
+  autodetect-http2: disabled
+  kubernetes.containerspec-addcapabilities: disabled
+  kubernetes.podspec-affinity: disabled
+  kubernetes.podspec-dryrun: allowed
+  kubernetes.podspec-fieldref: disabled
+  kubernetes.podspec-hostaliases: disabled
+  kubernetes.podspec-init-containers: enabled
+  kubernetes.podspec-nodeselector: disabled
+  kubernetes.podspec-priorityclassname: disabled
+  kubernetes.podspec-runtimeclassname: enabled
+  kubernetes.podspec-schedulername: disabled
+  kubernetes.podspec-securitycontext: enabled
+  kubernetes.podspec-tolerations: disabled
+  kubernetes.podspec-volumes-emptydir: enabled
+  multi-container: enabled
+  tag-header-based-routing: enabled
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: 2897f625
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: config-features
+  namespace: '{{ .Release.Namespace }}'
+---
+apiVersion: v1
+data:
+  _example: |
+    ################################
+    #                              #
+    #    EXAMPLE CONFIGURATION     #
+    #                              #
+    ################################
+
+    # This block is not actually functional configuration,
+    # but serves to illustrate the available configuration
+    # options and document them in a way that is accessible
+    # to users that `kubectl edit` this config map.
+    #
+    # These sample configuration options may be copied out of
+    # this example block and unindented to be in the data block
+    # to actually change the configuration.
+
+
+    # ---------------------------------------
+    # Garbage Collector Settings
+    # ---------------------------------------
+    #
+    # Active
+    #   * Revisions which are referenced by a Route are considered active.
+    #   * Individual revisions may be marked with the annotation
+    #      "serving.knative.dev/no-gc":"true" to be permanently considered active.
+    #   * Active revisions are not considered for GC.
+    # Retention
+    #   * Revisions are retained if they are any of the following:
+    #       1. Active
+    #       2. Were created within "retain-since-create-time"
+    #       3. Were last referenced by a route within
+    #           "retain-since-last-active-time"
+    #       4. There are fewer than "min-non-active-revisions"
+    #     If none of these conditions are met, or if the count of revisions exceed
+    #      "max-non-active-revisions", they will be deleted by GC.
+    #     The special value "disabled" may be used to turn off these limits.
+    #
+    # Example config to immediately collect any inactive revision:
+    #    min-non-active-revisions: "0"
+    #    retain-since-create-time: "disabled"
+    #    retain-since-last-active-time: "disabled"
+    #
+    # Example config to always keep around the last ten non-active revisions:
+    #     retain-since-create-time: "disabled"
+    #     retain-since-last-active-time: "disabled"
+    #     max-non-active-revisions: "10"
+    #
+    # Example config to disable all GC:
+    #     retain-since-create-time: "disabled"
+    #     retain-since-last-active-time: "disabled"
+    #     max-non-active-revisions: "disabled"
+    #
+    # Example config to keep recently deployed or active revisions,
+    # always maintain the last two in case of rollback, and prevent
+    # burst activity from exploding the count of old revisions:
+    #      retain-since-create-time: "48h"
+    #      retain-since-last-active-time: "15h"
+    #      min-non-active-revisions: "2"
+    #      max-non-active-revisions: "1000"
+
+    # Duration since creation before considering a revision for GC or "disabled".
+    retain-since-create-time: "48h"
+
+    # Duration since active before considering a revision for GC or "disabled".
+    retain-since-last-active-time: "15h"
+
+    # Minimum number of non-active revisions to retain.
+    min-non-active-revisions: "20"
+
+    # Maximum number of non-active revisions to retain
+    # or "disabled" to disable any maximum limit.
+    max-non-active-revisions: "1000"
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: 51b4d68a
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: config-gc
+  namespace: '{{ .Release.Namespace }}'
+---
+apiVersion: v1
+data:
+  _example: |
+    ################################
+    #                              #
+    #    EXAMPLE CONFIGURATION     #
+    #                              #
+    ################################
+
+    # This block is not actually functional configuration,
+    # but serves to illustrate the available configuration
+    # options and document them in a way that is accessible
+    # to users that `kubectl edit` this config map.
+    #
+    # These sample configuration options may be copied out of
+    # this example block and unindented to be in the data block
+    # to actually change the configuration.
+
+    # lease-duration is how long non-leaders will wait to try to acquire the
+    # lock; 15 seconds is the value used by core kubernetes controllers.
+    lease-duration: "15s"
+
+    # renew-deadline is how long a leader will try to renew the lease before
+    # giving up; 10 seconds is the value used by core kubernetes controllers.
+    renew-deadline: "10s"
+
+    # retry-period is how long the leader election client waits between tries of
+    # actions; 2 seconds is the value used by core kubernetes controllers.
+    retry-period: "2s"
+
+    # buckets is the number of buckets used to partition key space of each
+    # Reconciler. If this number is M and the replica number of the controller
+    # is N, the N replicas will compete for the M buckets. The owner of a
+    # bucket will take care of the reconciling for the keys partitioned into
+    # that bucket.
+    buckets: "1"
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: f7948630
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: config-leader-election
+  namespace: '{{ .Release.Namespace }}'
+---
+apiVersion: v1
+data:
+  _example: |
+    ################################
+    #                              #
+    #    EXAMPLE CONFIGURATION     #
+    #                              #
+    ################################
+
+    # This block is not actually functional configuration,
+    # but serves to illustrate the available configuration
+    # options and document them in a way that is accessible
+    # to users that `kubectl edit` this config map.
+    #
+    # These sample configuration options may be copied out of
+    # this example block and unindented to be in the data block
+    # to actually change the configuration.
+
+    # Common configuration for all Knative codebase
+    zap-logger-config: |
+      {
+        "level": "info",
+        "development": false,
+        "outputPaths": ["stdout"],
+        "errorOutputPaths": ["stderr"],
+        "encoding": "json",
+        "encoderConfig": {
+          "timeKey": "timestamp",
+          "levelKey": "severity",
+          "nameKey": "logger",
+          "callerKey": "caller",
+          "messageKey": "message",
+          "stacktraceKey": "stacktrace",
+          "lineEnding": "",
+          "levelEncoder": "",
+          "timeEncoder": "iso8601",
+          "durationEncoder": "",
+          "callerEncoder": ""
+        }
+      }
+
+    # Log level overrides
+    # For all components except the queue proxy,
+    # changes are picked up immediately.
+    # For queue proxy, changes require recreation of the pods.
+    loglevel.controller: "info"
+    loglevel.autoscaler: "info"
+    loglevel.queueproxy: "info"
+    loglevel.webhook: "info"
+    loglevel.activator: "info"
+    loglevel.hpaautoscaler: "info"
+    loglevel.net-certmanager-controller: "info"
+    loglevel.net-istio-controller: "info"
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: be93ff10
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: config-logging
+  namespace: '{{ .Release.Namespace }}'
+---
+apiVersion: v1
+data:
+  _example: |
+    ################################
+    #                              #
+    #    EXAMPLE CONFIGURATION     #
+    #                              #
+    ################################
+
+    # This block is not actually functional configuration,
+    # but serves to illustrate the available configuration
+    # options and document them in a way that is accessible
+    # to users that `kubectl edit` this config map.
+    #
+    # These sample configuration options may be copied out of
+    # this example block and unindented to be in the data block
+    # to actually change the configuration.
+
+    # ingress-class specifies the default ingress class
+    # to use when not dictated by Route annotation.
+    #
+    # If not specified, will use the Istio ingress.
+    #
+    # Note that changing the Ingress class of an existing Route
+    # will result in undefined behavior.  Therefore it is best to only
+    # update this value during the setup of Knative, to avoid getting
+    # undefined behavior.
+    ingress-class: "istio.ingress.networking.knative.dev"
+
+    # certificate-class specifies the default Certificate class
+    # to use when not dictated by Route annotation.
+    #
+    # If not specified, will use the Cert-Manager Certificate.
+    #
+    # Note that changing the Certificate class of an existing Route
+    # will result in undefined behavior.  Therefore it is best to only
+    # update this value during the setup of Knative, to avoid getting
+    # undefined behavior.
+    certificate-class: "cert-manager.certificate.networking.knative.dev"
+
+    # namespace-wildcard-cert-selector specifies a LabelSelector which
+    # determines which namespaces should have a wildcard certificate
+    # provisioned.
+    #
+    # Use an empty value to disable the feature (this is the default):
+    #   namespace-wildcard-cert-selector: ""
+    #
+    # Use an empty object to enable for all namespaces
+    #   namespace-wildcard-cert-selector: {}
+    #
+    # Useful labels include the "kubernetes.io/metadata.name" label to
+    # avoid provisioning a certifcate for the "kube-system" namespaces.
+    # Use the following selector to match pre-1.0 behavior of using
+    # "networking.knative.dev/disableWildcardCert" to exclude namespaces:
+    #
+    # matchExpressions:
+    # - key: "networking.knative.dev/disableWildcardCert"
+    #   operator: "NotIn"
+    #   values: ["true"]
+    namespace-wildcard-cert-selector: ""
+
+    # domain-template specifies the golang text template string to use
+    # when constructing the Knative service's DNS name. The default
+    # value is "opendoublecurly .Name closedoublecurly.opendoublecurly .Namespace closedoublecurly.opendoublecurly .Domain closedoublecurly".
+    #
+    # Valid variables defined in the template include Name, Namespace, Domain,
+    # Labels, and Annotations. Name will be the result of the tagTemplate
+    # below, if a tag is specified for the route.
+    #
+    # Changing this value might be necessary when the extra levels in
+    # the domain name generated is problematic for wildcard certificates
+    # that only support a single level of domain name added to the
+    # certificate's domain. In those cases you might consider using a value
+    # of "opendoublecurly .Name closedoublecurly-opendoublecurly .Namespace closedoublecurly.opendoublecurly .Domain closedoublecurly", or removing the Namespace
+    # entirely from the template. When choosing a new value be thoughtful
+    # of the potential for conflicts - for example, when users choose to use
+    # characters such as `-` in their service, or namespace, names.
+    # opendoublecurly .Annotations closedoublecurly or opendoublecurly .Labels closedoublecurly can be used for any customization in the
+    # go template if needed.
+    # We strongly recommend keeping namespace part of the template to avoid
+    # domain name clashes:
+    # eg. 'opendoublecurly .Name closedoublecurly-opendoublecurly .Namespace closedoublecurly.opendoublecurly  index .Annotations "sub" closedoublecurly.opendoublecurly .Domain closedoublecurly'
+    # and you have an annotation {"sub":"foo"}, then the generated template
+    # would be {Name}-{Namespace}.foo.{Domain}
+    domain-template: "opendoublecurly .Name closedoublecurly.opendoublecurly .Namespace closedoublecurly.opendoublecurly .Domain closedoublecurly"
+
+    # tagTemplate specifies the golang text template string to use
+    # when constructing the DNS name for "tags" within the traffic blocks
+    # of Routes and Configuration.  This is used in conjunction with the
+    # domainTemplate above to determine the full URL for the tag.
+    tag-template: "opendoublecurly .Tag closedoublecurly-opendoublecurly .Name closedoublecurly"
+
+    # Controls whether TLS certificates are automatically provisioned and
+    # installed in the Knative ingress to terminate external TLS connection.
+    # 1. Enabled: enabling auto-TLS feature.
+    # 2. Disabled: disabling auto-TLS feature.
+    auto-tls: "Disabled"
+
+    # Controls the behavior of the HTTP endpoint for the Knative ingress.
+    # It requires autoTLS to be enabled.
+    # 1. Enabled: The Knative ingress will be able to serve HTTP connection.
+    # 2. Redirected: The Knative ingress will send a 301 redirect for all
+    # http connections, asking the clients to use HTTPS.
+    #
+    # "Disabled" option is deprecated.
+    http-protocol: "Enabled"
+
+    # rollout-duration contains the minimal duration in seconds over which the
+    # Configuration traffic targets are rolled out to the newest revision.
+    rollout-duration: "0"
+
+    # autocreate-cluster-domain-claims controls whether ClusterDomainClaims should
+    # be automatically created (and deleted) as needed when DomainMappings are
+    # reconciled.
+    #
+    # If this is "false" (the default), the cluster administrator is
+    # responsible for creating ClusterDomainClaims and delegating them to
+    # namespaces via their spec.Namespace field. This setting should be used in
+    # multitenant environments which need to control which namespace can use a
+    # particular domain name in a domain mapping.
+    #
+    # If this is "true", users are able to associate arbitrary names with their
+    # services via the DomainMapping feature.
+    autocreate-cluster-domain-claims: "false"
+
+    # If true, networking plugins can add additional information to deployed
+    # applications to make their pods directly accessible via their IPs even if mesh is
+    # enabled and thus direct-addressability is usually not possible.
+    # Consumers like Knative Serving can use this setting to adjust their behavior
+    # accordingly, i.e. to drop fallback solutions for non-pod-addressable systems.
+    #
+    # NOTE: This flag is in an alpha state and is mostly here to enable internal testing
+    #       for now. Use with caution.
+    enable-mesh-pod-addressability: "false"
+
+    # mesh-compatibility-mode indicates whether consumers of network plugins
+    # should directly contact Pod IPs (most efficient), or should use the
+    # Cluster IP (less efficient, needed when mesh is enabled unless
+    # `enable-mesh-pod-addressability`, above, is set).
+    # Permitted values are:
+    #  - "auto" (default): automatically determine which mesh mode to use by trying Pod IP and falling back to Cluster IP as needed.
+    #  - "enabled": always use Cluster IP and do not attempt to use Pod IPs.
+    #  - "disabled": always use Pod IPs and do not fall back to Cluster IP on failure.
+    mesh-compatibility-mode: "auto"
+
+    # Defines the scheme used for external URLs if autoTLS is not enabled.
+    # This can be used for making Knative report all URLs as "HTTPS" for example, if you're
+    # fronting Knative with an external loadbalancer that deals with TLS termination and
+    # Knative doesn't know about that otherwise.
+    default-external-scheme: "http"
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: 6e2033e0
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: config-network
+  namespace: '{{ .Release.Namespace }}'
+---
+apiVersion: v1
+data:
+  _example: |
+    ################################
+    #                              #
+    #    EXAMPLE CONFIGURATION     #
+    #                              #
+    ################################
+
+    # This block is not actually functional configuration,
+    # but serves to illustrate the available configuration
+    # options and document them in a way that is accessible
+    # to users that `kubectl edit` this config map.
+    #
+    # These sample configuration options may be copied out of
+    # this example block and unindented to be in the data block
+    # to actually change the configuration.
+
+    # logging.enable-var-log-collection defaults to false.
+    # The fluentd daemon set will be set up to collect /var/log if
+    # this flag is true.
+    logging.enable-var-log-collection: "false"
+
+    # logging.revision-url-template provides a template to use for producing the
+    # logging URL that is injected into the status of each Revision.
+    logging.revision-url-template: "http://logging.example.com/?revisionUID=${REVISION_UID}"
+
+    # If non-empty, this enables queue proxy writing user request logs to stdout, excluding probe
+    # requests.
+    # NB: after 0.18 release logging.enable-request-log must be explicitly set to true
+    # in order for request logging to be enabled.
+    #
+    # The value determines the shape of the request logs and it must be a valid go text/template.
+    # It is important to keep this as a single line. Multiple lines are parsed as separate entities
+    # by most collection agents and will split the request logs into multiple records.
+    #
+    # The following fields and functions are available to the template:
+    #
+    # Request: An http.Request (see https://golang.org/pkg/net/http/#Request)
+    # representing an HTTP request received by the server.
+    #
+    # Response:
+    # struct {
+    #   Code    int       // HTTP status code (see https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml)
+    #   Size    int       // An int representing the size of the response.
+    #   Latency float64   // A float64 representing the latency of the response in seconds.
+    # }
+    #
+    # Revision:
+    # struct {
+    #   Name          string  // Knative revision name
+    #   Namespace     string  // Knative revision namespace
+    #   Service       string  // Knative service name
+    #   Configuration string  // Knative configuration name
+    #   PodName       string  // Name of the pod hosting the revision
+    #   PodIP         string  // IP of the pod hosting the revision
+    # }
+    #
+    logging.request-log-template: '{"httpRequest": {"requestMethod": "opendoublecurly .Request.Method closedoublecurly", "requestUrl": "opendoublecurly js .Request.RequestURI closedoublecurly", "requestSize": "opendoublecurly .Request.ContentLength closedoublecurly", "status": opendoublecurly .Response.Code closedoublecurly, "responseSize": "opendoublecurly .Response.Size closedoublecurly", "userAgent": "opendoublecurly js .Request.UserAgent closedoublecurly", "remoteIp": "opendoublecurly js .Request.RemoteAddr closedoublecurly", "serverIp": "opendoublecurly .Revision.PodIP closedoublecurly", "referer": "opendoublecurly js .Request.Referer closedoublecurly", "latency": "opendoublecurly .Response.Latency closedoublecurlys", "protocol": "opendoublecurly .Request.Proto closedoublecurly"}, "traceId": "opendoublecurly index .Request.Header "X-B3-Traceid" closedoublecurly"}'
+
+    # If true, the request logging will be enabled.
+    # NB: up to and including Knative version 0.18 if logging.request-log-template is non-empty, this value
+    # will be ignored.
+    logging.enable-request-log: "false"
+
+    # If true, this enables queue proxy writing request logs for probe requests to stdout.
+    # It uses the same template for user requests, i.e. logging.request-log-template.
+    logging.enable-probe-request-log: "false"
+
+    # metrics.backend-destination field specifies the system metrics destination.
+    # It supports either prometheus (the default) or opencensus.
+    metrics.backend-destination: prometheus
+
+    # metrics.request-metrics-backend-destination specifies the request metrics
+    # destination. It enables queue proxy to send request metrics.
+    # Currently supported values: prometheus (the default), opencensus.
+    metrics.request-metrics-backend-destination: prometheus
+
+    # profiling.enable indicates whether it is allowed to retrieve runtime profiling data from
+    # the pods via an HTTP server in the format expected by the pprof visualization tool. When
+    # enabled, the Knative Serving pods expose the profiling data on an alternate HTTP port 8008.
+    # The HTTP context root for profiling is then /debug/pprof/.
+    profiling.enable: "false"
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: fed4756e
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: config-observability
+  namespace: '{{ .Release.Namespace }}'
+---
+apiVersion: v1
+data:
+  _example: |
+    ################################
+    #                              #
+    #    EXAMPLE CONFIGURATION     #
+    #                              #
+    ################################
+
+    # This block is not actually functional configuration,
+    # but serves to illustrate the available configuration
+    # options and document them in a way that is accessible
+    # to users that `kubectl edit` this config map.
+    #
+    # These sample configuration options may be copied out of
+    # this example block and unindented to be in the data block
+    # to actually change the configuration.
+    #
+    # This may be "zipkin" or "none" (default)
+    backend: "none"
+
+    # URL to zipkin collector where traces are sent.
+    # This must be specified when backend is "zipkin"
+    zipkin-endpoint: "http://zipkin.istio-system.svc.cluster.local:9411/api/v2/spans"
+
+    # Enable zipkin debug mode. This allows all spans to be sent to the server
+    # bypassing sampling.
+    debug: "false"
+
+    # Percentage (0-1) of requests to trace
+    sample-rate: "0.1"
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: "26614636"
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: config-tracing
+  namespace: '{{ .Release.Namespace }}'
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: activator
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: activator
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  maxReplicas: 20
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 100
+        type: Utilization
+    type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: activator
+status:
+  conditions: []
+  currentMetrics: null
+  currentReplicas: 0
+  desiredReplicas: 0
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: activator
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: activator-pdb
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  minAvailable: 80%
+  selector:
+    matchLabels:
+      app: activator
+status:
+  currentHealthy: 0
+  desiredHealthy: 0
+  disruptionsAllowed: 0
+  expectedPods: 0
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: activator
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: activator
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  selector:
+    matchLabels:
+      app: activator
+      role: activator
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+      creationTimestamp: null
+      labels:
+        app: activator
+        app.kubernetes.io/component: activator
+        app.kubernetes.io/name: knative-serving
+        app.kubernetes.io/version: 1.1.0
+        role: activator
+        serving.knative.dev/release: v1.1.0
+    spec:
+      containers:
+      - env:
+        - name: GOGC
+          value: "500"
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: SYSTEM_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CONFIG_LOGGING_NAME
+          value: config-logging
+        - name: CONFIG_OBSERVABILITY_NAME
+          value: config-observability
+        - name: METRICS_DOMAIN
+          value: knative.dev/internal/serving
+        image: gcr.io/knative-releases/knative.dev/serving/cmd/activator@sha256:ba1485ded12049525afb9856c2fa10d613dbc2b2da90556116bf257f2128eaae
+        livenessProbe:
+          failureThreshold: 12
+          httpGet:
+            httpHeaders:
+            - name: k-kubelet-probe
+              value: activator
+            port: 8012
+          initialDelaySeconds: 15
+        name: activator
+        ports:
+        - containerPort: 9090
+          name: metrics
+        - containerPort: 8008
+          name: profiling
+        - containerPort: 8012
+          name: http1
+        - containerPort: 8013
+          name: h2c
+        readinessProbe:
+          failureThreshold: 12
+          httpGet:
+            httpHeaders:
+            - name: k-kubelet-probe
+              value: activator
+            port: 8012
+        resources:
+          limits:
+            cpu: "1"
+            memory: 600Mi
+          requests:
+            cpu: 300m
+            memory: 60Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - all
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+      serviceAccountName: controller
+      terminationGracePeriodSeconds: 600
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app: activator
+    app.kubernetes.io/component: activator
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: activator-service
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  ports:
+  - name: http-metrics
+    port: 9090
+    targetPort: 9090
+  - name: http-profiling
+    port: 8008
+    targetPort: 8008
+  - name: http
+    port: 80
+    targetPort: 8012
+  - name: http2
+    port: 81
+    targetPort: 8013
+  selector:
+    app: activator
+  type: ClusterIP
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: autoscaler
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: autoscaler
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: autoscaler
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+      creationTimestamp: null
+      labels:
+        app: autoscaler
+        app.kubernetes.io/component: autoscaler
+        app.kubernetes.io/name: knative-serving
+        app.kubernetes.io/version: 1.1.0
+        serving.knative.dev/release: v1.1.0
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: autoscaler
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      containers:
+      - env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: SYSTEM_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CONFIG_LOGGING_NAME
+          value: config-logging
+        - name: CONFIG_OBSERVABILITY_NAME
+          value: config-observability
+        - name: METRICS_DOMAIN
+          value: knative.dev/serving
+        image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler@sha256:dca8258a46dd225b8a72dfe63e8971b23876458f6f64b4ad82792c4d6e470bdc
+        livenessProbe:
+          failureThreshold: 6
+          httpGet:
+            httpHeaders:
+            - name: k-kubelet-probe
+              value: autoscaler
+            port: 8080
+        name: autoscaler
+        ports:
+        - containerPort: 9090
+          name: metrics
+        - containerPort: 8008
+          name: profiling
+        - containerPort: 8080
+          name: websocket
+        readinessProbe:
+          httpGet:
+            httpHeaders:
+            - name: k-kubelet-probe
+              value: autoscaler
+            port: 8080
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1000Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - all
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+      serviceAccountName: controller
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app: autoscaler
+    app.kubernetes.io/component: autoscaler
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: autoscaler
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  ports:
+  - name: http-metrics
+    port: 9090
+    targetPort: 9090
+  - name: http-profiling
+    port: 8008
+    targetPort: 8008
+  - name: http
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: autoscaler
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: controller
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: controller
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+      creationTimestamp: null
+      labels:
+        app: controller
+        app.kubernetes.io/component: controller
+        app.kubernetes.io/name: knative-serving
+        app.kubernetes.io/version: 1.1.0
+        serving.knative.dev/release: v1.1.0
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: controller
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      containers:
+      - env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: SYSTEM_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CONFIG_LOGGING_NAME
+          value: config-logging
+        - name: CONFIG_OBSERVABILITY_NAME
+          value: config-observability
+        - name: METRICS_DOMAIN
+          value: knative.dev/internal/serving
+        - name: HTTPS_PROXY
+          value: {{ .Values.https_proxy }}
+        - name: HTTP_PROXY
+          value: {{ .Values.http_proxy }}
+        - name: NO_PROXY
+          value: {{ .Values.no_proxy }}
+        image: gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:2765feeaa3958827388e6f5119010ee08c0eec9ad7518bb38ac4b9a4355d87fb
+        name: controller
+        ports:
+        - containerPort: 9090
+          name: metrics
+        - containerPort: 8008
+          name: profiling
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1000Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - all
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+      serviceAccountName: controller
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app: controller
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: controller
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  ports:
+  - name: http-metrics
+    port: 9090
+    targetPort: 9090
+  - name: http-profiling
+    port: 8008
+    targetPort: 8008
+  selector:
+    app: controller
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: domain-mapping
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: domain-mapping
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: domain-mapping
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+      creationTimestamp: null
+      labels:
+        app: domain-mapping
+        app.kubernetes.io/component: domain-mapping
+        app.kubernetes.io/name: knative-serving
+        app.kubernetes.io/version: 1.1.0
+        serving.knative.dev/release: v1.1.0
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: domain-mapping
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      containers:
+      - env:
+        - name: SYSTEM_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CONFIG_LOGGING_NAME
+          value: config-logging
+        - name: CONFIG_OBSERVABILITY_NAME
+          value: config-observability
+        - name: METRICS_DOMAIN
+          value: knative.dev/serving
+        image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping@sha256:25df5b854d28dac69c6293db4db50d8fa819c96ad2f2a30bdde6aad467de1b17
+        name: domain-mapping
+        ports:
+        - containerPort: 9090
+          name: metrics
+        - containerPort: 8008
+          name: profiling
+        resources:
+          limits:
+            cpu: 300m
+            memory: 400Mi
+          requests:
+            cpu: 30m
+            memory: 40Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - all
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+      serviceAccountName: controller
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: domain-mapping
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: domainmapping-webhook
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: domainmapping-webhook
+      role: domainmapping-webhook
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+      creationTimestamp: null
+      labels:
+        app: domainmapping-webhook
+        app.kubernetes.io/component: domain-mapping
+        app.kubernetes.io/name: knative-serving
+        app.kubernetes.io/version: 1.1.0
+        role: domainmapping-webhook
+        serving.knative.dev/release: v1.1.0
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: domainmapping-webhook
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      containers:
+      - env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: SYSTEM_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CONFIG_LOGGING_NAME
+          value: config-logging
+        - name: CONFIG_OBSERVABILITY_NAME
+          value: config-observability
+        - name: WEBHOOK_PORT
+          value: "8443"
+        - name: METRICS_DOMAIN
+          value: knative.dev/serving
+        image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping-webhook@sha256:6ccc1f6ac07d27e97d96c502b4c6e928d5fb3abd165ae7670e94a57788416c75
+        livenessProbe:
+          failureThreshold: 6
+          httpGet:
+            httpHeaders:
+            - name: k-kubelet-probe
+              value: webhook
+            port: 8443
+            scheme: HTTPS
+          initialDelaySeconds: 20
+          periodSeconds: 1
+        name: domainmapping-webhook
+        ports:
+        - containerPort: 9090
+          name: metrics
+        - containerPort: 8008
+          name: profiling
+        - containerPort: 8443
+          name: https-webhook
+        readinessProbe:
+          httpGet:
+            httpHeaders:
+            - name: k-kubelet-probe
+              value: webhook
+            port: 8443
+            scheme: HTTPS
+          periodSeconds: 1
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - all
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+      serviceAccountName: controller
+      terminationGracePeriodSeconds: 300
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: domain-mapping
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    role: domainmapping-webhook
+    serving.knative.dev/release: v1.1.0
+  name: domainmapping-webhook
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  ports:
+  - name: http-metrics
+    port: 9090
+    targetPort: 9090
+  - name: http-profiling
+    port: 8008
+    targetPort: 8008
+  - name: https-webhook
+    port: 443
+    targetPort: 8443
+  selector:
+    role: domainmapping-webhook
+status:
+  loadBalancer: {}
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: webhook
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  maxReplicas: 5
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 100
+        type: Utilization
+    type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: webhook
+status:
+  conditions: []
+  currentMetrics: null
+  currentReplicas: 0
+  desiredReplicas: 0
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: webhook-pdb
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  minAvailable: 80%
+  selector:
+    matchLabels:
+      app: webhook
+status:
+  currentHealthy: 0
+  desiredHealthy: 0
+  disruptionsAllowed: 0
+  expectedPods: 0
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: webhook
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: webhook
+      role: webhook
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+      creationTimestamp: null
+      labels:
+        app: webhook
+        app.kubernetes.io/component: webhook
+        app.kubernetes.io/name: knative-serving
+        app.kubernetes.io/version: 1.1.0
+        role: webhook
+        serving.knative.dev/release: v1.1.0
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: webhook
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      containers:
+      - env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: SYSTEM_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CONFIG_LOGGING_NAME
+          value: config-logging
+        - name: CONFIG_OBSERVABILITY_NAME
+          value: config-observability
+        - name: WEBHOOK_NAME
+          value: webhook
+        - name: WEBHOOK_PORT
+          value: "8443"
+        - name: METRICS_DOMAIN
+          value: knative.dev/internal/serving
+        image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook@sha256:9f3c83def9d0d5de0e8e1d1f4c10f262e283fe12d21dcbb91de06b65d3bd08ad
+        livenessProbe:
+          failureThreshold: 6
+          httpGet:
+            httpHeaders:
+            - name: k-kubelet-probe
+              value: webhook
+            port: 8443
+            scheme: HTTPS
+          initialDelaySeconds: 20
+          periodSeconds: 1
+        name: webhook
+        ports:
+        - containerPort: 9090
+          name: metrics
+        - containerPort: 8008
+          name: profiling
+        - containerPort: 8443
+          name: https-webhook
+        readinessProbe:
+          httpGet:
+            httpHeaders:
+            - name: k-kubelet-probe
+              value: webhook
+            port: 8443
+            scheme: HTTPS
+          periodSeconds: 1
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - all
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+      serviceAccountName: controller
+      terminationGracePeriodSeconds: 300
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    role: webhook
+    serving.knative.dev/release: v1.1.0
+  name: webhook
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  ports:
+  - name: http-metrics
+    port: 9090
+    targetPort: 9090
+  - name: http-profiling
+    port: 8008
+    targetPort: 8008
+  - name: https-webhook
+    port: 443
+    targetPort: 8443
+  selector:
+    role: webhook
+status:
+  loadBalancer: {}
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: config.webhook.serving.knative.dev
+webhooks:
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook
+      namespace: knative-serving
+  failurePolicy: Fail
+  name: config.webhook.serving.knative.dev
+  namespaceSelector:
+    matchExpressions:
+    - key: serving.knative.dev/release
+      operator: Exists
+  sideEffects: None
+  timeoutSeconds: 10
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: webhook.serving.knative.dev
+webhooks:
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook
+      namespace: knative-serving
+  failurePolicy: Fail
+  name: webhook.serving.knative.dev
+  rules:
+  - apiGroups:
+    - autoscaling.internal.knative.dev
+    - networking.internal.knative.dev
+    - serving.knative.dev
+    apiVersions:
+    - '*'
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - metrics
+    - podautoscalers
+    - certificates
+    - ingresses
+    - serverlessservices
+    - configurations
+    - revisions
+    - routes
+    - services
+    scope: '*'
+  sideEffects: None
+  timeoutSeconds: 10
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: domain-mapping
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: webhook.domainmapping.serving.knative.dev
+webhooks:
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    service:
+      name: domainmapping-webhook
+      namespace: knative-serving
+  failurePolicy: Fail
+  name: webhook.domainmapping.serving.knative.dev
+  rules:
+  - apiGroups:
+    - serving.knative.dev
+    apiVersions:
+    - v1alpha1
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - domainmappings
+    scope: '*'
+  sideEffects: None
+  timeoutSeconds: 10
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: domain-mapping
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: domainmapping-webhook-certs
+  namespace: '{{ .Release.Namespace }}'
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: domain-mapping
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: validation.webhook.domainmapping.serving.knative.dev
+webhooks:
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    service:
+      name: domainmapping-webhook
+      namespace: knative-serving
+  failurePolicy: Fail
+  name: validation.webhook.domainmapping.serving.knative.dev
+  rules:
+  - apiGroups:
+    - serving.knative.dev
+    apiVersions:
+    - v1alpha1
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - domainmappings
+    scope: '*'
+  sideEffects: None
+  timeoutSeconds: 10
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: validation.webhook.serving.knative.dev
+webhooks:
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    service:
+      name: webhook
+      namespace: knative-serving
+  failurePolicy: Fail
+  name: validation.webhook.serving.knative.dev
+  rules:
+  - apiGroups:
+    - autoscaling.internal.knative.dev
+    - networking.internal.knative.dev
+    - serving.knative.dev
+    apiVersions:
+    - '*'
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - metrics
+    - podautoscalers
+    - certificates
+    - ingresses
+    - serverlessservices
+    - configurations
+    - revisions
+    - routes
+    - services
+    scope: '*'
+  sideEffects: None
+  timeoutSeconds: 10
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  creationTimestamp: null
+  labels:
+    {{- include "knative.labels" . | nindent 4 }}
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: '{{ .Release.Name }}'
+    app.kubernetes.io/version: 1.1.0
+    serving.knative.dev/release: v1.1.0
+  name: webhook-certs
+  namespace: '{{ .Release.Namespace }}'

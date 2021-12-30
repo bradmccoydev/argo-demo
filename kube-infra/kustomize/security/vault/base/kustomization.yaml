@@ -9,6 +9,7 @@ helmCharts:
     server:
       dev:
         enabled: true
+        devRootToken: "bradmccoy"
       ingress:
         enabled: true
         labels:
@@ -22,12 +23,6 @@ helmCharts:
           - host: vault.bradmccoy.io
             paths: []
         extraPaths: []
-        # - path: /*
-        #   backend:
-        #     service:
-        #       name: ssl-redirect
-        #       port:
-        #         number: use-annotation
         tls:
           - secretName: vault-tls-certificate
             hosts:

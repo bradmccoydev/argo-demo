@@ -9,3 +9,26 @@ helmCharts:
     server:
       dev:
         enabled: true
+      ingress:
+        enabled: true
+        labels: {}
+          traffic: external
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: letsencrypt-demo-aws
+        ingressClassName: ""
+        pathType: Prefix
+        hosts:
+          - host: vault.bradmccoy.io
+            paths: []
+        extraPaths: []
+        # - path: /*
+        #   backend:
+        #     service:
+        #       name: ssl-redirect
+        #       port:
+        #         number: use-annotation
+        tls:
+         - secretName: vault-tls-certificate
+           hosts:
+             - vault.bradmccoy.io

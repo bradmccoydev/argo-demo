@@ -1,0 +1,11 @@
+helmCharts:
+- name: vault
+  namespace: security
+  version: 0.18.0
+  repo: https://helm.releases.hashicorp.com
+  releaseName: vault
+  includeCRDs: true
+  valuesInline: 
+    server:
+      dev:
+        enabled: true

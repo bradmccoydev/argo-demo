@@ -5,6 +5,8 @@ repositories:
     url: https://charts.bitnami.com/bitnami
   - name: jetstack
     url: https://charts.jetstack.io
+  - name: direktiv
+    url: https://chart.direktiv.io
 
 values:
   - sealed-secrets:
@@ -55,6 +57,5 @@ releases:
     chart: direktiv/direktiv
     version: 0.1.0
     condition: deployChart.enabled
-    repository: https://chart.direktiv.io
     values:
       - ../kube-infra/helm/direktiv/direktiv/demo-direktiv-values.yaml

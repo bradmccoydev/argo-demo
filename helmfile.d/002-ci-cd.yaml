@@ -49,3 +49,12 @@ releases:
     condition: cert-manager.enabled
     values:
       - ../kube-infra/helm/dns-infra/cert-manager/{{ requiredEnv "CLIENT_ENVIRONMENT" }}-cert-manager-values.yaml
+
+  - name: direktiv
+    namespace: direktiv-services-direktiv
+    chart: direktiv/direktiv
+    version: 0.1.0
+    condition: deployChart.enabled
+    repository: https://chart.direktiv.io
+    values:
+      - ../kube-infra/helm/direktiv/direktiv/demo-direktiv-values.yaml

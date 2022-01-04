@@ -16,6 +16,7 @@ patchesStrategicMerge:
 - argocd-application-controller-clusterRoleBinding.yaml
 - argocd-server-service.yaml
 - argocd-dex-server-deployment.yaml
+- argocd-repo-server.yaml
 
 images:
 - newTag: v0.2.0

@@ -1,3 +1,6 @@
+ingress-nginx:
+  install: false
+
 database:
   host: "direktiv-ha.postgres.svc"
   port: 5432

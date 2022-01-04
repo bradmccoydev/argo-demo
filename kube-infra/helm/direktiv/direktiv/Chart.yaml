@@ -11,5 +11,6 @@ dependencies:
   chart: direktiv/direktiv
   version: 0.5.10
   repository: https://charts.direktiv.io
+  condition: deployChart.enabled
   values:
     - ../demo-direktiv-values.yaml

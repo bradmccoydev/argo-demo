@@ -64,7 +64,7 @@ jobs:
         helmv3: 3.7.1
         command: |
           echo "Run kubeval"
-          kubeval -d kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/production --force-color --strict --ignore-missing-schemas       
+          kubeval -d kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo --force-color --strict --ignore-missing-schemas       
 
     - name: Deploy
       run: |-      

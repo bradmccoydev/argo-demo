@@ -69,7 +69,6 @@ jobs:
     - name: Deploy
       run: |-      
         kubectl apply -k kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo
-
         
     - name: Set up argocd CLI
       run: |-

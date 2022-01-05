@@ -49,4 +49,3 @@ releases:
     condition: cert-manager.enabled
     values:
       - ../kube-infra/helm/dns-infra/cert-manager/{{ requiredEnv "CLIENT_ENVIRONMENT" }}-cert-manager-values.yaml
-

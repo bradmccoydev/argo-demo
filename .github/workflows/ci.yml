@@ -55,17 +55,6 @@ jobs:
       run: |-
         ./helmfile --environment demo sync
 
-    - name: Kubeval
-      uses: stefanprodan/kube-tools@v1.2.0
-      with:
-        kubectl: 1.22.4
-        kustomize: 4.4.1
-        helm: 2.16.1
-        helmv3: 3.7.1
-        command: |
-          echo "Run kubeval"
-          kubeval -d kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo --force-color --strict --ignore-missing-schemas       
-
     - name: Deploy
       run: |-      
         kubectl apply -k kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo

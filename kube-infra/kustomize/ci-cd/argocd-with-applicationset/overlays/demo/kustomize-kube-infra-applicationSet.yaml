@@ -21,7 +21,7 @@ spec:
       - list:
           elements:
           - cluster: demo
-            url: https://aks-30ee2ecb.hcp.australiasoutheast.azmk8s.io:443
+            url: aks-d4e1dbf0.hcp.australiasoutheast.azmk8s.io
             values:
               CLIENT_ENVIRONMENT: demo             
   template:

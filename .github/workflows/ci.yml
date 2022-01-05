@@ -1,9 +1,9 @@
 name: Build and Deploy to AKS
 
-on:
+on: 
   push:
-    paths:
-    - 'helmfile.d/**'
+    branches:
+      - main
 
 jobs:
   setup-build-publish-deploy:
@@ -15,12 +15,6 @@ jobs:
       K8S_CLUSTER: tf-ause-demo
       RESOURCE_GROUP_NAME: tf-demo
       CLOUD_LOCATION_1: Australia Southeast
-      HELM_VERSION: 3.7.1
-      HELM_SECRETS_VERSION: 3.11.0
-      HELMFILE_VERSION: 0.142.0
-      KUBECTL_VERSION: 1.22.4
-      ARGOCD_CLI_VERSION: v2.1.7
-      ARGO_DESTINATION_CLUSTER_SERVER: https://argocd.bradmccoy.io
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -41,33 +35,29 @@ jobs:
       run: |-
         helm repo add incubator https://charts.helm.sh/incubator
         helm repo add stable https://charts.helm.sh/stable
-        helm plugin install https://github.com/jkroepke/helm-secrets --version ${HELM_SECRETS_VERSION}
+        helm plugin install https://github.com/jkroepke/helm-secrets --version 3.11.0
 
         curl -sfLo helmfile https://github.com/roboll/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_linux_amd64
         chmod a+x ./helmfile      
         
     - name: Set up Kubectl
       run: |-
-        curl -sfLo kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
+        curl -sfLo kubectl "https://dl.k8s.io/release/v1.22.4/bin/linux/amd64/kubectl"
         chmod a+x ./kubectl
     
-    - name: Deploy Sealed Secrets and DNS
-      run: |-
-        ./helmfile --environment demo destroy
-
     - name: Deploy
       run: |-
-        # kubectl apply -k kube-infra/kustomize/security/sealed-secrets/overlays/demo
-        # sleep 10
-        # kubectl apply -k kube-infra/kustomize/dns-infra/external-dns-aws/overlays/demo
-        # sleep 10
-        # kubectl apply -k kube-infra/kustomize/dns-infra/cert-manager/overlays/demo
-        # sleep 10
-        # kubectl apply -k kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo
+        kubectl apply -k kube-infra/kustomize/security/sealed-secrets/overlays/demo
+        sleep 10
+        kubectl apply -k kube-infra/kustomize/dns-infra/external-dns-aws/overlays/demo
+        sleep 10
+        kubectl apply -k kube-infra/kustomize/dns-infra/cert-manager/overlays/demo
+        sleep 10
+        kubectl apply -k kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo
         
     - name: Set up argocd CLI
       run: |-
-        # curl -sfLo argocd "https://github.com/argoproj/argo-cd/releases/download/$ARGOCD_CLI_VERSION/argocd-linux-amd64"
+        # curl -sfLo argocd "https://github.com/argoproj/argo-cd/releases/download/v2.1.7/argocd-linux-amd64"
         # chmod a+x argocd 
         # ./argocd login argocd.bradmccoy.io --username admin --password $( kubectl get secrets argocd-initial-admin-secret -o json -n ci-cd | jq -r '(.data.password)' | base64 --decode )
         # ./argocd cluster add $( kubectl config view -o json | jq -r '(.clusters[].name)' ) --name tf-ause-demo 

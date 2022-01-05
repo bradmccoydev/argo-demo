@@ -35,10 +35,7 @@ jobs:
       run: |-
         helm repo add incubator https://charts.helm.sh/incubator
         helm repo add stable https://charts.helm.sh/stable
-        helm plugin install https://github.com/jkroepke/helm-secrets --version 3.11.0
-
-        curl -sfLo helmfile https://github.com/roboll/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_linux_amd64
-        chmod a+x ./helmfile      
+        helm plugin install https://github.com/jkroepke/helm-secrets --version 3.11.0   
         
     - name: Set up Kubectl
       run: |-

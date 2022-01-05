@@ -53,15 +53,21 @@ jobs:
     
     - name: Deploy Sealed Secrets and DNS
       run: |-
-        ./helmfile --environment demo sync
+        ./helmfile --environment demo destroy
 
     - name: Deploy
-      run: |-      
-        kubectl apply -k kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo
+      run: |-
+        # kubectl apply -k kube-infra/kustomize/security/sealed-secrets/overlays/demo
+        # sleep 10
+        # kubectl apply -k kube-infra/kustomize/dns-infra/external-dns-aws/overlays/demo
+        # sleep 10
+        # kubectl apply -k kube-infra/kustomize/dns-infra/cert-manager/overlays/demo
+        # sleep 10
+        # kubectl apply -k kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo
         
     - name: Set up argocd CLI
       run: |-
-        curl -sfLo argocd "https://github.com/argoproj/argo-cd/releases/download/$ARGOCD_CLI_VERSION/argocd-linux-amd64"
-        chmod a+x argocd 
-        ./argocd login argocd.bradmccoy.io --username admin --password $( kubectl get secrets argocd-initial-admin-secret -o json -n ci-cd | jq -r '(.data.password)' | base64 --decode )
-        ./argocd cluster add $( kubectl config view -o json | jq -r '(.clusters[].name)' ) --name tf-ause-demo 
+        # curl -sfLo argocd "https://github.com/argoproj/argo-cd/releases/download/$ARGOCD_CLI_VERSION/argocd-linux-amd64"
+        # chmod a+x argocd 
+        # ./argocd login argocd.bradmccoy.io --username admin --password $( kubectl get secrets argocd-initial-admin-secret -o json -n ci-cd | jq -r '(.data.password)' | base64 --decode )
+        # ./argocd cluster add $( kubectl config view -o json | jq -r '(.clusters[].name)' ) --name tf-ause-demo 

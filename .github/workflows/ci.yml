@@ -39,7 +39,7 @@ jobs:
         
     - name: Set up Kubectl
       run: |-
-        curl -sfLo kubectl "https://dl.k8s.io/release/v1.22.4/bin/linux/amd64/kubectl"
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
         chmod a+x ./kubectl
         curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
     
@@ -49,7 +49,7 @@ jobs:
         sleep 10
         kubectl kustomize kube-infra/kustomize/dns-infra/external-dns-aws/overlays/demo --enable-helm | kubectl apply -f -
         sleep 10
-        kubectl kustomize kube-infra/kustomize/dns-infra/cert-manager/overlays/demo --enable-helm | kubectl apply -f -
+        kubectl kustomize kube-infra/kustomize/dns-infra/cert-manager/overlays/demo --enable-helm --reorder none | kubectl apply -f -
         sleep 10
         kubectl kustomize kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo --enable-helm | kubectl apply -f -
         

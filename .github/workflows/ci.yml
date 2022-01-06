@@ -41,10 +41,11 @@ jobs:
       run: |-
         curl -sfLo kubectl "https://dl.k8s.io/release/v1.22.4/bin/linux/amd64/kubectl"
         chmod a+x ./kubectl
+        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
     
     - name: Deploy
       run: |-
-        kubectl apply -k kube-infra/kustomize/security/sealed-secrets/overlays/demo --enable-helm | kubectl -f
+        kubectl kustomize kube-infra/kustomize/security/sealed-secrets/overlays/demo --enable-helm | kubectl -f
         sleep 10
         kubectl apply -k kube-infra/kustomize/dns-infra/external-dns-aws/overlays/demo --enable-helm | kubectl -f
         sleep 10

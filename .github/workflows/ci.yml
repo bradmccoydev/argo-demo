@@ -44,13 +44,13 @@ jobs:
     
     - name: Deploy
       run: |-
-        kubectl apply -k kube-infra/kustomize/security/sealed-secrets/overlays/demo --enable-helm
+        kubectl apply -k kube-infra/kustomize/security/sealed-secrets/overlays/demo --enable-helm | kubectl -f
         sleep 10
-        kubectl apply -k kube-infra/kustomize/dns-infra/external-dns-aws/overlays/demo --enable-helm
+        kubectl apply -k kube-infra/kustomize/dns-infra/external-dns-aws/overlays/demo --enable-helm | kubectl -f
         sleep 10
-        kubectl apply -k kube-infra/kustomize/dns-infra/cert-manager/overlays/demo --enable-helm
+        kubectl apply -k kube-infra/kustomize/dns-infra/cert-manager/overlays/demo --enable-helm | kubectl -f
         sleep 10
-        kubectl apply -k kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo --enable-helm
+        kubectl apply -k kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo --enable-helm | kubectl -f
         
     - name: Set up argocd CLI
       run: |-

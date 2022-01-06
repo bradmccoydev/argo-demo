@@ -4,6 +4,8 @@ resources:
 - ../../base
 - argocd-server-ingress.yaml
 - argocd-appproject.yaml
+- argocd-manager.yaml
+- argocd-manager-role.yaml
 - kustomize-kube-infra-applicationSet.yaml
 
 namespace: ci-cd

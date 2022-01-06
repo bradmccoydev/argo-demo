@@ -51,6 +51,8 @@ jobs:
         sleep 10
         kubectl kustomize kube-infra/kustomize/dns-infra/cert-manager/overlays/demo --enable-helm --reorder none | kubectl apply -f -
         sleep 10
+        kubectl kustomize kube-infra/kustomize/dns-infra/ingress-nginx/overlays/demo --enable-helm | kubectl apply -f -
+        sleep 10
         kubectl kustomize kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo --enable-helm | kubectl apply -f -
         
     - name: Set up argocd CLI

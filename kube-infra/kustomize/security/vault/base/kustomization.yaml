@@ -8,7 +8,7 @@ helmCharts:
   valuesInline: 
     server:
       injector:
-        enabled: true
+        enabled: false
       dev:
         enabled: true
         devRootToken: "bradmccoy"

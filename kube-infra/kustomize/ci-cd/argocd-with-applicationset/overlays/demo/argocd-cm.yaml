@@ -13,13 +13,24 @@ data:
     - url: https://github.com/bradmccoydev/argo-demo.git
   dex.config: |
     connectors:
-    - type: microsoft
-      id: microsoft
-      name: bradmccoy.io
-      config:
-        clientID: cdc33587-12c3-4fc3-a163-33013a8af1ba
-        clientSecret: $sso.clientSecret
-        redirectURI: https://argocd.bradmccoy.io/api/dex/callback
-        tenant: 1543c9b8-a1d1-4f26-bffb-1368aaeb582e
-        groups:
-          - moula.cloudengineering
+      # GitHub example
+      - type: github
+        id: github
+        name: GitHub
+        config:
+          clientID: dd3e0626690533edd895
+          clientSecret: $dex.github.clientSecret
+        orgs:
+        - name: odysseycloud
+        
+    # Azure Example
+    # - type: microsoft
+    #   id: microsoft
+    #   name: bradmccoy.io
+    #   config:
+    #     clientID: cdc33587-12c3-4fc3-a163-33013a8af1ba
+    #     clientSecret: $sso.clientSecret
+    #     redirectURI: https://argocd.bradmccoy.io/api/dex/callback
+    #     tenant: 1543c9b8-a1d1-4f26-bffb-1368aaeb582e
+    #     groups:
+    #       - moula.cloudengineering

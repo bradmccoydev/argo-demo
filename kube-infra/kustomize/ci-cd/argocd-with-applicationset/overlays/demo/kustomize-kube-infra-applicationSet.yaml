@@ -17,6 +17,7 @@ spec:
           #- path: kube-infra/kustomize/service-mesh/*
           #- path: kube-infra/kustomize/direktiv/*
           - path: kube-infra/kustomize/security/*
+          - path: kube-infra/kustomize/qa/*
         exclude: 
       - list:
           elements:

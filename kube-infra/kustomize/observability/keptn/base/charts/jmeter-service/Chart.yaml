@@ -1,6 +1,0 @@
-apiVersion: v2
-appVersion: 0.11.4
-description: Helm Chart for the keptn jmeter-service
-name: jmeter-service
-type: application
-version: 0.11.4

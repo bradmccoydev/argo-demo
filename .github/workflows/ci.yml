@@ -45,8 +45,8 @@ jobs:
     
     - name: Deploy
       run: |-
-        kubectl kustomize kube-infra/kustomize/security/sealed-secrets/overlays/demo --enable-helm --reorder none | kubectl apply -f -
-        sleep 10
+        # kubectl kustomize kube-infra/kustomize/security/sealed-secrets/overlays/demo --enable-helm --reorder none | kubectl apply -f -
+        # sleep 10
         kubectl kustomize kube-infra/kustomize/dns-infra/external-dns-aws/overlays/demo --enable-helm | kubectl apply -f -
         sleep 10
         kubectl kustomize kube-infra/kustomize/dns-infra/ingress-nginx/overlays/demo --enable-helm | kubectl apply -f -

@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - ../../base
-- aws-dns-creds-sealed.yaml
+#- aws-dns-creds-sealed.yaml
 #- aws-dns-creds-ci-sealed.yaml
 namespace: dns-infra

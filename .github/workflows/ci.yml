@@ -55,9 +55,9 @@ jobs:
         sleep 10
         kubectl kustomize kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo --enable-helm | kubectl apply -f -
         
-    # - name: Set up argocd CLI
-    #   run: |-
-    #     curl -sfLo argocd "https://github.com/argoproj/argo-cd/releases/download/v2.1.7/argocd-linux-amd64"
-    #     chmod a+x argocd 
-    #     ./argocd login argocd.bradmccoy.io --username admin --password $( kubectl get secrets argocd-initial-admin-secret -o json -n ci-cd | jq -r '(.data.password)' | base64 --decode )
-    #     ./argocd cluster add $( kubectl config view -o json | jq -r '(.clusters[].name)' ) --name tf-ause-demo 
+    - name: Set up argocd CLI
+      run: |-
+        curl -sfLo argocd "https://github.com/argoproj/argo-cd/releases/download/v2.1.7/argocd-linux-amd64"
+        chmod a+x argocd 
+        ./argocd login argocd.bradmccoy.io --username admin --password $( kubectl get secrets argocd-initial-admin-secret -o json -n ci-cd | jq -r '(.data.password)' | base64 --decode )
+        ./argocd cluster add $( kubectl config view -o json | jq -r '(.clusters[].name)' ) --name tf-ause-demo 

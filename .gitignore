@@ -4,3 +4,4 @@ argocd-secrets.yaml
 linkerd-trust-anchor.yaml
 webhook-issuer-tls.yaml
 y.yaml
+x.yaml

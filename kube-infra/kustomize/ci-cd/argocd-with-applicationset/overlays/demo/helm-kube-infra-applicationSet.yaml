@@ -15,7 +15,7 @@
 #       - list:
 #           elements:
 #           - cluster: demo
-#             url: https://aks-d4e1dbf0.hcp.australiasoutheast.azmk8s.io
+#             url: https://aks-90016224.hcp.australiasoutheast.azmk8s.io
 #             values:
 #               CLIENT_ENVIRONMENT: demo             
 #   template:
@@ -31,7 +31,7 @@
 #           valueFiles:
 #             - '{{cluster}}-{{path.basename}}-values.yaml'
 #       destination:
-#         server: https://aks-d4e1dbf0.hcp.australiasoutheast.azmk8s.io
+#         server: https://aks-90016224.hcp.australiasoutheast.azmk8s.io
 #         namespace: '{{path.basename}}'
 #       syncPolicy:
 #         automated:

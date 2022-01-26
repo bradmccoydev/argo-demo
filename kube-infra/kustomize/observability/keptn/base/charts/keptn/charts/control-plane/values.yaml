@@ -1,0 +1,145 @@
+mongo:
+  enabled: true
+  host: mongodb:27017
+  architecture: standalone
+  service:
+    nameOverride: 'mongo'
+    port: 27017
+  auth:
+    database: 'keptn'
+    existingSecret: 'mongodb-credentials' # If the password and rootPassword values below are used, remove this field.
+    username: 'keptn'
+    password: null
+    rootUser: 'admin'
+    rootPassword: null
+  external:
+    connectionString:
+
+prefixPath: ""
+
+keptnSpecVersion: 0.2.3
+
+nats:
+  nameOverride: keptn-nats-cluster
+  nats.cluster.replicas: 3
+
+  natsbox:
+    enabled: false
+  reloader:
+    enabled: false
+
+apiGatewayNginx:
+  type: ClusterIP
+  port: 80
+  nodePort: 31090
+  image:
+    repository: docker.io/nginxinc/nginx-unprivileged
+    tag: 1.21.3-alpine
+
+remediationService:
+  image:
+    repository: docker.io/keptn/remediation-service
+    tag: ""
+
+apiService:
+  image:
+    repository: docker.io/keptn/api
+    tag: ""
+  config:
+    maxAuthRequestsPerSecond: "1.0"
+    maxAuthRequestBurst: "2"
+
+bridge:
+  image:
+    repository: docker.io/keptn/bridge2
+    tag: ""
+  cliDownloadLink: null
+  integrationsPageLink: null
+  secret:
+    enabled: true
+  versionCheck:
+    enabled: true
+  showApiToken:
+    enabled: true
+  installationType: null
+  lookAndFeelUrl: null
+  oauth:
+    enabled: false
+    discovery: ""
+    secureCookie: false
+    trustProxy: ""
+    sessionTimeoutMin: ""
+
+distributor:
+  metadata:
+    hostname:
+    namespace:
+  image:
+    repository: docker.io/keptn/distributor
+    tag: ""
+
+shipyardController:
+  image:
+    repository: docker.io/keptn/shipyard-controller
+    tag: ""
+  config:
+    taskStartedWaitDuration: "10m"
+    uniformIntegrationTTL: "48h"
+
+secretService:
+  image:
+    repository: docker.io/keptn/secret-service
+    tag: ""
+
+configurationService:
+  image:
+    repository: docker.io/keptn/configuration-service
+    tag: ""
+  # storage and storageClass are the settings for the PVC used by the configuration-storage
+  storage: 100Mi
+  storageClass: null
+  env:
+    GIT_KEPTN_USER: "keptn"
+    GIT_KEPTN_EMAIL: "keptn@keptn.sh"
+
+mongodbDatastore:
+  image:
+    repository: docker.io/keptn/mongodb-datastore
+    tag: ""
+
+lighthouseService:
+  image:
+    repository: docker.io/keptn/lighthouse-service
+    tag: ""
+
+statisticsService:
+  image:
+    repository: docker.io/keptn/statistics-service
+    tag: ""
+
+approvalService:
+  image:
+    repository: docker.io/keptn/approval-service
+    tag: ""
+
+webhookService:
+  enabled: true
+  image:
+    repository: docker.io/keptn/webhook-service
+    tag: ""
+
+alpine:
+  image:
+    repository: docker.io/alpine
+    tag: "3.13"
+
+ingress:
+  enabled: false
+  annotations: {}
+  host: {}
+  path: /
+  pathType: Prefix
+  tls:
+    []
+
+logLevel: info

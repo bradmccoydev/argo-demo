@@ -3,6 +3,11 @@ helmCharts:
   namespace: observability
   version: 2.8.4
   repo: https://grafana.github.io/helm-charts 
-  releaseName: grafana/loki
-  includeCRDs: false
-  valuesInline: 
+  releaseName: grafana/loki-stack
+  includeCRDs: true
+  valuesInline:
+    fluent-bit:
+      enabled: true
+
+
+   fluent-bit.enabled=true,promtail.enabled=false  

@@ -8,6 +8,8 @@ helmCharts:
   valuesInline:
     fluent-bit:
       enabled: true
+    promtail:
+      enabled: false
 
 
-   fluent-bit.enabled=true,promtail.enabled=false  
+ 

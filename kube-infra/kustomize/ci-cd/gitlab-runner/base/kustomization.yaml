@@ -1,0 +1,24 @@
+helmCharts:
+- name: gitlab-runner
+  version: 0.39.0
+  namespace: ci-cd
+  repo: http://charts.gitlab.io
+  releaseName: gitlab-runner
+  valuesInline:
+    rbac:
+      create: true
+    metrics:
+      enabled: true
+    gitlabUrl: https://gitlab.com
+    image: odysseycloud/gitlab-runner:latest
+    runners:
+      secret: gitlab-runner-secret
+      config: |
+        [[runners]]
+          url = "https://gitlab.com"
+          name = "planpay-gitlab-runner"
+          [runners.kubernetes]
+            privileged = true
+            poll_timeout = 600
+            cpu_request = "2"
+            memory_request = "4Gi"

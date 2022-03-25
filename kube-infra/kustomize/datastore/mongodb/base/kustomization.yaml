@@ -1,0 +1,15 @@
+helmCharts:
+- name: mongodb
+  version: 11.1.1
+  namespace: payment
+  repo: https://charts.bitnami.com/bitnami
+  releaseName: mongodb
+  valuesInline: 
+    architecture: replicaset
+    replicaCount: 3
+    global:
+      namespaceOverride: payment
+    auth:
+      enabled: true
+      rootUser: planpay
+      existingSecret: planpay-mongodb-secret

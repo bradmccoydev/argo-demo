@@ -16,7 +16,7 @@ helmCharts:
       config: |
         [[runners]]
           url = "https://gitlab.com"
-          name = "planpay-gitlab-runner"
+          name = "gitlab-runner"
           [runners.kubernetes]
             privileged = true
             poll_timeout = 600

@@ -1,0 +1,7 @@
+apiVersion: v2
+appVersion: "0.0.1"
+description: Argo Rollouts Deployment Demo
+icon: https://ortelius.github.io/ortelius-charts/logo.png
+name: argorollouts-demo
+type: application
+version: "0.0.1"

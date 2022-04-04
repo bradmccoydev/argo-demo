@@ -3,61 +3,85 @@ name: Build and Deploy to AKS
 on: 
   push:
     branches:
-      - main-disable
+      - main
 
 jobs:
-  setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
+  release:
     runs-on: ubuntu-latest
-    environment: demo
-    env:
-      CLIENT_ENVIRONMENT: demo
-      K8S_CLUSTER: tf-ause-demo
-      RESOURCE_GROUP_NAME: tf-demo
-      CLOUD_LOCATION_1: Australia Southeast
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-    - name: Set AKS Context
-      uses: azure/aks-set-context@v1
-      with:
-        creds: '${{ secrets.AZURE_CREDENTIALS }}'
-        cluster-name: ${{ env.K8S_CLUSTER }}
-        resource-group: ${{ env.RESOURCE_GROUP_NAME }}
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.4.0
 
-    - name: Install Helm3
-      uses: azure/setup-helm@v1
-      with:
-        version: v3.6.1
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.2.1
+        with:
+          charts_dir: chart
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+# jobs:
+#   setup-build-publish-deploy:
+    # name: Setup, Build, Publish, and Deploy
+    # runs-on: ubuntu-latest
+    # environment: demo
+    # env:
+    #   CLIENT_ENVIRONMENT: demo
+    #   K8S_CLUSTER: tf-ause-demo
+    #   RESOURCE_GROUP_NAME: tf-demo
+    #   CLOUD_LOCATION_1: Australia Southeast
+    # steps:
+    # - name: Checkout
+    #   uses: actions/checkout@v2
 
-    - name: Set up Helm3 & Helmfile
-      run: |-
-        helm repo add incubator https://charts.helm.sh/incubator
-        helm repo add stable https://charts.helm.sh/stable
-        helm plugin install https://github.com/jkroepke/helm-secrets --version 3.11.0   
+    # - name: Set AKS Context
+    #   uses: azure/aks-set-context@v1
+    #   with:
+    #     creds: '${{ secrets.AZURE_CREDENTIALS }}'
+    #     cluster-name: ${{ env.K8S_CLUSTER }}
+    #     resource-group: ${{ env.RESOURCE_GROUP_NAME }}
+
+    # - name: Install Helm3
+    #   uses: azure/setup-helm@v1
+    #   with:
+    #     version: v3.6.1
+
+    # - name: Set up Helm3 & Helmfile
+    #   run: |-
+    #     helm repo add incubator https://charts.helm.sh/incubator
+    #     helm repo add stable https://charts.helm.sh/stable
+    #     helm plugin install https://github.com/jkroepke/helm-secrets --version 3.11.0   
         
-    - name: Set up Kubectl
-      run: |-
-        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-        chmod a+x ./kubectl
-        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+    # - name: Set up Kubectl
+    #   run: |-
+    #     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    #     chmod a+x ./kubectl
+    #     curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
     
-    - name: Deploy
-      run: |-
-        # kubectl kustomize kube-infra/kustomize/security/sealed-secrets/overlays/demo --enable-helm --reorder none | kubectl apply -f -
-        # sleep 10
-        kubectl kustomize kube-infra/kustomize/dns-infra/external-dns-aws/overlays/demo --enable-helm | kubectl apply -f -
-        sleep 10
-        kubectl kustomize kube-infra/kustomize/dns-infra/ingress-nginx/overlays/demo --enable-helm | kubectl apply -f -
-        sleep 10
-        kubectl kustomize kube-infra/kustomize/dns-infra/cert-manager/overlays/demo --enable-helm --reorder none | kubectl apply -f -
-        sleep 10
-        kubectl kustomize kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo --enable-helm | kubectl apply -f -
+    # - name: Deploy
+    #   run: |-
+    #     # kubectl kustomize kube-infra/kustomize/security/sealed-secrets/overlays/demo --enable-helm --reorder none | kubectl apply -f -
+    #     # sleep 10
+    #     kubectl kustomize kube-infra/kustomize/dns-infra/external-dns-aws/overlays/demo --enable-helm | kubectl apply -f -
+    #     sleep 10
+    #     kubectl kustomize kube-infra/kustomize/dns-infra/ingress-nginx/overlays/demo --enable-helm | kubectl apply -f -
+    #     sleep 10
+    #     kubectl kustomize kube-infra/kustomize/dns-infra/cert-manager/overlays/demo --enable-helm --reorder none | kubectl apply -f -
+    #     sleep 10
+    #     kubectl kustomize kube-infra/kustomize/ci-cd/argocd-with-applicationset/overlays/demo --enable-helm | kubectl apply -f -
         
-    - name: Set up argocd CLI
-      run: |-
-        curl -sfLo argocd "https://github.com/argoproj/argo-cd/releases/download/v2.1.7/argocd-linux-amd64"
-        chmod a+x argocd 
-        ./argocd login argocd.bradmccoy.io --username admin --password $( kubectl get secrets argocd-initial-admin-secret -o json -n ci-cd | jq -r '(.data.password)' | base64 --decode )
-        ./argocd cluster add $( kubectl config view -o json | jq -r '(.clusters[].name)' ) --name tf-ause-demo 
+    # - name: Set up argocd CLI
+    #   run: |-
+    #     curl -sfLo argocd "https://github.com/argoproj/argo-cd/releases/download/v2.1.7/argocd-linux-amd64"
+    #     chmod a+x argocd 
+    #     ./argocd login argocd.bradmccoy.io --username admin --password $( kubectl get secrets argocd-initial-admin-secret -o json -n ci-cd | jq -r '(.data.password)' | base64 --decode )
+    #     ./argocd cluster add $( kubectl config view -o json | jq -r '(.clusters[].name)' ) --name tf-ause-demo 

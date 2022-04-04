@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: demo
+spec:
+  strategy:
+    canary:
+      canaryService: demo-canary
+      stableService: demo-stable
+      trafficRouting:
+        nginx:
+          stableIngress: demo-stable
+      steps:
+      - setWeight: 10
+      - pause:
+          duration: 2m
+      - setWeight: 30
+      - pause:
+          duration: 1m
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+      - name: demo
+        image: bradmccoydev/test:latest
+        ports:
+        - name: http
+          containerPort: 4001
+          protocol: TCP
+        resources: {}

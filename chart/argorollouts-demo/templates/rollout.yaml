@@ -2,6 +2,8 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: demo
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: "argo-notifications"
 spec:
   strategy:
     canary:
@@ -9,14 +11,7 @@ spec:
       stableService: demo-stable
       trafficRouting:
         nginx:
-          stableIngress: demo-stable
-      steps:
-      - setWeight: 10
-      - pause:
-          duration: 2m
-      - setWeight: 30
-      - pause:
-          duration: 1m
+          stableIngress: demo
   revisionHistoryLimit: 2
   selector:
     matchLabels:
@@ -28,9 +23,9 @@ spec:
     spec:
       containers:
       - name: demo
-        image: bradmccoydev/test:latest
+        image: bradmccoydev/kcd-website:78cd4577509fe10071ca40739296c37ef19b0064
         ports:
         - name: http
-          containerPort: 4001
+          containerPort: 80
           protocol: TCP
         resources: {}

@@ -2,6 +2,17 @@ apiVersion: v1
 entries:
   argorollouts-demo:
   - apiVersion: v2
+    appVersion: 0.0.2
+    created: "2022-04-16T10:08:17.681407019Z"
+    description: Argo Rollouts Deployment Demo
+    digest: c8aa69811fdae8edc56587ad73bce31c966be08d4ed29a7fe517f82725cba79b
+    icon: https://ortelius.github.io/ortelius-charts/logo.png
+    name: argorollouts-demo
+    type: application
+    urls:
+    - https://github.com/bradmccoydev/argo-demo/releases/download/argorollouts-demo-0.0.2/argorollouts-demo-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
     appVersion: 0.0.1
     created: "2022-04-04T10:44:58.593867607Z"
     description: Argo Rollouts Deployment Demo
@@ -12,4 +23,4 @@ entries:
     urls:
     - https://github.com/bradmccoydev/argo-demo/releases/download/argorollouts-demo-0.0.1/argorollouts-demo-0.0.1.tgz
     version: 0.0.1
-generated: "2022-04-04T10:44:58.593873107Z"
+generated: "2022-04-16T10:08:17.68141942Z"

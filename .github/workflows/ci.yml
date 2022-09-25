@@ -23,12 +23,12 @@ jobs:
         with:
           version: v3.4.0
 
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.2.1
-        with:
-          charts_dir: chart
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      # - name: Run chart-releaser
+      #   uses: helm/chart-releaser-action@v1.2.1
+      #   with:
+      #     charts_dir: chart
+      #   env:
+      #     CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 # jobs:
 #   setup-build-publish-deploy:
     # name: Setup, Build, Publish, and Deploy

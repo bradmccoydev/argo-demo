@@ -1,23 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: bradmccoydev
+  name: ortelius
   namespace: ci-cd
-  # Finalizer that ensures that project is not deleted until it is not referenced by any application
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  # Project description
-  description: bradmccoy.io Project
-
-  # Allow manifests to deploy from any Git repos
+  description: Ortelius Project
   sourceRepos:
   - '*'
   destinations:
   - namespace: '*'
-    server: https://aks-90016224.hcp.australiasoutheast.azmk8s.io
+    server: https://aks-1d6d379d.hcp.centralus.azmk8s.io
   - namespace: '*'
-    server: https://aks-90016224.hcp.australiasoutheast.azmk8s.io:443
+    server: https://aks-1d6d379d.hcp.centralus.azmk8s.io:443
+  - namespace: '*'
+    server: '*'
   clusterResourceWhitelist:
   - group: '*'
     kind: '*'    

@@ -7,22 +7,38 @@ resources:
 - argocd-manager.yaml
 - argocd-manager-role.yaml
 - argocd-manager-role-binding.yaml
-- kustomize-kube-infra-applicationSet.yaml
+- argocd-service-monitors.yaml
+- application-sets/kube-infra.yaml
+#- application-sets/keptn.yaml
+- application-sets/podtato-head.yaml
+- application-sets/ortelius-docs.yaml
+- application-sets/ortelius-website.yaml
 
 namespace: ci-cd
 
 patchesStrategicMerge:
 - argocd-server-service.yaml
 - argocd-cm.yaml
+- argocd-notifications-cm.yaml
 - argocd-rbac-cm.yaml
-- argocd-server-clusterRoleBinding.yaml
-- argocd-application-controller-clusterRoleBinding.yaml
 - argocd-server-service.yaml
-- argocd-dex-server-deployment.yaml
-- argocd-repo-server.yaml
 
-images:
-- newTag: v0.2.0
+- |-
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: argocd-notifications-secret
+  $patch: delete
+- |-
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: argocd-secret
+  $patch: delete
+
+# images:
+# - name: quay.io/argoproj/argocd
+#   newName: odysseycloud/argocd
 
 patches:
 - patch: |-
@@ -32,3 +48,21 @@ patches:
   target:
     kind: Deployment
     labelSelector: app.kubernetes.io/name=argocd-server
+- patch: |-
+    - op: replace
+      path: /subjects/0/namespace
+      value: ci-cd
+  target:
+    group: rbac.authorization.k8s.io
+    kind: ClusterRoleBinding
+    name: argocd-application-controller
+    version: v1
+- patch: |-
+    - op: replace
+      path: /subjects/0/namespace
+      value: ci-cd
+  target:
+    group: rbac.authorization.k8s.io
+    kind: ClusterRoleBinding
+    name: argocd-server
+    version: v1

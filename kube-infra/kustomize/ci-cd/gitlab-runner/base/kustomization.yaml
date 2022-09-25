@@ -20,5 +20,5 @@ helmCharts:
           [runners.kubernetes]
             privileged = true
             poll_timeout = 600
-            cpu_request = "2"
-            memory_request = "4Gi"
+            cpu_request = "1"
+            memory_request = "2Gi"
